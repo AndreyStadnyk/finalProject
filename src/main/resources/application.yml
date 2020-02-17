@@ -1,0 +1,25 @@
+server:
+  port: 9000
+
+spring:
+  profiles:
+    active: local
+
+---
+
+spring:
+  profiles: qa
+  datasource:
+    url: jdbc://mysql://localhost:3306/qa
+    password: 12345
+
+server:
+  port: 9001
+
+---
+
+spring:
+  profiles: prod
+
+server:
+  port: 9002
