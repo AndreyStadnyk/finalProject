@@ -26,7 +26,7 @@ public class User {
   private String password;
 
   @JsonSerialize
-  public boolean is18 () {
+  public boolean is18() {
     return age >= 18;
   }
 }
