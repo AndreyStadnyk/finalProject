@@ -1,6 +1,8 @@
 dist: trusty
 
 language: java
+node_js:
+  - 10
 
 jdk:
   - oraclejdk8
@@ -9,6 +11,9 @@ cache:
   directories:
     - $HOME/.m2
     - client/node_modules/
+
+before_install:
+  - nvm install 10
 
 before_script:
   - npm install --prefix client/
