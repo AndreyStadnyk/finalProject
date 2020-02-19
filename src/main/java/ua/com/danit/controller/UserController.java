@@ -24,7 +24,7 @@ public class UserController {
 
   @RequestMapping(method = RequestMethod.GET, value = "/current")
   @GetMapping("/current")
-  public ResponseEntity<User> getCurrentUser () {
+  public ResponseEntity<User> getCurrentUser() {
     User user = userService.getCurrentUser();
 
     return ResponseEntity.ok(user);
