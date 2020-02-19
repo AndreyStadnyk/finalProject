@@ -11,8 +11,8 @@ cache:
     - client/node_modules/
 
 before_script:
-  - npm install --client/
+  - npm install ----prefix client/
 
 script:
-  - npm run build --client/
+  - npm run build ----prefix client/
   - mvn clean test
