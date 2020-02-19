@@ -22,8 +22,8 @@
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "stylelint-dev": "stylelint 'src/**/*.scss' --cache --cache-location './.stylelintcache'; exit 0",
-    "stylelint-build": "stylelint 'src/**/*.scss'",
-    "stylelint-fix-sass": "stylelint --fix 'src/**/*.scss'",
+    "stylelint-build": "stylelint src/**/*.css",
+    "stylelint-fix-sass": "stylelint --fix src/**/*.css",
     "watch-styles-sass": "npm-watch",
     "start": "npm-run-all -p watch-styles-sass start-js"
   },
