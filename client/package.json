@@ -45,6 +45,7 @@
   "watch": {
     "stylelint-dev": {
       "patterns": [
+
         "/src/**/*.css"
       ],
       "extensions": "css"
