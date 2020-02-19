@@ -7,20 +7,25 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "axios": "^0.19.2",
+    "npm-run-all": "^4.1.1",
+    "npm-watch": "^0.3.0",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
+    "react-scripts": "3.3.1",
+    "stylelint": "^8.2.0",
+    "stylelint-config-standard": "^17.0.0",
+    "stylelint-order": "^0.7.0"
   },
   "scripts": {
     "start-js": "react-scripts start",
-    "start": "npm-run-all -p watch-styles-sass start-js",
     "build": "npm run stylelint-build && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "stylelint-dev": "stylelint 'src/**/*.scss' --cache --cache-location './.stylelintcache'; exit 0",
     "stylelint-build": "stylelint 'src/**/*.scss'",
     "stylelint-fix-sass": "stylelint --fix 'src/**/*.scss'",
-    "watch-styles-sass": "npm-watch"
+    "watch-styles-sass": "npm-watch",
+    "start": "npm-run-all -p watch-styles-sass start-js"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -45,5 +50,8 @@
       "extensions": "scss"
     }
   },
-  "proxy": "http://localhost:8080"
+  "proxy": "http://localhost:8080",
+  "devDependencies": {
+    "standard": "^10.0.3"
+  }
 }

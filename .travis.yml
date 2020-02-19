@@ -8,6 +8,11 @@ jdk:
 cache:
   directories:
     - $HOME/.m2
+    - client/node_modules/
+
+before_script:
+  - npm install --client/
 
 script:
+  - npm run build --client/
   - mvn clean test

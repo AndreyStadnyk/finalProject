@@ -1,26 +1,26 @@
-import React, {useEffect, useState} from 'react';
-import './App.css';
-import axios from 'axios';
+import React, {useEffect, useState} from 'react'
+import './App.css'
+import axios from 'axios'
 
-function App() {
-  const [user, setUser] = useState(null);
+function App () {
+  const [user, setUser] = useState(null)
 
-  useEffect(() =>  {
+  useEffect(() => {
     axios('/api/v1/users/current')
       .then(response => {
-        setUser(response.data);
+        setUser(response.data)
       })
-  }, []);
+  }, [])
 
   if (!user) {
-    return 'Loading...';
+    return 'Loading...'
   }
 
   return (
-    <div className="App">
+    <div className='App'>
       <h2>Hello, {user.firstName} {user.lastName}</h2>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App
