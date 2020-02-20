@@ -26,6 +26,7 @@ before_script:
 
 script:
   - npm run build --prefix client/
+  - npm run lint
   - mvn clean test
   - mvn clean org.jacoco:jacoco-maven-plugin:prepare-agent install sonar:sonar
   - sonar-scanner
