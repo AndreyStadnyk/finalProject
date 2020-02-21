@@ -1,6 +1,8 @@
 dist: trusty
 
 language: java
+node_js:
+  - 10
 
 jdk:
   - oraclejdk8
