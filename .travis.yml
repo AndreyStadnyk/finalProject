@@ -14,7 +14,7 @@ cache:
 
 addons:
   sonarcloud:
-    organization: "myawesomefinalprojectgroup"
+    organization: ${SONAR_ORGANIZATION}
     token:
       secure: ${SONAR_TOKEN}
 
