@@ -16,7 +16,8 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void test(){
+    public void test() {
         User value = userRepository.findByLastNameIgnoreCase("Pupkin");
         assertTrue(true);
     }
+}
