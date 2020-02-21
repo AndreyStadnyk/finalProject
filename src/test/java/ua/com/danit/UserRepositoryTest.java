@@ -1,5 +1,4 @@
 package ua.com.danit;
-
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,9 +16,8 @@ public class UserRepositoryTest {
     private UserRepository userRepository;
 
     @Test
-    public void test(){
+    public void test() {
         User value = userRepository.findByLastNameIgnoreCase("Pupkin");
         assertTrue(true);
     }
-
 }
