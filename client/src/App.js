@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import './App.css'
 import SignIn from './components/sign-in'
-import { BrowserRouter, Switch, Route } from 'react-router-dom'
+import { Switch, Route } from 'react-router-dom'
 // import axios from 'axios'
 
 function App () {
@@ -22,9 +22,8 @@ function App () {
 
     <Switch>
       <Route exact path='/sign-in' component={SignIn}/>
-      {/*
-      <Route exact path='/profile/:id' component={MyAccountPage} />
-      */}
+      {/*<Route path="*" component={404}/>*/}
+      {/*<Route exact path='/profile/:id' component={MyAccountPage} />*/}
     </Switch>
 
   )
