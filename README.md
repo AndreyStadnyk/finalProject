@@ -1,3 +1,5 @@
+[![Build Status](https://travis-ci.org/AndreyStadnyk/finalProject.svg?branch=master)](https://travis-ci.org/AndreyStadnyk/finalProject)
+
 # Final project
 [Task description](https://gitlab.com/dan-it/groups/fs9/-/tree/master/final-project)
 
