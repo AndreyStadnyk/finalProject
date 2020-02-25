@@ -1,3 +1,6 @@
+[![Build Status](https://travis-ci.org/AndreyStadnyk/finalProject.svg?branch=master)](https://travis-ci.org/AndreyStadnyk/finalProject)
+[![Coverage Status](https://coveralls.io/repos/github/AndreyStadnyk/finalProject/badge.svg?branch=master)](https://coveralls.io/github/AndreyStadnyk/finalProject?branch=master)
+
 # Final project *'Facebook'*
 [Task description (gitlab)](https://gitlab.com/dan-it/groups/fs9/-/tree/master/final-project)
 
@@ -22,5 +25,3 @@
 4. Copy all files and subfolders from 'client/build' to 'src/main/resources/public'
 5. mvn clean install
 6. In folder 'target' run 'java -jar final-project-preparation-1.0-SNAPSHOT.jar'
-
-[![Coverage Status](https://coveralls.io/repos/github/AndreyStadnyk/finalProject/badge.svg?branch=master)](https://coveralls.io/github/AndreyStadnyk/finalProject?branch=master)
