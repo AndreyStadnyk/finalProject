@@ -1,23 +1,22 @@
 package ua.com.danit.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
-import javax.persistence.*;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
+import javax.persistence.Table;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Builder
-@Entity(name = "User")
+@Entity
 @Table(name = "users")
 public class User {
 
@@ -43,16 +42,24 @@ public class User {
   @Column(name = "password")
   private String password;
 
-  @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy="author", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Post> posts = new ArrayList<>();
 
   @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Like> likes = new ArrayList<>();
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Comment> comments;
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<FriendRequest> friendRequests;
+
+  @ManyToMany
+  @JoinTable(
+      name = "user_friends",
+      joinColumns = {@JoinColumn(name = "user1")},
+      inverseJoinColumns = @JoinColumn(name = "user2")
+  )
+  private List<User> userFriends;
 
 }
