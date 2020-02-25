@@ -1,0 +1,48 @@
+.card{
+    border: 1px solid lightgray ;
+    width: 400px;
+    background-color: lightgray;
+    border-radius: 5px;
+margin-top: 20px;
+
+}
+.user-name{
+    font-family:Roboto, Helvetica, Arial,  sans-serif;
+    margin-left: 20px;
+    color: #385898;
+}
+.card-nickname{
+    font-size: 20px;
+    margin-left: 15px;
+    color: black;
+}
+.card-nickname:hover{
+    color: black;
+}
+
+.subheader{
+    background-color: white;
+    height: 50px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.info{
+    display: flex;
+    align-items: center;
+    margin-left: 30px;
+}
+.photo-holder{
+    width: 600px;
+    height: 350px;
+}
+.card-footer{
+    height: 60px;
+    background-color: white;
+}
+.icon-container{
+    margin-left: 20px;
+    display: flex;
+    justify-content: space-evenly;
+
+}

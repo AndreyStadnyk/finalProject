@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from 'react'
 import './App.css'
 import axios from 'axios'
+import Header from "./components/Header/Header";
+import Tape from "./components/Tape/Tape";
 
 function App () {
   const [user, setUser] = useState(null)
@@ -10,17 +12,19 @@ function App () {
       .then(response => {
         setUser(response.data)
       })
-  }, [])
+  }, []);
 
   if (!user) {
-    return 'Loading...'
+    return (
+
+        <div>
+            <Header/>
+            <div><Tape/></div>
+        </div>
+    )
   }
 
-  return (
-    <div className='App'>
-      <h2>Hello, {user.firstName} {user.lastName}</h2>
-    </div>
-  )
+
 }
 
 export default App

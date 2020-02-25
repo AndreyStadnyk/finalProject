@@ -1,0 +1,7 @@
+.tab-container{
+display: flex;
+    list-style: none;
+}
+.tabs{
+    margin-right: 20px;
+}
