@@ -12,6 +12,12 @@ cache:
     - $HOME/.m2
     - client/node_modules/
 
+addons:
+  sonarcloud:
+    organization: ${SONAR_ORGANIZATION}
+    token:
+      secure: ${SONAR_TOKEN}
+
 before_install:
   - nvm install 10
 
@@ -20,4 +26,5 @@ before_script:
 
 script:
   - npm run build --prefix client/
-  - mvn clean test
+  - mvn clean test jacoco:report coveralls:report
+  - sonar-scanner

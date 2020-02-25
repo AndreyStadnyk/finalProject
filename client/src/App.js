@@ -1,8 +1,6 @@
 import React, {useEffect, useState} from 'react'
 import './App.css'
 import axios from 'axios'
-import Header from "./components/Header/Header";
-import Tape from "./components/Tape/Tape";
 
 function App () {
   const [user, setUser] = useState(null)
@@ -18,13 +16,13 @@ function App () {
     return (
 
         <div>
+            <Switch>
+                <Route exact path='/sign-in' component={SignIn}/>
+            </Switch>
             <Header/>
             <div><Tape/></div>
         </div>
     )
   }
-
-
-}
 
 export default App

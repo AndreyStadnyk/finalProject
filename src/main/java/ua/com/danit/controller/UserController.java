@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 import ua.com.danit.entity.User;
+import ua.com.danit.logger.LoggerRoot;
 import ua.com.danit.service.UserService;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class UserController {
   @GetMapping("/current")
   public ResponseEntity<User> getCurrentUser() {
     User user = userService.getCurrentUser();
-
+    LoggerRoot logger = new LoggerRoot();
+    logger.printAction("test in current");
     return ResponseEntity.ok(user);
   }
 
