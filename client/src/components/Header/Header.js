@@ -18,6 +18,7 @@ import FacebookIcon from '@material-ui/icons/Facebook';
 import Tabs from "@material-ui/core/Tabs";
 
 import "./Header.css"
+import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
     grow: {
@@ -200,7 +201,9 @@ export default function PrimarySearchAppBar() {
                     </div>
                     <div className={classes.grow}>
                         <ul className="tab-container">
-                            <li className="tabs">{user.userName}</li>
+                            <NavLink to={"/tape"}>
+                                <li className="tabs">{user.userName}</li>
+                            </NavLink>
                             <li className="tabs">Главная</li>
                             <li className="tabs">Найти Друзей</li>
                             <li className="tabs">Создать</li>
