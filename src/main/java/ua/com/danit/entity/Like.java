@@ -2,7 +2,13 @@ package ua.com.danit.entity;
 
 import lombok.Data;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.GenerationType;
 
 @Data
 @Entity
@@ -13,11 +19,11 @@ public class Like {
   private Long id;
 
   @ManyToOne
-  @JoinColumn(name ="username", nullable = false)
+  @JoinColumn(name = "username", nullable = false)
   private User user;
 
   @ManyToOne
-  @JoinColumn(name ="post_id", nullable = false)
+  @JoinColumn(name = "post_id", nullable = false)
   private Post post;
 
 }

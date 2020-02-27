@@ -2,7 +2,13 @@ package ua.com.danit.entity;
 
 
 import lombok.Data;
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.ManyToOne;
+import javax.persistence.JoinColumn;
+import javax.persistence.GenerationType;
 
 
 @Data
@@ -14,10 +20,10 @@ public class FriendRequest {
   private long id;
 
   @ManyToOne
-  @JoinColumn(name="requester", nullable = false)
+  @JoinColumn(name = "requester", nullable = false)
   private User requester;
 
   @ManyToOne
-  @JoinColumn(name="receiver", nullable = false)
+  @JoinColumn(name = "receiver", nullable = false)
   private User receiver;
 }

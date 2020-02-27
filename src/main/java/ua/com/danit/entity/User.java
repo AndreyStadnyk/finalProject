@@ -42,10 +42,10 @@ public class User {
   @Column(name = "password", nullable = false)
   private String password;
 
-  @OneToMany(mappedBy="author", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Post> posts = new ArrayList<>();
 
-  @OneToMany(mappedBy="user", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Like> likes = new ArrayList<>();
 
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
@@ -59,7 +59,7 @@ public class User {
       name = "user_friends",
       joinColumns = {@JoinColumn(name = "user1")},
       inverseJoinColumns = @JoinColumn(name = "user2")
-  )
+          )
   private List<User> userFriends;
 
 }
