@@ -1,18 +1,10 @@
 package ua.com.danit.entity;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-@Builder
-@Entity(name = "Comment")
+@Entity
 @Table(name = "comments")
 public class Comment {
   @Id
@@ -22,12 +14,11 @@ public class Comment {
   @Column(name = "text", length = 280)
   private String text;
 
-  @Column(name = "post_id")
+
   @ManyToOne
-  @JoinColumn(name="id", nullable = false)
+  @JoinColumn(name="post_id", nullable = false)
   private Post post;
 
-  @Column(name = "author")
   @ManyToOne
   @JoinColumn(name="username", nullable = false)
   private User author;
