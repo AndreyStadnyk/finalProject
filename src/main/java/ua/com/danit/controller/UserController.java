@@ -27,8 +27,6 @@ public class UserController {
   @GetMapping("/current")
   public ResponseEntity<User> getCurrentUser() {
     User user = userService.getCurrentUser();
-    LoggerRoot logger = new LoggerRoot();
-    logger.printAction("test in current");
     return ResponseEntity.ok(user);
   }
 
