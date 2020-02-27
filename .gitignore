@@ -2,6 +2,7 @@
 .idea
 target
 src/main/resources/public
+logs
 
 # dependencies
 client/node_modules
