@@ -2,10 +2,8 @@ import React, {useEffect, useState} from 'react'
 import './App.css'
 import axios from 'axios'
 import {Route, Switch} from "react-router-dom";
-import Header from "./components/Header/Header";
 import Tape from "./components/Tape/Tape";
 import SignIn from "./components/sign-in";
-import {Router} from "react-router-dom";
 
 export default function App() {
     const [user, setUser] = useState(null);

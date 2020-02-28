@@ -1,4 +1,4 @@
-import React, {Component} from 'react';
+import React from 'react';
 import Post from "../Post/Post";
 import "./Tape.css"
 import ListItemText from "@material-ui/core/ListItemText";
@@ -11,23 +11,23 @@ import MailIcon from '@material-ui/icons/Mail';
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import Header from "../Header/Header";
 
-const username = {username: 'emad_hamad171'};
 const useStyles = makeStyles({
     list: {
         width: 250,
-        marginTop:"50px"
+        marginTop: "50px"
     },
     fullList: {
         width: 'auto',
     },
-    font:{
+    font: {
         fontFamily: "Roboto Helvetica Arial sans-serif"
     }
 });
+
 function Tape() {
     const classes = useStyles();
 
-    return(
+    return (
         <div>
             <Header/>
             <div className='wrapper'>
@@ -40,28 +40,29 @@ function Tape() {
                     <List>
                         {['Лента Новостей', 'Messenger', 'Watch', 'Drafts'].map((text, index) => (
                             <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+                                <ListItemText primary={text}/>
                             </ListItem>
                         ))}
                     </List>
                     <span className={classes.font}>Inteseting</span>
-                    <Divider />
+                    <Divider/>
                     <List>
                         {['All mail', 'Trash', 'Spam'].map((text, index) => (
                             <ListItem button key={text}>
-                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                                <ListItemText primary={text} />
+                                <ListItemIcon>{index % 2 === 0 ? <InboxIcon/> : <MailIcon/>}</ListItemIcon>
+                                <ListItemText primary={text}/>
                             </ListItem>
                         ))}
                     </List>
                 </div>
 
-                <Post  />
+                <Post/>
             </div>
         </div>
 
 
     )
 }
+
 export default Tape
