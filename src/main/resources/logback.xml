@@ -36,18 +36,6 @@
     </encoder>
   </appender>
 
-  <logger name="ua.com.danit.logger.LoggerRoot" level="info" additivity="false">
-  <appender-ref ref="STDOUT" />
-  </logger>
-
-  <logger name="ua.com.danit.logger.LoggerRoot" level="error" additivity="false">
-    <appender-ref ref="FILE_ERROR"/>
-  </logger>
-
-  <logger name="ua.com.danit.logger.LoggerRoot" level="info" additivity="false">
-    <appender-ref ref="FILE_INFO"/>
-  </logger>
-
   <root level="info">
     <appender-ref ref="STDOUT"/>
     <appender-ref ref="FILE_INFO"/>
