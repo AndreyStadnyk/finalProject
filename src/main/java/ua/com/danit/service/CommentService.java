@@ -7,6 +7,8 @@ import ua.com.danit.entity.Post;
 import ua.com.danit.entity.User;
 import ua.com.danit.repository.CommentRepository;
 
+import java.util.Optional;
+
 @Service
 public class CommentService {
   private CommentRepository commentRepository;
@@ -18,11 +20,11 @@ public class CommentService {
     this.userService = userService;
   }
 
-  public Comment findCommentById(Long commentId) {
-    return commentRepository.findCommentById(commentId);
+  public Optional<Comment> findCommentById(Long commentId) {
+    return commentRepository.findById(commentId);
   }
 
-  public void addComment(Long postId, String text) {
+  public Comment createComment(Long postId, String text) {
     Post post = new Post(); // TODO Get post by ID
     User author = userService.getCurrentUser();
 
@@ -31,25 +33,29 @@ public class CommentService {
     comment.setAuthor(author);
     comment.setText(text);
 
-    commentRepository.save(comment);
+    return commentRepository.save(comment);
   }
 
-  public void updateComment(Long commentId, String text) {
+  public Optional<Comment> updateComment(Long commentId, String text) {
     User currentUser = userService.getCurrentUser();
-    Comment comment = findCommentById(commentId);
-
-    if (currentUser.equals(comment.getAuthor())) {
-      comment.setText(text);
-      commentRepository.save(comment);
+    Optional<Comment> comment = findCommentById(commentId);
+    if (comment.isPresent() && currentUser.equals(comment.get().getAuthor())) {
+      comment.get().setText(text);
+      return Optional.of(commentRepository.save(comment.get()));
+    } else {
+      return Optional.empty();
     }
   }
 
-  public void deleteComment(Long commentId) {
+  public Optional<Comment> deleteComment(Long commentId) {
     User currentUser = userService.getCurrentUser();
-    Comment comment = findCommentById(commentId);
+    Optional<Comment> comment = findCommentById(commentId);
 
-    if (currentUser.equals(comment.getAuthor())) {
-      commentRepository.delete(comment);
+    if (comment.isPresent() && currentUser.equals(comment.get().getAuthor())) {
+      commentRepository.delete(comment.get());
+      return comment;
+    } else {
+      return Optional.empty();
     }
   }
 }

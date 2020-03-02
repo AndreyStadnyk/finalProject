@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import ua.com.danit.entity.Comment;
 import ua.com.danit.service.CommentService;
 
+import java.util.Optional;
+
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
@@ -23,20 +25,20 @@ public class CommentController {
   }
 
   @PostMapping("/{postId}")
-  public ResponseEntity<Comment> addComment(@PathVariable String postId, @RequestBody Comment comment) {
-    commentService.addComment(Long.parseLong(postId), comment.getText());
-    return ResponseEntity.ok(comment);
+  public ResponseEntity<Comment> createComment(@PathVariable String postId, @RequestBody Comment comment) {
+    Comment resComment = commentService.createComment(Long.parseLong(postId), comment.getText());
+    return ResponseEntity.ok(resComment);
   }
 
   @PutMapping("/{commentId}")
   public ResponseEntity<Comment> updateComment(@PathVariable String commentId, @RequestBody Comment comment) {
-    commentService.updateComment(Long.parseLong(commentId), comment.getText());
-    return ResponseEntity.ok(comment);
+    Optional<Comment> resComment = commentService.updateComment(Long.parseLong(commentId), comment.getText());
+    return resComment.map(ResponseEntity::ok).orElseGet(() -> (ResponseEntity<Comment>) ResponseEntity.notFound());
   }
 
   @DeleteMapping("/{commentId}")
   public ResponseEntity<Comment> deleteComment(@PathVariable String commentId) {
-    commentService.deleteComment(Long.parseLong(commentId));
-    return ResponseEntity.ok(new Comment());
+    Optional<Comment> resComment = commentService.deleteComment(Long.parseLong(commentId));
+    return resComment.map(ResponseEntity::ok).orElseGet(() -> (ResponseEntity<Comment>) ResponseEntity.notFound());
   }
 }
