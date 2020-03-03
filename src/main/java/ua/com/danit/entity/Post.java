@@ -22,6 +22,10 @@ public class Post {
   private long id;
 
   @ManyToOne
+  @JoinColumn(name = "owner", nullable = false)
+  private User owner;
+
+  @ManyToOne
   @JoinColumn(name = "username", nullable = false)
   private User author;
 
