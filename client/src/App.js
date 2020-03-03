@@ -1,31 +1,33 @@
-// import React, { useEffect, useState } from 'react'
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import './App.css'
-import SignIn from './components/sign-in'
-import { Switch, Route } from 'react-router-dom'
-// import axios from 'axios'
+import axios from 'axios'
+import {Route, Switch} from "react-router-dom";
+import Tape from "./components/Tape/Tape";
+import SignIn from "./components/sign-in";
 
-function App () {
-  // const [user, setUser] = useState(null)
-  //
-  // useEffect(() => {
-  //   axios('/api/v1/users/current')
-  //     .then(response => {
-  //       setUser(response.data)
-  //     })
-  // }, [])
-  //
-  // if (!user) {
-  //   return 'Loading...'
-  // }
+export default function App() {
+    const [user, setUser] = useState(null);
 
-  return (
+    useEffect(() => {
+        axios('/api/v1/users/current')
+            .then(response => {
+                setUser(response.data)
+            })
+    }, []);
 
-    <Switch>
-      <Route exact path='/sign-in' component={SignIn}/>
-    </Switch>
+    if (!user) {
+        return (
+    <div>
+        <Switch>
+            <Route exact path='/sign-in' component={SignIn}/>
 
-  )
+            <Route exact path='/tape' component={Tape}/>
+
+
+        </Switch>
+    </div>
+
+        )
+    }
 }
 
-export default App
