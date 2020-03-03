@@ -30,7 +30,7 @@ public class User {
   @Column(name = "last_name", nullable = false)
   private String lastName;
 
-  @Column(name = "birth_date", nullable = false)
+  @Column(name = "birth_date")
   private LocalDate birthDate;
 
   @Column(name = "address", nullable = false)
@@ -44,6 +44,9 @@ public class User {
 
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Post> posts = new ArrayList<>();
+
+  @OneToMany(mappedBy = "owner", cascade = CascadeType.ALL, orphanRemoval = true)
+  private List<Post> ownerPosts = new ArrayList<>();
 
   @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
   private List<Like> likes = new ArrayList<>();

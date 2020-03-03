@@ -22,14 +22,14 @@ public class Post {
   private long id;
 
   @ManyToOne
-  @JoinColumn(name = "username", nullable = false)
+  @JoinColumn(name = "owner", nullable = false)
   private User owner;
 
   @ManyToOne
-  @JoinColumn(name = "username", nullable = false)
+  @JoinColumn(name = "author", nullable = false)
   private User author;
 
-  @Column(name = "date", nullable = false)
+  @Column(name = "date")
   private LocalDate date;
 
   @Column(name = "text", length = 280, nullable = false)
