@@ -18,13 +18,12 @@
   },
   "scripts": {
     "start-js": "react-scripts start",
-    "build": "npm run stylelint-build && npm run lint && react-scripts build",
+    "build": "npm run stylelint-build && react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "stylelint-dev": "stylelint 'src/**/*.css' --cache --cache-location './.stylelintcache'; exit 0",
     "stylelint-build": "stylelint src/**/*.css",
     "stylelint-fix-sass": "stylelint --fix src/**/*.css",
-    "lint": "eslint src/**/*.js",
     "watch-styles-sass": "npm-watch",
     "start": "npm-run-all -p watch-styles-sass start-js"
   },
