@@ -32,13 +32,13 @@ public class CommentController {
 
   @PutMapping("/{commentId}")
   public ResponseEntity<Comment> updateComment(@PathVariable String commentId, @RequestBody Comment comment) {
-    Optional<Comment> resComment = commentService.updateComment(Long.parseLong(commentId), comment.getText());
-    return resComment.map(ResponseEntity::ok).orElseGet(() -> (ResponseEntity<Comment>) ResponseEntity.notFound());
+    Comment resComment = commentService.updateComment(Long.parseLong(commentId), comment.getText());
+    return ResponseEntity.ok(resComment);
   }
 
   @DeleteMapping("/{commentId}")
   public ResponseEntity<Comment> deleteComment(@PathVariable String commentId) {
-    Optional<Comment> resComment = commentService.deleteComment(Long.parseLong(commentId));
-    return resComment.map(ResponseEntity::ok).orElseGet(() -> (ResponseEntity<Comment>) ResponseEntity.notFound());
+    Comment resComment = commentService.deleteComment(Long.parseLong(commentId));
+    return ResponseEntity.ok(resComment);
   }
 }
