@@ -24,4 +24,15 @@ public class CommentMapper {
     Comment resComment = commentService.createComment(comment);
     return modelMapper.map(resComment, CommentResponse.class);
   }
+
+  public CommentResponse update(CommentRequest commentRequest, Long commentId) throws Exception {
+    Comment comment = modelMapper.map(commentRequest, Comment.class);
+    Comment resComment = commentService.updateComment(commentId, comment.getText());
+    return modelMapper.map(resComment, CommentResponse.class);
+  }
+
+  public CommentResponse delete(Long commentId) throws Exception {
+    Comment resComment = commentService.deleteComment(commentId);
+    return modelMapper.map(resComment, CommentResponse.class);
+  }
 }

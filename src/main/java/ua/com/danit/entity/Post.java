@@ -22,7 +22,7 @@ public class Post {
   private long id;
 
   @ManyToOne
-  @JoinColumn(name = "username", nullable = false)
+  @JoinColumn(name = "owner", nullable = false)
   private User owner;
 
   @ManyToOne
