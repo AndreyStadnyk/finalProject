@@ -14,6 +14,10 @@ public class UserService {
     this.userRepository = userRepository;
   }
 
+  public User create(User user){
+    return user;
+//    return userRepository.save(user);
+  }
   public User getCurrentUser() {
     return userRepository.findAll().get(0);
   }

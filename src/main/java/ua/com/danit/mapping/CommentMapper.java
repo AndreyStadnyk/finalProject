@@ -19,9 +19,9 @@ public class CommentMapper {
     this.modelMapper = modelMapper;
   }
 
-  public CommentResponse create(CommentRequest commentRequest) {
+  public CommentResponse create(CommentRequest commentRequest, Long postId) {
     Comment comment = modelMapper.map(commentRequest, Comment.class);
-    Comment resComment = commentService.createComment(comment);
+    Comment resComment = commentService.createComment(comment, postId);
     return modelMapper.map(resComment, CommentResponse.class);
   }
 

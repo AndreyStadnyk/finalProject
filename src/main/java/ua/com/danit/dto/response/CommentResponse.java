@@ -4,8 +4,8 @@ import lombok.Data;
 
 @Data
 public class CommentResponse {
-  public long id;
+  public Long id;
   public String text;
-  public long post;
-  public long author;
+  public Long post;
+  public String author;
 }
