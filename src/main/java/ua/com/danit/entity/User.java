@@ -30,10 +30,10 @@ public class User {
   @Column(name = "last_name", nullable = false)
   private String lastName;
 
-  @Column(name = "birth_date", nullable = false)
+  @Column(name = "birth_date", nullable = true)
   private LocalDate birthDate;
 
-  @Column(name = "address", nullable = false)
+  @Column(name = "address", nullable = true)
   private String address;
 
   @Column(name = "gender", nullable = false)
