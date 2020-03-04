@@ -28,6 +28,10 @@ public class PostService {
     return postRepository.findAll().get(0);
   }
 
+  public Post getPostById(Long id) {
+    return postRepository.getOne(id);
+  }
+
   public Post create(Post post) {
     return post;
   }
