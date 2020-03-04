@@ -33,7 +33,7 @@ public class User {
   @Column(name = "birth_date", nullable = true)
   private LocalDate birthDate;
 
-  @Column(name = "address", nullable = true)
+  @Column(name = "address", nullable = false)
   private String address;
 
   @Column(name = "gender", nullable = false)

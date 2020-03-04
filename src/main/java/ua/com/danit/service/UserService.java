@@ -17,4 +17,8 @@ public class UserService {
   public User getCurrentUser() {
     return userRepository.findAll().get(0);
   }
+
+  public User findById(String username) {
+    return userRepository.findById(username).orElseThrow(RuntimeException::new);
+  }
 }
