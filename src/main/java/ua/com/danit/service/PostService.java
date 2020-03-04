@@ -36,8 +36,8 @@ public class PostService {
 
   public Post update(String text, Long postId) {
     Post post = postRepository
-      .findById(postId)
-      .orElseThrow(RuntimeException::new);
+        .findById(postId)
+        .orElseThrow(RuntimeException::new);
     checkIsCurrentUser(post);
     post.setText(text);
     return postRepository.save(post);
@@ -45,8 +45,8 @@ public class PostService {
 
   public Post deletePostById(long postId) {
     Post post = postRepository
-      .findById(postId)
-      .orElseThrow(RuntimeException::new);
+        .findById(postId)
+        .orElseThrow(RuntimeException::new);
     checkIsCurrentUser(post);
     postRepository.delete(post);
     return post;
@@ -54,7 +54,7 @@ public class PostService {
 
   public Post getPostById(long postId) {
     return postRepository.findById(postId)
-      .orElseThrow(RuntimeException::new);
+        .orElseThrow(RuntimeException::new);
   }
 
   public List<Post> getAllPostsForCurrentUser() {

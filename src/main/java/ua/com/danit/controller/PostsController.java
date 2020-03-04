@@ -46,7 +46,7 @@ public class PostsController {
   }
 
   @GetMapping
-  public ResponseEntity<List<PostResponse>>getAllPosts() {
+  public ResponseEntity<List<PostResponse>> getAllPosts() {
     return ResponseEntity.ok(postMapper.getAllPostsForCurrentUser());
   }
 
