@@ -3,10 +3,10 @@ package ua.com.danit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.danit.entity.Post;
-import ua.com.danit.entity.User;
 import ua.com.danit.repository.PostRepository;
 
 import java.util.List;
+
 
 @Service
 public class PostService {
@@ -15,45 +15,50 @@ public class PostService {
   private UserService userService;
 
   @Autowired
-  public PostService(PostRepository postRepository) {
+  public PostService(PostRepository postRepository, UserService userService) {
     this.postRepository = postRepository;
+    this.userService = userService;
   }
 
-  @Autowired
-  public User getCurrentUser(UserService userService) {
-    return userService.getCurrentUser();
-  }
-
-  public Post getCurrentPost() {
-    return postRepository.findAll().get(0);
-  }
-
-  public Post getPostById(Long id) {
-    return postRepository.getOne(id);
-  }
-
-  public Post create(Post post) {
+  public Post create(Post post, String ownerUsername) {
+    post.setAuthor(userService.getCurrentUser());
+    post.setOwner(userService.findById(ownerUsername));
+    post.setId(null);
+    postRepository.save(post);
     return post;
   }
 
-  public Post update(String text) throws Exception {
-    if (getCurrentUser(userService) != getCurrentPost().getAuthor()) {
-      throw new Exception();
+  private void checkIsCurrentUser(Post post) {
+    if (userService.getCurrentUser().getUsername().equals(post.getAuthor().getUsername())) {
+      throw new RuntimeException();
     }
-    getCurrentPost().setText(text);
-    return postRepository.save(getCurrentPost());
   }
 
-  public Post deletePostById(long postId) throws Exception {
-    if (getCurrentUser(userService) != getCurrentPost().getAuthor()) {
-      throw new Exception();
-    }
+  public Post update(String text, Long postId) {
+    Post post = postRepository
+      .findById(postId)
+      .orElseThrow(RuntimeException::new);
+    checkIsCurrentUser(post);
+    post.setText(text);
+    return postRepository.save(post);
+  }
 
-    return postRepository.deletePostById(postId);
+  public Post deletePostById(long postId) {
+    Post post = postRepository
+      .findById(postId)
+      .orElseThrow(RuntimeException::new);
+    checkIsCurrentUser(post);
+    postRepository.delete(post);
+    return post;
+  }
+
+  public Post getPostById(long postId) {
+    return postRepository.findById(postId)
+      .orElseThrow(RuntimeException::new);
   }
 
   public List<Post> getAllPostsForCurrentUser() {
-    return postRepository.findPostsByOwner(getCurrentUser(userService));
+    return postRepository.findPostsByOwner(userService.getCurrentUser());
   }
 
 }

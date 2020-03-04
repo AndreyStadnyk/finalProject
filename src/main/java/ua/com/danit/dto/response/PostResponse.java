@@ -5,5 +5,7 @@ import lombok.Data;
 @Data
 public class PostResponse {
 
-  public String author;
+  private String text;
+  private Long id;
+
 }

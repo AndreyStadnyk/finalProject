@@ -9,7 +9,7 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.GenerationType;
-import java.time.LocalDate;
+import java.util.Date;
 
 
 @Data
@@ -19,7 +19,7 @@ public class Post {
   @Id
   @Column(name = "post_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  private Long id;
 
   @ManyToOne
   @JoinColumn(name = "owner", nullable = false)
@@ -30,7 +30,7 @@ public class Post {
   private User author;
 
   @Column(name = "date")
-  private LocalDate date;
+  private Date date;
 
   @Column(name = "text", length = 280, nullable = false)
   private String text;
