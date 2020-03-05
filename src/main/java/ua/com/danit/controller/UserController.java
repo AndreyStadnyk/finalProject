@@ -2,15 +2,13 @@ package ua.com.danit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-import ua.com.danit.dto.request.PostRequest;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ua.com.danit.dto.request.UserRequest;
 import ua.com.danit.dto.response.UserResponse;
-import ua.com.danit.entity.User;
 import ua.com.danit.mapping.UserMapper;
-import ua.com.danit.service.UserService;
-
-import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/users")

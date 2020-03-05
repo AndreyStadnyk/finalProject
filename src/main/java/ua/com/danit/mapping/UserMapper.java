@@ -2,7 +2,6 @@ package ua.com.danit.mapping;
 
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import ua.com.danit.dto.request.UserRequest;
 import ua.com.danit.dto.response.UserResponse;

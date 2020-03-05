@@ -1,11 +1,10 @@
 package ua.com.danit.dto.request;
 
 import lombok.Data;
-import ua.com.danit.entity.*;
+import ua.com.danit.entity.FriendRequest;
+import ua.com.danit.entity.User;
 
-import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.List;
 
 @Data
@@ -18,9 +17,6 @@ public class UserRequest {
   private String address;
   private String gender;
   private String password;
-  private List<Post> posts = new ArrayList<>();
-  private List<Like> likes = new ArrayList<>();
-  private List<Comment> comments;
   private List<FriendRequest> friendRequests;
   private List<User> userFriends;
 }
