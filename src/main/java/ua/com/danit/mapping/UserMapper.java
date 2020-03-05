@@ -25,4 +25,9 @@ public class UserMapper {
     User createdUser = userService.create(user);
     return modelMapper.map(createdUser, UserResponse.class);
   }
+
+  public UserResponse findById(String username){
+    User receivedUser = userService.findById(username);
+    return modelMapper.map(receivedUser, UserResponse.class);
+  }
 }
