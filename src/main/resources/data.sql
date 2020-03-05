@@ -4,4 +4,3 @@ insert into `users` (username, first_name, last_name, address, gender, password)
 insert into `posts` (author, owner, text) values ('PMatroskin', 'VPupkin', 'Some text from owner and author Matroskin');
 insert into `posts` (author, owner, text) values ('PMatroskin', 'VPupkin', 'Some text from owner Pupkin and author Matroskin');
 --insert into `posts` (author, owner, text)  values ('VPupkin', 'VPupkin', 'Some text from owner and author Pupkin') ;
-

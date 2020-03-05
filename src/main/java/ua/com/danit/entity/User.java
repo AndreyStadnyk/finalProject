@@ -2,15 +2,16 @@ package ua.com.danit.entity;
 
 import lombok.Data;
 
-import javax.persistence.CascadeType;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.OneToMany;
+import javax.persistence.ManyToMany;
+import javax.persistence.JoinTable;
+import javax.persistence.JoinColumn;
+import javax.persistence.CascadeType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class User {
   @Column(name = "birth_date", nullable = true)
   private LocalDate birthDate;
 
-  @Column(name = "address", nullable = false)
+  @Column(name = "address", nullable = true)
   private String address;
 
   @Column(name = "gender", nullable = false)

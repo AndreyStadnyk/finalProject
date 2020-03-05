@@ -24,19 +24,19 @@ public class CommentController {
   }
 
   @PostMapping("/{postId}")
-  public ResponseEntity<CommentResponse> createComment(@PathVariable long postId,
+  public ResponseEntity<CommentResponse> createComment(@PathVariable Long postId,
                                                        @RequestBody CommentRequest commentRequest) {
     return ResponseEntity.ok(commentMapper.create(commentRequest, postId));
   }
 
   @PutMapping("/{commentId}")
-  public ResponseEntity<CommentResponse> updateComment(@PathVariable long commentId,
+  public ResponseEntity<CommentResponse> updateComment(@PathVariable Long commentId,
                                                @RequestBody CommentRequest commentRequest) throws Exception {
     return ResponseEntity.ok(commentMapper.update(commentRequest, commentId));
   }
 
   @DeleteMapping("/{commentId}")
-  public ResponseEntity<CommentResponse> deleteComment(@PathVariable long commentId) throws Exception {
+  public ResponseEntity<CommentResponse> deleteComment(@PathVariable Long commentId) throws Exception {
     return ResponseEntity.ok(commentMapper.delete(commentId));
   }
 }
