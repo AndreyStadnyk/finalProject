@@ -21,7 +21,7 @@
     "build": "npm run stylelint-build && npm run eslint &&react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "eslint": "eslint 'src/**/*.js'",
+    "eslint": "eslint src/**/*.js",
     "stylelint-dev": "stylelint 'src/**/*.css' --cache --cache-location './.stylelintcache'; exit 0",
     "stylelint-build": "stylelint src/**/*.css",
     "stylelint-fix-sass": "stylelint --fix src/**/*.css",
