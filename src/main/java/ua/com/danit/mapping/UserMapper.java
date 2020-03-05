@@ -20,13 +20,13 @@ public class UserMapper {
     this.modelMapper = modelMapper;
   }
 
-  public UserResponse create(UserRequest userRequest){
+  public UserResponse create(UserRequest userRequest) {
     User user = modelMapper.map(userRequest, User.class);
     User createdUser = userService.create(user);
     return modelMapper.map(createdUser, UserResponse.class);
   }
 
-  public UserResponse findById(String username){
+  public UserResponse findById(String username) {
     User receivedUser = userService.findById(username);
     return modelMapper.map(receivedUser, UserResponse.class);
   }
