@@ -10,6 +10,4 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
   List<Post> findPostsByOwner(User owner);
 
-  Post deletePostById(Long id);
-
 }
