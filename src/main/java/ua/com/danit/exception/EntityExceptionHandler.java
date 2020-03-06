@@ -13,7 +13,7 @@ public class EntityExceptionHandler
     extends ResponseEntityExceptionHandler {
 
   @ExceptionHandler(value
-      = { IllegalArgumentException.class, IllegalStateException.class })
+      = {IllegalArgumentException.class, IllegalStateException.class})
   protected ResponseEntity<Object> handleConflict(
       RuntimeException ex, WebRequest request) {
     String bodyOfResponse = "This should be application specific";
