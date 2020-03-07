@@ -43,16 +43,10 @@ public class User {
   @Column(name = "password", nullable = false)
   private String password;
 
-  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
   private List<Post> posts = new ArrayList<>();
 
-  @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Like> likes = new ArrayList<>();
-
-  @OneToMany(mappedBy = "author", cascade = CascadeType.ALL, orphanRemoval = true)
-  private List<Comment> comments;
-
-  @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+  @OneToMany(mappedBy = "receiver", cascade = CascadeType.ALL)
   private List<FriendRequest> friendRequests;
 
   @ManyToMany
