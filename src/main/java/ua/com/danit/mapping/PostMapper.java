@@ -1,26 +1,31 @@
 package ua.com.danit.mapping;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.danit.dto.request.PostRequest;
+import ua.com.danit.dto.response.CommentResponse;
 import ua.com.danit.dto.response.PostResponse;
+import ua.com.danit.entity.Comment;
 import ua.com.danit.entity.Post;
+import ua.com.danit.service.CommentService;
 import ua.com.danit.service.PostService;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class PostMapper {
 
   private PostService postService;
+  private CommentService commentService;
   private ModelMapper modelMapper;
 
 
   @Autowired
-  public PostMapper(PostService postService, ModelMapper modelMapper) {
+  public PostMapper(PostService postService, CommentService commentService, ModelMapper modelMapper) {
     this.postService = postService;
+    this.commentService = commentService;
     this.modelMapper = modelMapper;
   }
 
@@ -42,6 +47,20 @@ public class PostMapper {
 
   public List<PostResponse> getAllPostsForCurrentUser() {
     List<Post> posts = postService.getAllPostsForCurrentUser();
-    return modelMapper.map(posts, new TypeToken<List<PostResponse>>(){}.getType());
+    List<PostResponse> resPosts = new ArrayList<>();
+
+    for (Post post : posts) {
+      PostResponse resPost = modelMapper.map(post, PostResponse.class);
+      List<Comment> comments = commentService.getPostComments(post);
+
+      for (Comment comment : comments) {
+        resPost.addComment(modelMapper.map(comment, CommentResponse.class));
+      }
+
+      resPosts.add(resPost);
+    }
+
+    return resPosts;
   }
+
 }

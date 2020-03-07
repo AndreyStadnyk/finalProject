@@ -29,7 +29,7 @@ public class Post {
   @JoinColumn(name = "author", nullable = false)
   private User author;
 
-  @Column(name = "date")
+  @Column(name = "date", nullable = false)
   private Date date;
 
   @Column(name = "text", length = 280, nullable = false)

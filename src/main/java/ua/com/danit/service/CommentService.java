@@ -3,9 +3,10 @@ package ua.com.danit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.danit.entity.Comment;
+import ua.com.danit.entity.Post;
 import ua.com.danit.entity.User;
 import ua.com.danit.repository.CommentRepository;
-
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -24,6 +25,10 @@ public class CommentService {
 
   public Optional<Comment> findCommentById(Long commentId) {
     return commentRepository.findById(commentId);
+  }
+
+  public List<Comment> getPostComments(Post post) {
+    return commentRepository.findAllByPost(post);
   }
 
   public Comment createComment(Comment comment, Long postId) {
