@@ -26,9 +26,9 @@ public class CommentService {
   }
 
   public Comment createComment(Comment comment, Long postId) {
-  comment.setPost(postService.getPostById(postId));
-  comment.setAuthor(userService.getCurrentUser());
-  return commentRepository.save(comment);
+    comment.setPost(postService.getPostById(postId));
+    comment.setAuthor(userService.getCurrentUser());
+    return commentRepository.save(comment);
   }
 
   public Comment updateComment(Long commentId, String text) throws Exception {
