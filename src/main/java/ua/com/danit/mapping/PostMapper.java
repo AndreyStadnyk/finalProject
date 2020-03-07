@@ -5,14 +5,10 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.danit.dto.request.PostRequest;
-import ua.com.danit.dto.response.CommentResponse;
 import ua.com.danit.dto.response.PostResponse;
-import ua.com.danit.entity.Comment;
 import ua.com.danit.entity.Post;
-import ua.com.danit.service.CommentService;
 import ua.com.danit.service.PostService;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Component
