@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ua.com.danit.entity.Post;
 import ua.com.danit.repository.PostRepository;
 
+import java.util.Date;
 import java.util.List;
 
 
@@ -24,6 +25,7 @@ public class PostService {
     post.setAuthor(userService.getCurrentUser());
     post.setOwner(userService.findById(ownerUsername));
     post.setId(null);
+    post.setDate(new Date());
     postRepository.save(post);
     return post;
   }

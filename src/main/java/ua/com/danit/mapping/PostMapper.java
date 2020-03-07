@@ -44,4 +44,5 @@ public class PostMapper {
     List<Post> posts = postService.getAllPostsForCurrentUser();
     return modelMapper.map(posts, new TypeToken<List<PostResponse>>(){}.getType());
   }
+
 }

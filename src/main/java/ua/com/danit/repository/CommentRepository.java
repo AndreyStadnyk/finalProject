@@ -6,4 +6,5 @@ import ua.com.danit.entity.Comment;
 
 @Repository
 public interface CommentRepository extends JpaRepository<Comment, Long> {
+
 }
