@@ -16,6 +16,7 @@ import ua.com.danit.mapping.CommentMapper;
 @RestController
 @RequestMapping("/api/comments")
 public class CommentController {
+
   private CommentMapper commentMapper;
 
   @Autowired
@@ -39,4 +40,5 @@ public class CommentController {
   public ResponseEntity<CommentResponse> deleteComment(@PathVariable Long commentId) throws Exception {
     return ResponseEntity.ok(commentMapper.delete(commentId));
   }
+
 }
