@@ -27,11 +27,7 @@ public class CommentService {
     return commentRepository.findById(commentId);
   }
 
-  public List<Comment> getPostComments(Post post) {
-    return commentRepository.findAllByPost(post);
-  }
-
-  public Comment createComment(Comment comment, Long postId) {
+    public Comment createComment(Comment comment, Long postId) {
     comment.setPost(postService.getPostById(postId));
     comment.setAuthor(userService.getCurrentUser());
     return commentRepository.save(comment);

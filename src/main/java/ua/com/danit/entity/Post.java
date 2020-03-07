@@ -9,7 +9,11 @@ import javax.persistence.Column;
 import javax.persistence.ManyToOne;
 import javax.persistence.JoinColumn;
 import javax.persistence.GenerationType;
+import javax.persistence.CascadeType;
+import javax.persistence.OneToMany;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 
 @Data
@@ -34,5 +38,8 @@ public class Post {
 
   @Column(name = "text", length = 280, nullable = false)
   private String text;
+
+  @OneToMany(mappedBy = "post", cascade = CascadeType.ALL)
+  private List<Comment> comments = new ArrayList<>();
 
 }
