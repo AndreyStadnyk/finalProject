@@ -10,6 +10,7 @@ import java.util.Optional;
 
 @Service
 public class CommentService {
+
   private CommentRepository commentRepository;
   private UserService userService;
   private PostService postService;
@@ -53,4 +54,5 @@ public class CommentService {
       throw new Exception();
     }
   }
+
 }
