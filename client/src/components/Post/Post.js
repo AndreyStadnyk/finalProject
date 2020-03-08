@@ -13,9 +13,6 @@ import { updatePost } from '../../actions/profileActions'
 import './Post.css'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 
-const user = {
-  userName: 'Имад'
-}
 const useStyles = makeStyles(theme => ({
 
 }))
@@ -104,4 +101,3 @@ function mapStateToProps (state) {
 }
 
 export default connect(mapStateToProps)(Post)
-
