@@ -5,13 +5,13 @@ import './App.css'
 import Axios from 'axios'
 import Tape from './components/Tape/Tape'
 import SignIn from './components/SignIn/sign-in'
-import Profile from './components/Profile/profile'
+import Profile from './components/Profile/Profile'
 
 export default function App () {
   const [user, setUser] = useState(null)
 
   useEffect(() => {
-    Axios('/api/v1/users/current')
+    Axios('/api/users/current')
       .then(response => {
         setUser(response.data)
       })
