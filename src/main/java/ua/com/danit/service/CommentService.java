@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import ua.com.danit.entity.Comment;
 import ua.com.danit.entity.User;
 import ua.com.danit.repository.CommentRepository;
-
 import java.util.Optional;
 
 @Service
 public class CommentService {
+
   private CommentRepository commentRepository;
   private UserService userService;
   private PostService postService;
@@ -53,4 +53,5 @@ public class CommentService {
       throw new Exception();
     }
   }
+
 }
