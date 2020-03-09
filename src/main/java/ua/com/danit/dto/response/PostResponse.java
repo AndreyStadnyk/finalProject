@@ -2,8 +2,16 @@ package ua.com.danit.dto.response;
 
 import lombok.Data;
 
+import java.util.List;
+
 @Data
 public class PostResponse {
 
-  public String author;
+  private Long id;
+  private String ownerUsername;
+  private String authorUsername;
+  private String date;
+  private String text;
+  private List<CommentResponse> comments;
+
 }

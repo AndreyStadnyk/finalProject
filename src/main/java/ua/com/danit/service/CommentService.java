@@ -3,14 +3,13 @@ package ua.com.danit.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.danit.entity.Comment;
-import ua.com.danit.entity.Post;
 import ua.com.danit.entity.User;
 import ua.com.danit.repository.CommentRepository;
-
 import java.util.Optional;
 
 @Service
 public class CommentService {
+
   private CommentRepository commentRepository;
   private UserService userService;
   private PostService postService;
@@ -26,13 +25,9 @@ public class CommentService {
     return commentRepository.findById(commentId);
   }
 
-  public Comment createComment(Comment comment) {
-    Post post = postService.getCurrentPost();
-    User author = userService.getCurrentUser();
-
-    comment.setPost(post);
-    comment.setAuthor(author);
-
+  public Comment createComment(Comment comment, Long postId) {
+    comment.setPost(postService.getPostById(postId));
+    comment.setAuthor(userService.getCurrentUser());
     return commentRepository.save(comment);
   }
 
@@ -58,4 +53,5 @@ public class CommentService {
       throw new Exception();
     }
   }
+
 }

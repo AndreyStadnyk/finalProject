@@ -1,6 +1,7 @@
 package ua.com.danit.mapping;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.danit.dto.request.PostRequest;
@@ -23,24 +24,25 @@ public class PostMapper {
     this.modelMapper = modelMapper;
   }
 
-  public PostResponse create(PostRequest postRequest) {
+  public PostResponse create(PostRequest postRequest, String ownerUsername) {
     Post post = modelMapper.map(postRequest, Post.class);
-    Post createdPost = postService.create(post);
+    Post createdPost = postService.create(post, ownerUsername);
     return modelMapper.map(createdPost, PostResponse.class);
   }
 
-  public PostResponse update(PostRequest postRequest) throws Exception {
-    Post updatedPost = postService.update(postRequest.getText());
+  public PostResponse update(PostRequest postRequest, long postId) {
+    Post updatedPost = postService.update(postRequest.getText(), postId);
     return modelMapper.map(updatedPost, PostResponse.class);
   }
 
-  public PostResponse delete(PostRequest postRequest) throws Exception {
-    Post deletedPost = postService.deletePostById(postRequest.getId());
+  public PostResponse delete(long postId) {
+    Post deletedPost = postService.deletePostById(postId);
     return modelMapper.map(deletedPost, PostResponse.class);
   }
 
-  public PostResponse getAllPostsForCurrentUser(PostRequest postRequest) {
+  public List<PostResponse> getAllPostsForCurrentUser() {
     List<Post> posts = postService.getAllPostsForCurrentUser();
-    return modelMapper.map(posts, PostResponse.class);
+    return modelMapper.map(posts, new TypeToken<List<PostResponse>>(){}.getType());
   }
+
 }

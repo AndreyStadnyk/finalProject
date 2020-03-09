@@ -10,8 +10,9 @@ import ua.com.danit.service.CommentService;
 
 @Component
 public class CommentMapper {
-  private CommentService commentService;
-  private ModelMapper modelMapper;
+
+  private final CommentService commentService;
+  private final ModelMapper modelMapper;
 
   @Autowired
   public CommentMapper(CommentService commentService, ModelMapper modelMapper) {
@@ -19,9 +20,9 @@ public class CommentMapper {
     this.modelMapper = modelMapper;
   }
 
-  public CommentResponse create(CommentRequest commentRequest) {
+  public CommentResponse create(CommentRequest commentRequest, Long postId) {
     Comment comment = modelMapper.map(commentRequest, Comment.class);
-    Comment resComment = commentService.createComment(comment);
+    Comment resComment = commentService.createComment(comment, postId);
     return modelMapper.map(resComment, CommentResponse.class);
   }
 
@@ -35,4 +36,5 @@ public class CommentMapper {
     Comment resComment = commentService.deleteComment(commentId);
     return modelMapper.map(resComment, CommentResponse.class);
   }
+
 }
