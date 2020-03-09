@@ -54,6 +54,7 @@ function Post (props) {
               <ThumbUpAltOutlinedIcon /> {count}
             </div>
             <Button onClick={() => dispatch(updatePost({
+              id: 1,
               date: new Date(),
               text: 'Lorem ipsum'
             }))}>
