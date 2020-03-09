@@ -50,5 +50,4 @@ public class UserMapper {
     return modelMapper.map(foundUsers, new TypeToken<List<UserResponse>>(){}.getType());
 
   }
-
 }
