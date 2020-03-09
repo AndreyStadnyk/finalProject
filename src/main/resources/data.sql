@@ -1,4 +1,5 @@
 insert into `users` (username, first_name, last_name, address, gender, password) values ('VPupkin', 'Vasya', 'Pupkin', 'New York', 'mail', 'qwerty');
+insert into `users` (username, first_name, last_name, address, gender, password) values ('KPupkin', 'Katya', 'Pupkin', 'New York', 'mail', 'asdfg');
 insert into `users` (username, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya', 'Matroskin', 'Wuhan','mail', '12345');
 
 insert into `posts` (author, owner, text) values ('PMatroskin', 'VPupkin', 'Some text from owner and author Matroskin');
