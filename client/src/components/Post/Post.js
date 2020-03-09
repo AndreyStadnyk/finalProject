@@ -7,13 +7,12 @@ import ReplyIcon from '@material-ui/icons/Reply'
 import Avatar from '@material-ui/core/Avatar'
 import {StylesProvider} from '@material-ui/styles'
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import { connect } from 'react-redux'
+import { updatePost } from '../../actions/profileActions'
 
 import './Post.css'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
 
-const user = {
-  userName: 'Имад'
-}
 const useStyles = makeStyles(theme => ({
 
 }))
@@ -27,9 +26,13 @@ const theme = createMuiTheme({
     }
   }
 })
-export default function Content () {
+function Post (props) {
   const classes = useStyles()
   const [count, setCount] = useState(0)
+  const {
+    dispatch,
+    currentUser
+  } = props
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -38,17 +41,24 @@ export default function Content () {
           <div className='subheader'>
             <div className='info'>
               <Avatar src='https://react.semantic-ui.com/images/wireframe/square-image.png' avatar />
-              <span className='user-name'>{user.userName}</span>
+              <span className='user-name'>{currentUser.username}</span>
             </div>
             <Icon name='setting' />
           </div>
-
+          <p>date: {props.post.date.toString()}<br/>
+            text: {props.post.text}</p>
           <div className='photo-holder' />
 
           <div className='card-footer'>
             <div className='pre-footer'>
               <ThumbUpAltOutlinedIcon /> {count}
             </div>
+            <Button onClick={() => dispatch(updatePost({
+              date: new Date(),
+              text: 'Lorem ipsum'
+            }))}>
+              Update post
+            </Button>
             <div className='icon-container'>
               <Button
 
@@ -83,4 +93,11 @@ export default function Content () {
     </MuiThemeProvider>
   )
 }
-;
+
+function mapStateToProps (state) {
+  return {
+    currentUser: state.users.currentUser
+  }
+}
+
+export default connect(mapStateToProps)(Post)
