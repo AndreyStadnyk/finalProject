@@ -8,7 +8,13 @@ import SignIn from './components/SignIn/sign-in'
 import Profile from './components/Profile/Profile'
 
 export default function App () {
-  const [user, setUser] = useState(null)
+  const [user, setUser] = useState({
+    username: 'VPupkin',
+    firstName: 'Vasya',
+    lastName: 'Pupkin',
+    address: 'New York',
+    gender: 'male'
+  })
 
   useEffect(() => {
     Axios('/api/users/current')
@@ -17,7 +23,7 @@ export default function App () {
       })
   }, [])
 
-  if (!user) {
+  if (user) {
     return (
       <div>
         <Switch>
