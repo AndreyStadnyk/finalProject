@@ -10,6 +10,7 @@ import ua.com.danit.entity.User;
 import ua.com.danit.repository.UserRepository;
 
 import java.beans.FeatureDescriptor;
+import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
@@ -46,6 +47,12 @@ public class UserService {
 
   public User findById(String username) {
     return userRepository.findById(username).orElseThrow(RuntimeException::new);
+  }
+
+  public List<User> searchForUsersListByName(String queryStr) {
+
+    return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(queryStr, queryStr);
+
   }
 
   public User getCurrentUser() {
