@@ -30,8 +30,8 @@ public class PostService {
     return post;
   }
 
-  private void checkIsCurrentUser(Post post) {
-    if (userService.getCurrentUser().getUsername().equals(post.getAuthor().getUsername())) {
+  private void checkIsCurrentUserTheAuthor(Post post) {
+    if (! userService.isCurrentUser(post.getAuthor().getUsername())) {
       throw new RuntimeException();
     }
   }
@@ -40,7 +40,7 @@ public class PostService {
     Post post = postRepository
         .findById(postId)
         .orElseThrow(RuntimeException::new);
-    checkIsCurrentUser(post);
+    checkIsCurrentUserTheAuthor(post);
     post.setText(text);
     return postRepository.save(post);
   }
@@ -49,7 +49,7 @@ public class PostService {
     Post post = postRepository
         .findById(postId)
         .orElseThrow(RuntimeException::new);
-    checkIsCurrentUser(post);
+    checkIsCurrentUserTheAuthor(post);
     postRepository.delete(post);
     return post;
   }
