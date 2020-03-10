@@ -6,6 +6,7 @@ import Axios from 'axios'
 import Tape from './components/Tape/Tape'
 import SignIn from './components/SignIn/sign-in'
 import Profile from './components/Profile/Profile'
+import NotFound from './components/NotFound/NotFound'
 
 export default function App () {
   const [user, setUser] = useState({
@@ -30,7 +31,7 @@ export default function App () {
           <Route exact path='/sign-in' component={SignIn}/>
           <Route exact path='/profile' component={Profile}/>
           <Route exact path='/tape' component={Tape}/>
-          <Route exact path='/*' component={SignIn}/>
+          <Route exact path='/*' component={NotFound}/>
         </Switch>
       </div>
 
