@@ -10,6 +10,8 @@
 
 [Trello](https://trello.com/b/qijpJexT/fs9finalproject)
 
+[Swagger-UI](http://localhost:8080/swagger-ui.html#/)
+
 ## Developers
 1. Nikolaenko Alexey
 2. Shevchuk Marina
