@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/core/styles'
 import Paper from '@material-ui/core/Paper'
 import Grid from '@material-ui/core/Grid'
 import Button from '@material-ui/core/Button'
-import { connect } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import Post from '../Post/Post'
 import { updateUser } from '../../actions/profileActions'
 
@@ -20,13 +20,17 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-function Profile (props) {
+export default function Profile (props) {
+
+  const dispatch = useDispatch()
   const classes = useStyles()
   const {
-    dispatch,
     currentUser,
     userPosts
-  } = props
+  } = useSelector(state => ({
+    currentUser: state.users.currentUser,
+    userPosts: state.posts.userPosts
+  }))
 
   return (
     <div className={classes.root}>
@@ -69,12 +73,3 @@ function Profile (props) {
     </div>
   )
 }
-
-function mapStateToProps (state) {
-  return {
-    currentUser: state.users.currentUser,
-    userPosts: state.posts.userPosts
-  }
-}
-
-export default connect(mapStateToProps)(Profile)
