@@ -3,10 +3,12 @@ import {actionTypes} from '../actions'
 const initialState = {
   userPosts: [
     {
+      id: 1,
       date: new Date(),
       text: 'My first post'
     },
     {
+      id: 2,
       date: new Date(),
       text: 'My second post'
     }
