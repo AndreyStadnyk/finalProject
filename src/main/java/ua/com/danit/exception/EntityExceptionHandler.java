@@ -17,7 +17,7 @@ public class EntityExceptionHandler extends ResponseEntityExceptionHandler {
   @ExceptionHandler(Exception.class)
   public final ResponseEntity<Object> handleAllExceptions(Exception ex, WebRequest request) {
     List<String> details = new ArrayList<>();
-    details.add(ex.getLocalizedMessage());
+    details.add(ex.getMessage());
     ErrorResponse error = new ErrorResponse("Server Error", details);
     return new ResponseEntity(error, HttpStatus.INTERNAL_SERVER_ERROR);
   }
