@@ -32,9 +32,8 @@ public class CommentService {
   }
 
   public Comment updateComment(Long commentId, String text) throws Exception {
-    User currentUser = userService.getCurrentUser();
     Optional<Comment> comment = findCommentById(commentId);
-    if (comment.isPresent() && currentUser.equals(comment.get().getAuthor())) {
+    if (comment.isPresent() && userService.isCurrentUser(comment.get().getAuthor().getUsername())) {
       comment.get().setText(text);
       return commentRepository.save(comment.get());
     } else {
@@ -43,10 +42,9 @@ public class CommentService {
   }
 
   public Comment deleteComment(Long commentId) throws Exception {
-    User currentUser = userService.getCurrentUser();
     Optional<Comment> comment = findCommentById(commentId);
 
-    if (comment.isPresent() && currentUser.equals(comment.get().getAuthor())) {
+    if (comment.isPresent() && userService.isCurrentUser(comment.get().getAuthor().getUsername())) {
       commentRepository.delete(comment.get());
       return comment.get();
     } else {

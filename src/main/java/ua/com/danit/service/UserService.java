@@ -59,5 +59,9 @@ public class UserService {
     return userRepository.findAll().get(0);
   }
 
+  public boolean isCurrentUser(String username) {
+    return (username.equals(this.getCurrentUser().getUsername()));
+  }
+
 
 }
