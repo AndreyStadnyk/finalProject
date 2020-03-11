@@ -7,10 +7,14 @@ import ProfileCard from './ProfileCard'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import TopMenu from '../TopMenu/top-menu'
+import ProfileTabs from './ProfileTabs'
 
 const useStyles = makeStyles(theme => ({
   root: {
-    flexGrow: 1
+    flexGrow: 1,
+    maxWidth: 1200,
+    margin: 'auto'
+
   }
 
 }))
@@ -29,7 +33,7 @@ function Profile2 () {
             <ProfileCard/>
           </Grid>
           <Grid item xs={12} sm={9}>
-            <ProfileTape/>
+            <ProfileTabs/>
           </Grid>
 
         </Grid>

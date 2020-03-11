@@ -12,8 +12,8 @@ import { green } from '@material-ui/core/colors'
 const useStyles = makeStyles({
   root: {
     maxWidth: 350,
-    minWidth: 200,
-    marginLeft: 50
+    minWidth: 200
+
   },
   media: {
     height: 300
@@ -44,8 +44,8 @@ export default function ProfileCard () {
         <Button size="small" color="primary">
           Кнопка
         </Button>
-        <Button size="small" color="primary">
-          Кнопка
+        <Button size="small" color="secondary">
+          Педалька
         </Button>
       </CardActions>
     </Card>

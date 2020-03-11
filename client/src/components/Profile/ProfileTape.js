@@ -15,7 +15,8 @@ const overlay = {
   right: 10
 }
 const tape = {
-  maxWidth: 800
+  maxWidth: 800,
+  minHeight: 450
 }
 
 class ProfileTape extends Component {
@@ -26,7 +27,7 @@ class ProfileTape extends Component {
       topics: [
         {
           title: 'This is the 1st Title',
-          content: 'content',
+          content: 'This is the 1st content',
           likes: 5,
           comments: 10,
           views: 14
@@ -48,6 +49,7 @@ class ProfileTape extends Component {
         {
           title: 'This is the 4th Title',
           content:
+
             'This is the 4th content of the application, this is a long content that needs to be show partially',
           likes: 5,
           comments: 10,
