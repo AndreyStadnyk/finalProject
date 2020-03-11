@@ -5,7 +5,7 @@ import './App.css'
 import Axios from 'axios'
 import Tape from './components/Tape/Tape'
 import SignIn from './components/SignIn/sign-in'
-import Profile from './components/Profile/Profile'
+import Profile from './components/Profile/Profile2'
 
 export default function App () {
   const [user, setUser] = useState({
