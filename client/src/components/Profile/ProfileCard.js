@@ -11,8 +11,6 @@ import { green } from '@material-ui/core/colors'
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 350,
-    minWidth: 200
 
   },
   media: {

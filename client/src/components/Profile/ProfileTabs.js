@@ -74,7 +74,7 @@ export default function ProfileTabs () {
           <Tab label="Item Two" {...a11yProps(1)} />
           <Tab label="Item Three" {...a11yProps(2)} />
           <Tab label="Item Four" {...a11yProps(3)} />
-          <Tab label="Item Huy" {...a11yProps(4)} />
+
         </Tabs>
       </AppBar>
       <SwipeableViews
@@ -94,9 +94,7 @@ export default function ProfileTabs () {
         <TabPanel value={value} index={3} dir={theme.direction}>
           Item Four
         </TabPanel>
-        <TabPanel value={value} index={4} dir={theme.direction}>
-          Item Five
-        </TabPanel>
+
       </SwipeableViews>
     </div>
   )
