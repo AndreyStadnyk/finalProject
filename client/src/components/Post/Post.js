@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {Icon, Button, MuiThemeProvider} from '@material-ui/core'
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
 import ChatBubbleOutlinedIcon from '@material-ui/icons/ChatBubble'
@@ -7,8 +7,8 @@ import ReplyIcon from '@material-ui/icons/Reply'
 import Avatar from '@material-ui/core/Avatar'
 import {StylesProvider} from '@material-ui/styles'
 import makeStyles from '@material-ui/core/styles/makeStyles'
-import { connect } from 'react-redux'
-import { updatePost } from '../../actions/profileActions'
+import { useDispatch, useSelector } from 'react-redux'
+import { postTypes, updatePost } from '../../actions/postActions'
 
 import './Post.css'
 import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
@@ -26,13 +26,13 @@ const theme = createMuiTheme({
     }
   }
 })
-function Post (props) {
+
+export default function Post (props) {
   const classes = useStyles()
-  const [count, setCount] = useState(0)
-  const {
-    dispatch,
-    currentUser
-  } = props
+  const dispatch = useDispatch()
+  const { currentUser } = useSelector(state => ({
+    currentUser: state.users.currentUser
+  }))
 
   return (
     <MuiThemeProvider theme={theme}>
@@ -51,7 +51,7 @@ function Post (props) {
 
           <div className='card-footer'>
             <div className='pre-footer'>
-              <ThumbUpAltOutlinedIcon /> {count}
+              <ThumbUpAltOutlinedIcon /> {props.post.likes}
             </div>
             <Button onClick={() => dispatch(updatePost({
               id: 1,
@@ -66,7 +66,10 @@ function Post (props) {
                 color='none'
                 className={classes.button}
                 startIcon={<ThumbUpAltIcon />}
-                onClick={() => setCount(count + 1)}
+                onClick={() => dispatch({
+                  type: postTypes.SWITCH_LIKE,
+                  payload: props.post
+                })}
               >
                                 Like
               </Button>
@@ -94,11 +97,3 @@ function Post (props) {
     </MuiThemeProvider>
   )
 }
-
-function mapStateToProps (state) {
-  return {
-    currentUser: state.users.currentUser
-  }
-}
-
-export default connect(mapStateToProps)(Post)

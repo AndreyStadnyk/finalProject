@@ -11,9 +11,10 @@ const initialState = {
   }
 }
 
-export default function postsReducer (state = initialState, action) {
+export default function usersReducer (state = initialState, action) {
   switch (action.type) {
     case actionTypes.UPDATE_USER:
+    case actionTypes.SET_CURRENT_USER:
       return {
         currentUser: action.payload
       }
