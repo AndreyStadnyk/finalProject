@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import Profile from '../Profile/Profile2'
+import Profile2 from '../Profile/Profile2'
 import Tape from '../Tape/Tape'
 import NotFound from '../NotFound/NotFound'
 import { useDispatch, useSelector } from 'react-redux'
@@ -25,7 +25,7 @@ export default function ProtectedRouter (props) {
   if (currentUser) {
     return (
       <Switch>
-        <Route exact path='/profile' component={Profile}/>
+        <Route exact path='/profile' component={Profile2}/>
         <Route exact path='/tape' component={Tape}/>
         <Route exact path='/*' component={NotFound}/>
       </Switch>
