@@ -1,7 +1,7 @@
 import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
-import Profile from '../Profile/Profile'
+import Profile from '../Profile/Profile2'
 import Tape from '../Tape/Tape'
 import NotFound from '../NotFound/NotFound'
 import { useDispatch, useSelector } from 'react-redux'

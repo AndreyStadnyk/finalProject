@@ -8,6 +8,9 @@ import FlatButton from 'material-ui/FlatButton'
 import ContentAdd from 'material-ui/svg-icons/content/create'
 import { CSSTransition } from 'react-transition-group'
 import './app.css'
+import Post from '../Post/Post'
+import Paper from '@material-ui/core/Paper'
+import { useDispatch, useSelector } from 'react-redux'
 
 const overlay = {
   position: 'absolute',
@@ -50,7 +53,7 @@ class ProfileTape extends Component {
           title: 'This is the 4th Title',
           content:
 
-          'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.',
+            'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.',
           likes: 5,
           comments: 10,
           views: 14
@@ -63,6 +66,8 @@ class ProfileTape extends Component {
   close = () => this.setState({ open: false })
 
   render () {
+
+    // const dispatch = useDispatch()
     return (
       <div style={tape}>
         <div style={overlay}>
