@@ -7,7 +7,6 @@ import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Button from '@material-ui/core/Button'
 import Typography from '@material-ui/core/Typography'
-import { green } from '@material-ui/core/colors'
 import { updateUser } from '../../actions/profileActions'
 import { useDispatch, useSelector } from 'react-redux'
 const useStyles = makeStyles({
@@ -21,8 +20,7 @@ export default function ProfileCard () {
   const dispatch = useDispatch()
   const classes = useStyles()
   const {
-    currentUser,
-    userPosts
+    currentUser
   } = useSelector(state => ({
     currentUser: state.users.currentUser,
     userPosts: state.posts.userPosts

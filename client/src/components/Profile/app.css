@@ -1,20 +1,19 @@
 .pop-enter {
-    height: 0;
+  height: 0;
 }
 
 .pop-enter.pop-enter-active {
-    height: 100vh;
-    -webkit-transition: height 500ms ease;
-    transition: height 2000ms ease;
+  height: 100vh;
+  -webkit-transition: height 500ms ease;
+  transition: height 2000ms ease;
 }
 
 .pop-leave {
-    height: 100vh;
+  height: 100vh;
 }
 
 .pop-leave.pop-leave-active {
-    height: 0;
-    transition: height 300ms ease-in;
-    -webkit-transition: height 300ms ease-in;
-
+  height: 0;
+  -webkit-transition: height 300ms ease-in;
+  transition: height 300ms ease-in;
 }

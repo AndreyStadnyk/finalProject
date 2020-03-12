@@ -1,8 +1,5 @@
 import React from 'react'
-
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
-
-import ProfileTape from './ProfileTape'
 import ProfileCard from './ProfileCard'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'

@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from 'react'
+import React, { Component } from 'react'
 import { List, ListItem } from 'material-ui/List'
 import Avatar from 'material-ui/Avatar'
 import Divider from 'material-ui/Divider'
@@ -8,17 +8,14 @@ import FlatButton from 'material-ui/FlatButton'
 import ContentAdd from 'material-ui/svg-icons/content/create'
 import { CSSTransition } from 'react-transition-group'
 import './app.css'
-import Post from '../Post/Post'
-import Paper from '@material-ui/core/Paper'
-import { useDispatch, useSelector } from 'react-redux'
 
 const overlay = {
   position: 'absolute',
   bottom: 30,
   right: 10
 }
-const tape = {
 
+const tape = {
   minHeight: 450
 }
 
@@ -66,7 +63,6 @@ class ProfileTape extends Component {
   close = () => this.setState({ open: false })
 
   render () {
-
     // const dispatch = useDispatch()
     return (
       <div style={tape}>
