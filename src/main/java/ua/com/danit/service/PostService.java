@@ -4,10 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ua.com.danit.entity.Like;
 import ua.com.danit.entity.Post;
+import ua.com.danit.entity.User;
 import ua.com.danit.repository.PostRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
@@ -68,21 +70,26 @@ public class PostService {
 
   public Post getOrRemoveLikeByPostId(long postId) {
     Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
-    Like likeCurrent = post.getLikes()
+    String userName = userService.getCurrentUser().getUsername();
+    System.out.println(userName);
+    System.out.println(post.getId());
+    Optional<Like> likeOptional = post.getLikes()
         .stream()
-        .filter(like -> like.getUser().equals(userService.getCurrentUser()) && like.getPost().equals(post))
-        .collect(Collectors.toList())
-        .get(0);
-    if (likeCurrent != null) {
-      post.getLikes().remove(likeCurrent);
-      return post;
+        .filter(like -> like.getUser().getUsername().equals(userName) && like.getPost().getId().equals(post.getId()))
+        .findFirst();
+    System.out.println(likeOptional.isPresent());
+    if (likeOptional.isPresent()) {
+      post.getLikes().remove(likeOptional.get());
+      return postRepository.save(post);
     } else {
       Like likeNew = new Like();
-      likeNew.setUser(userService.getCurrentUser());
+      User currentUser = userService.getCurrentUser();
+      likeNew.setUser(currentUser);
       likeNew.setPost(post);
       post.getLikes().add(likeNew);
-      return post;
+      return postRepository.save(post);
     }
+
   }
 }
 
