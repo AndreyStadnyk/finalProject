@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import api from '../../helpers/FetchData'
 import { profileTypes } from '../../actions/profileActions'
 
-export default function ProtectedRouter (props) {
+export default function ProtectedRouter () {
   const dispatch = useDispatch()
   const { currentUser } = useSelector(state => ({ currentUser: state.users.currentUser }))
 
