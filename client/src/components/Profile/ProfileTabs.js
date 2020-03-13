@@ -8,7 +8,6 @@ import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import ProfileTape from './ProfileTape'
-import Post from '../Post/Post'
 import { useSelector } from 'react-redux'
 
 function TabPanel (props) {
