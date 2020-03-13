@@ -15,48 +15,19 @@ const overlay = {
   right: 10
 }
 
-const tape = {
-
-}
+const tape = {}
 
 class ProfileTape extends Component {
   constructor (props) {
     super(props)
+
     console.log(props)
     this.state = {
       open: false,
-      topics: [
-        {
-          title: 'This is the 1st Title',
-          content: 'This is the 1st content',
-          likes: 5,
-          comments: 10,
-          views: 14
-        },
-        {
-          title: 'This is the 2nd Title',
-          content: 'This is the 2nd content of the application',
-          likes: 5,
-          comments: 10,
-          views: 14
-        },
-        {
-          title: 'This is the 3rd Title',
-          content: 'This is the 3rd content of the application',
-          likes: 5,
-          comments: 10,
-          views: 14
-        },
-        {
-          title: 'This is the 4th Title',
-          content:
+      text: props.post.text,
+      date: props.post.date,
+      id: props.post.id
 
-            'Lorem Ipsum - это текст-"рыба", часто используемый в печати и вэб-дизайне. Lorem Ipsum является стандартной "рыбой" для текстов на латинице с начала XVI века. В то время некий безымянный печатник создал большую коллекцию размеров и форм шрифтов, используя Lorem Ipsum для распечатки образцов. Lorem Ipsum не только успешно пережил без заметных изменений пять веков, но и перешагнул в электронный дизайн. Его популяризации в новое время послужили публикация листов Letraset с образцами Lorem Ipsum в 60-х годах и, в более недавнее время, программы электронной вёрстки типа Aldus PageMaker, в шаблонах которых используется Lorem Ipsum.',
-          likes: 5,
-          comments: 10,
-          views: 14
-        }
-      ]
     }
   }
 
@@ -84,7 +55,7 @@ class ProfileTape extends Component {
                 <Avatar src="https://i.pravatar.cc/300"/>
               }
               primaryText={this.props.post.date.toString()}
-              secondaryText={this.props.post.text}
+              secondaryText={this.state.text}
               secondaryTextLines={1}
               onClick={this.open}
             />
@@ -143,7 +114,7 @@ const PopUp = ({ state, close }) => {
               zIndex: '999'
             }}
           >
-            <span>Я - раскрывушка</span>
+            <span>THIS POST ID: {state.id}</span>
             <FlatButton label="Close" onClick={close}/>
           </div>
         </CSSTransition>
