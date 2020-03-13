@@ -71,13 +71,10 @@ public class PostService {
   public Post getOrRemoveLikeByPostId(long postId) {
     Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
     String userName = userService.getCurrentUser().getUsername();
-    System.out.println(userName);
-    System.out.println(post.getId());
     Optional<Like> likeOptional = post.getLikes()
         .stream()
         .filter(like -> like.getUser().getUsername().equals(userName) && like.getPost().getId().equals(post.getId()))
         .findFirst();
-    System.out.println(likeOptional.isPresent());
     if (likeOptional.isPresent()) {
       post.getLikes().remove(likeOptional.get());
       return postRepository.save(post);

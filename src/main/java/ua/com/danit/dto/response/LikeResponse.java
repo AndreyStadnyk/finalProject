@@ -1,7 +1,8 @@
 package ua.com.danit.dto.response;
 
-import ua.com.danit.entity.User;
+import lombok.Data;
 
+@Data
 public class LikeResponse {
-  private User user;
+  private UserResponse user;
 }
