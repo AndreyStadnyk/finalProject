@@ -14,6 +14,6 @@ public class PostResponse {
   private String date;
   private String text;
   private List<CommentResponse> comments;
-  private List<Like> likes;
+  private List<LikeResponse> likes;
 
 }
