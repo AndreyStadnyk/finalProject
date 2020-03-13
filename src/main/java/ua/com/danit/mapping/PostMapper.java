@@ -45,4 +45,9 @@ public class PostMapper {
     return modelMapper.map(posts, new TypeToken<List<PostResponse>>(){}.getType());
   }
 
+  public PostResponse removeOrAddLikeByPostId(long postId) {
+    Post post = postService.getOrRemoveLikeByPostId(postId);
+    return modelMapper.map(post, PostResponse.class);
+  }
+
 }
