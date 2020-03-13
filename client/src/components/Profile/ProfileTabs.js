@@ -97,11 +97,6 @@ export default function ProfileTabs () {
               post = { post }
             />
           ))}
-          {userPosts.sort((a, b) => a.date - b.date).map(post => (
-            <Post
-              post = { post }
-            />
-          ))}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Item Two
