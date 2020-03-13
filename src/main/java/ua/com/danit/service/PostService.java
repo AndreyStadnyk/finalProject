@@ -2,11 +2,14 @@ package ua.com.danit.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import ua.com.danit.entity.Like;
 import ua.com.danit.entity.Post;
 import ua.com.danit.repository.PostRepository;
 
 import java.util.Date;
 import java.util.List;
+import java.util.function.Predicate;
+import java.util.stream.Collectors;
 
 
 @Service
@@ -63,6 +66,24 @@ public class PostService {
     return postRepository.findPostsByOwner(userService.getCurrentUser());
   }
 
+  public Post getOrRemoveLikeByPostId(long postId) {
+    Post post = postRepository.findById(postId).orElseThrow(RuntimeException::new);
+    Like likeCurrent = post.getLikes()
+        .stream()
+        .filter(like -> like.getUser().equals(userService.getCurrentUser()) && like.getPost().equals(post))
+        .collect(Collectors.toList())
+        .get(0);
+    if (likeCurrent != null) {
+      post.getLikes().remove(likeCurrent);
+      return post;
+    } else {
+      Like likeNew = new Like();
+      likeNew.setUser(userService.getCurrentUser());
+      likeNew.setPost(post);
+      post.getLikes().add(likeNew);
+      return post;
+    }
+  }
 }
 
 

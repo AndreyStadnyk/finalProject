@@ -50,4 +50,9 @@ public class PostsController {
     return ResponseEntity.ok(postMapper.getAllPostsForCurrentUser());
   }
 
+  @PostMapping("/{postId}/likes")
+  public ResponseEntity<PostResponse> removeOrAddLike(@PathVariable long postId) {
+    return ResponseEntity.ok(postMapper.removeOrAddLikeByPostId(postId));
+  }
+
 }
