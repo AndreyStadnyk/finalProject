@@ -1,6 +1,7 @@
 package ua.com.danit.dto.response;
 
 import lombok.Data;
+import ua.com.danit.entity.Like;
 
 import java.util.List;
 
@@ -13,5 +14,6 @@ public class PostResponse {
   private String date;
   private String text;
   private List<CommentResponse> comments;
+  private List<LikeResponse> likes;
 
 }
