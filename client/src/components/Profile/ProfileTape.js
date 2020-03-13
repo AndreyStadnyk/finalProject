@@ -64,7 +64,6 @@ class ProfileTape extends Component {
   close = () => this.setState({ open: false })
 
   render () {
-
     return (
       <div style={tape}>
         <div style={overlay}>
