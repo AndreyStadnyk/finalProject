@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { List, ListItem } from 'material-ui/List'
 import Avatar from 'material-ui/Avatar'
 import Divider from 'material-ui/Divider'
-import { blue500 } from 'material-ui/styles/colors'
+// import { blue500 } from 'material-ui/styles/colors'
 import FloatingActionButton from 'material-ui/FloatingActionButton'
 import FlatButton from 'material-ui/FlatButton'
 import ContentAdd from 'material-ui/svg-icons/content/create'
@@ -16,12 +16,13 @@ const overlay = {
 }
 
 const tape = {
-  minHeight: 450
+
 }
 
 class ProfileTape extends Component {
   constructor (props) {
     super(props)
+    console.log(props)
     this.state = {
       open: false,
       topics: [
@@ -63,7 +64,7 @@ class ProfileTape extends Component {
   close = () => this.setState({ open: false })
 
   render () {
-    // const dispatch = useDispatch()
+
     return (
       <div style={tape}>
         <div style={overlay}>
@@ -78,22 +79,18 @@ class ProfileTape extends Component {
           </FloatingActionButton>
         </div>
         <List>
-          {this.state.topics.map(topic => {
-            return (
-              <div>
-                <ListItem
-                  leftAvatar={
-                    <Avatar src="https://i.pravatar.cc/300"/>
-                  }
-                  primaryText={<MyItem {...topic} />}
-                  secondaryText={topic.content}
-                  secondaryTextLines={1}
-                  onClick={this.open}
-                />
-                <Divider inset={true}/>
-              </div>
-            )
-          })}
+          <div>
+            <ListItem
+              leftAvatar={
+                <Avatar src="https://i.pravatar.cc/300"/>
+              }
+              primaryText={this.props.post.date.toString()}
+              secondaryText={this.props.post.text}
+              secondaryTextLines={1}
+              onClick={this.open}
+            />
+            <Divider inset={true}/>
+          </div>
         </List>
         <div>
           <PopUp state={this.state} close={this.close}/>
@@ -103,28 +100,28 @@ class ProfileTape extends Component {
   }
 }
 
-const MyItem = ({ title, content, likes, comments, views }) => {
-  return (
-    <div>
-      <div>
-        <span style={{ fontSize: '14', color: blue500 }}>
-          {title}
-        </span>
-      </div>
-      <div>
-        <span
-          style={{ fontSize: '10', color: blue500 }}
-        >{`${likes} likes`}</span>{' '}
-        <span
-          style={{ fontSize: '10', color: blue500 }}
-        >{`${comments} Comments`}</span>{' '}
-        <span
-          style={{ fontSize: '10', color: blue500 }}
-        >{`${views} Views`}</span>
-      </div>
-    </div>
-  )
-}
+// const MyItem = ({ title, content, likes, comments, views }) => {
+//   return (
+//     <div>
+//       <div>
+//         <span style={{ fontSize: '14', color: blue500 }}>
+//           {title}
+//         </span>
+//       </div>
+//       <div>
+//         <span
+//           style={{ fontSize: '10', color: blue500 }}
+//         >{`${likes} likes`}</span>{' '}
+//         <span
+//           style={{ fontSize: '10', color: blue500 }}
+//         >{`${comments} Comments`}</span>{' '}
+//         <span
+//           style={{ fontSize: '10', color: blue500 }}
+//         >{`${views} Views`}</span>
+//       </div>
+//     </div>
+//   )
+// }
 
 const PopUp = ({ state, close }) => {
   return (

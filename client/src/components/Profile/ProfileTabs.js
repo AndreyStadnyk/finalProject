@@ -8,6 +8,8 @@ import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import ProfileTape from './ProfileTape'
+import Post from '../Post/Post'
+import { useSelector } from 'react-redux'
 
 function TabPanel (props) {
   const { children, value, index, ...other } = props
@@ -51,6 +53,12 @@ export default function ProfileTabs () {
   const theme = useTheme()
   const [value, setValue] = React.useState(0)
 
+  const {
+    userPosts
+  } = useSelector(state => ({
+    currentUser: state.users.currentUser,
+    userPosts: state.posts.userPosts
+  }))
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
@@ -83,7 +91,17 @@ export default function ProfileTabs () {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <ProfileTape/>
+
+          {userPosts.sort((a, b) => a.date - b.date).map(post => (
+            <ProfileTape
+              post = { post }
+            />
+          ))}
+          {userPosts.sort((a, b) => a.date - b.date).map(post => (
+            <Post
+              post = { post }
+            />
+          ))}
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Item Two
