@@ -3,14 +3,15 @@ package ua.com.danit.security;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.provisioning.InMemoryUserDetailsManagerConfigurer;
+import org.springframework.security.config.annotation.authentication.configurers.provisioning.JdbcUserDetailsManagerConfigurer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
+
+import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
@@ -18,20 +19,26 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
   private AuthenticationEntryPoint authEntryPoint;
-  private BCryptPasswordEncoder cryptPasswordEncoder;
+  private BCryptPasswordEncoder passwordEncoder;
+  private DataSource dataSource;
 
   @Autowired
   public WebSecurityConfig(AuthenticationEntryPoint authEntryPoint,
-                           BCryptPasswordEncoder cryptPasswordEncoder) {
+                           BCryptPasswordEncoder passwordEncoder,
+                           DataSource dataSource) {
     this.authEntryPoint = authEntryPoint;
-    this.cryptPasswordEncoder = cryptPasswordEncoder;
+    this.passwordEncoder = passwordEncoder;
+    this.dataSource = dataSource;
   }
 
-  public WebSecurityConfig(boolean disableDefaults, AuthenticationEntryPoint authEntryPoint,
-                           BCryptPasswordEncoder cryptPasswordEncoder) {
+  public WebSecurityConfig(boolean disableDefaults,
+                           AuthenticationEntryPoint authEntryPoint,
+                           BCryptPasswordEncoder passwordEncoder,
+                           DataSource dataSource) {
     super(disableDefaults);
     this.authEntryPoint = authEntryPoint;
-    this.cryptPasswordEncoder = cryptPasswordEncoder;
+    this.passwordEncoder = passwordEncoder;
+    this.dataSource = dataSource;
   }
 
   @Override
@@ -48,18 +55,21 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     String password = "123";
 
-    String encrytedPassword = this.cryptPasswordEncoder.encode(password);
-    System.out.println("Encoded password of 123=" + encrytedPassword);
+    this.passwordEncoder.encode(password);
 
+    JdbcUserDetailsManagerConfigurer<AuthenticationManagerBuilder>
+        authManager = auth.jdbcAuthentication();
+    authManager.dataSource(dataSource)
+        .usersByUsernameQuery(
+        "select username, password, from Users "
+          +
+        "where username=?")
+        .authoritiesByUsernameQuery(
+        "select username, from UserAuthorities "
+          +
+        "where username=?")
+        .passwordEncoder(this.passwordEncoder);
 
-    InMemoryUserDetailsManagerConfigurer<AuthenticationManagerBuilder>
-        mngConfig = auth.inMemoryAuthentication();
-
-    UserDetails u1 = User.withUsername("Vasya").password(encrytedPassword).roles("USER").build();
-    UserDetails u2 = User.withUsername("Katya").password(encrytedPassword).roles("USER").build();
-
-    mngConfig.withUser(u1);
-    mngConfig.withUser(u2);
 
   }
 
