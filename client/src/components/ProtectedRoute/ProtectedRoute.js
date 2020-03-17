@@ -2,7 +2,7 @@ import React from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
 
 import Profile from '../Profile/Profile'
-import Tape from '../Tape/Tape'
+import Wall from '../Wall/Wall'
 import NotFound from '../NotFound/NotFound'
 import { useDispatch, useSelector } from 'react-redux'
 import api from '../../helpers/FetchData'
@@ -26,7 +26,7 @@ export default function ProtectedRouter () {
     return (
       <Switch>
         <Route exact path='/profile' component={Profile}/>
-        <Route exact path='/tape' component={Tape}/>
+        <Route exact path='/tape' component={Wall}/>
         <Route exact path='/*' component={NotFound}/>
       </Switch>
     )

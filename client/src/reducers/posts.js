@@ -14,6 +14,20 @@ const initialState = {
       text: 'My second post',
       likes: 5
     }
+  ],
+  wallPosts: [
+    {
+      id: 1,
+      date: new Date(),
+      text: 'My first post',
+      likes: 2
+    },
+    {
+      id: 2,
+      date: new Date(),
+      text: 'My second post',
+      likes: 5
+    }
   ]
 }
 

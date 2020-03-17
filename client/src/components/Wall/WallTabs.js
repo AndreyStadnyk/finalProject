@@ -47,16 +47,15 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ProfileTabs () {
+export default function WallTabs () {
   const classes = useStyles()
   const theme = useTheme()
   const [value, setValue] = React.useState(0)
 
   const {
-    userPosts
+    wallPosts
   } = useSelector(state => ({
-    currentUser: state.users.currentUser,
-    userPosts: state.posts.userPosts
+    wallPosts: state.posts.userPosts
   }))
   const handleChange = (event, newValue) => {
     setValue(newValue)
@@ -90,7 +89,7 @@ export default function ProfileTabs () {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Tape posts={userPosts} />
+          <Tape posts={wallPosts} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           Item Two
