@@ -77,10 +77,10 @@ export default function ProfileTabs () {
           variant="fullWidth"
           aria-label="full width tabs"
         >
-          <Tab label="Item One" {...a11yProps(0)} />
-          <Tab label="Item Two" {...a11yProps(1)} />
-          <Tab label="Item Three" {...a11yProps(2)} />
-          <Tab label="Item Four" {...a11yProps(3)} />
+          <Tab label="Posts" {...a11yProps(0)} />
+          <Tab label="Friends" {...a11yProps(1)} />
+          <Tab label="Requests" {...a11yProps(2)} />
+          <Tab label="Messages" {...a11yProps(3)} />
 
         </Tabs>
       </AppBar>

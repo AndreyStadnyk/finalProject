@@ -3,7 +3,8 @@ import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import TopMenu from '../TopMenu/top-menu'
-import WallTabs from './WallTabs'
+import { useSelector } from 'react-redux'
+import Tape from '../Tape/Tape'
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,6 +19,12 @@ const useStyles = makeStyles(theme => ({
 function Wall () {
   const classes = useStyles()
 
+  const {
+    wallPosts
+  } = useSelector(state => ({
+    wallPosts: state.posts.userPosts
+  }))
+
   return (
     <MuiThemeProvider>
       <div className={classes.root}>
@@ -26,7 +33,7 @@ function Wall () {
             <TopMenu/>
           </Grid>
           <Grid item xs={12}>
-            <WallTabs/>
+            <Tape posts={wallPosts} />
           </Grid>
         </Grid>
       </div>

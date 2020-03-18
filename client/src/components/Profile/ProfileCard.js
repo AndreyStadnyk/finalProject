@@ -53,9 +53,6 @@ export default function ProfileCard () {
         }))}>
           Update user
         </Button>
-        <Button size="small" color="secondary">
-          Button
-        </Button>
       </CardActions>
     </Card>
   )
