@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react'
 import {Redirect, Route, Switch} from 'react-router-dom'
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import Profile from '../Profile/Profile'
 import Wall from '../Wall/Wall'
