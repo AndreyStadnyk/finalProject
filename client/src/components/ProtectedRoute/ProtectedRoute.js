@@ -16,7 +16,7 @@ export default function ProtectedRouter () {
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (!currentUser) {
+    if (currentUser === null) {
       dispatch(fetchCurrentUser())
     }
   }, [currentUser, dispatch])
