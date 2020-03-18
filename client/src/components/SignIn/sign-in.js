@@ -13,6 +13,7 @@ import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Copyright from '../Copyright/copyright'
+import {NavLink} from "react-router-dom";
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -90,9 +91,9 @@ export default function SignIn () {
               </Link>
             </Grid>
             <Grid item>
-              <Link href='#' variant='body2'>
+              <NavLink to="/sign-up" href='' variant='body2'>
                 {'Don\'t have an account? Sign Up'}
-              </Link>
+              </NavLink>
             </Grid>
           </Grid>
         </form>
