@@ -6,25 +6,23 @@ export const profileTypes = {
   UPDATE_USER: 'UPDATE_USER'
 }
 
-export function fetchCurrentUser () {
-  return dispatch => {
-    dispatch({
-      type: profileTypes.FETCH_USER_PENDING
-    })
+export const fetchCurrentUser = () => dispatch => {
+  dispatch({
+    type: profileTypes.FETCH_USER_PENDING
+  })
 
-    api.get(`/api/users/current`)
-      .then(res => {
-        dispatch({
-          type: profileTypes.FETCH_USER_SUCCESS,
-          payload: res
-        })
-        return res
+  api.get(`/api/users/current`)
+    .then(res => {
+      dispatch({
+        type: profileTypes.FETCH_USER_SUCCESS,
+        payload: res
       })
-  }
+      return res
+    })
 }
 
 export function updateUser (user) {
-  const data = { ...user }
+  const data = {...user}
 
   return dispatch => api.put(`/api/users`, data)
     .then(dispatch({
