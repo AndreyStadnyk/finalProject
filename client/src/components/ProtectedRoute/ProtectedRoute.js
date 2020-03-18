@@ -1,36 +1,51 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { Redirect, Route, Switch } from 'react-router-dom'
-
+import CircularProgress from '@material-ui/core/CircularProgress'
 import Profile from '../Profile/Profile'
 import Wall from '../Wall/Wall'
 import NotFound from '../NotFound/NotFound'
-import { useDispatch, useSelector } from 'react-redux'
-import api from '../../helpers/FetchData'
-import { profileTypes } from '../../actions/profileActions'
+import { connect } from 'react-redux'
+import { bindActionCreators } from 'redux'
+import { fetchCurrentUser } from '../../actions/profileActions'
 
-export default function ProtectedRouter () {
-  const dispatch = useDispatch()
-  const { currentUser } = useSelector(state => ({ currentUser: state.users.currentUser }))
-
-  if (!currentUser) {
-    api.get(`/api/users/current`)
-      .then(response => {
-        dispatch({
-          type: profileTypes.SET_CURRENT_USER,
-          payload: response
-        })
-      })
+class ProtectedRouter extends Component {
+  componentWillMount () {
+    const { fetchUser } = this.props
+    fetchUser()
   }
 
-  if (currentUser) {
-    return (
-      <Switch>
-        <Route exact path='/profile' component={Profile}/>
-        <Route exact path='/tape' component={Wall}/>
-        <Route exact path='/*' component={NotFound}/>
-      </Switch>
-    )
-  } else {
-    return <Redirect to='/sign-in'/>
+  render () {
+    const { currentUser, pending } = this.props
+
+    if (pending) {
+      return <CircularProgress />
+    }
+
+    if (currentUser) {
+      return (
+        <Switch>
+          <Route exact path='/profile' component={Profile}/>
+          <Route exact path='/tape' component={Wall}/>
+          <Route exact path='/*' component={NotFound}/>
+        </Switch>
+      )
+    } else {
+      return <Redirect to='/sign-in'/>
+    }
   }
 }
+
+const mapStateToProps = state => ({
+  pending: state.users.pending,
+  currentUser: state.users.currentUser,
+  error: state.users.error
+})
+
+const mapDispatchToProps = dispatch => bindActionCreators({
+  fetchUser: fetchCurrentUser
+}, dispatch)
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(ProtectedRouter)
