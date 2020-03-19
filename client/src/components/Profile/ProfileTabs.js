@@ -1,14 +1,16 @@
-import React from 'react'
+import React, {useEffect} from 'react'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
+import CircularProgress from '@material-ui/core/CircularProgress'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Tape from '../Tape/Tape'
-import { useSelector } from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
+import {fetchUserPosts} from '../../actions/postActions'
 
 function TabPanel (props) {
   const { children, value, index, ...other } = props
@@ -44,6 +46,17 @@ const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper
 
+  },
+  parent: {
+    width: '100%',
+    height: '100%',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#ddd'
   }
 }))
 
@@ -51,19 +64,36 @@ export default function ProfileTabs () {
   const classes = useStyles()
   const theme = useTheme()
   const [value, setValue] = React.useState(0)
+  const dispatch = useDispatch()
 
   const {
+    pending,
     userPosts
   } = useSelector(state => ({
-    currentUser: state.users.currentUser,
+    pending: state.posts.pending,
     userPosts: state.posts.userPosts
   }))
+
+  useEffect(() => {
+    if (userPosts === null) {
+      dispatch(fetchUserPosts())
+    }
+  }, [userPosts, dispatch])
+
   const handleChange = (event, newValue) => {
     setValue(newValue)
   }
 
   const handleChangeIndex = index => {
     setValue(index)
+  }
+
+  if (pending) {
+    return (
+      <div className={classes.parent}>
+        <CircularProgress size={100} />
+      </div>
+    )
   }
 
   return (
