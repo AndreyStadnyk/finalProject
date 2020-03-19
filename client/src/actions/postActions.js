@@ -1,5 +1,4 @@
 import api from '../helpers/FetchData'
-import {profileTypes} from './profileActions'
 
 export const postTypes = {
   FETCH_USER_POSTS_PENDING: 'FETCH_USER_POSTS_PENDING',
