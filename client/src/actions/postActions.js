@@ -1,8 +1,43 @@
 import api from '../helpers/FetchData'
+import {profileTypes} from './profileActions'
 
 export const postTypes = {
+  FETCH_USER_POSTS_PENDING: 'FETCH_USER_POSTS_PENDING',
+  FETCH_USER_POSTS_SUCCESS: 'FETCH_USER_POSTS_SUCCESS',
+  FETCH_WALL_POSTS_PENDING: 'FETCH_WALL_POSTS_PENDING',
+  FETCH_WALL_POSTS_SUCCESS: 'FETCH_WALL_POSTS_SUCCESS',
   UPDATE_POST: 'UPDATE_POST',
   SWITCH_LIKE: 'SWITCH_LIKE'
+}
+
+export const fetchUserPosts = () => dispatch => {
+  dispatch({
+    type: postTypes.FETCH_USER_POSTS_PENDING
+  })
+
+  api.get(`/api/posts`)
+    .then(res => {
+      dispatch({
+        type: postTypes.FETCH_USER_POSTS_SUCCESS,
+        payload: res
+      })
+      return res
+    })
+}
+
+export const fetchWallPosts = () => dispatch => {
+  dispatch({
+    type: postTypes.FETCH_WALL_POSTS_PENDING
+  })
+
+  api.get(`/api/posts`)
+    .then(res => {
+      dispatch({
+        type: postTypes.FETCH_WALL_POSTS_SUCCESS,
+        payload: res
+      })
+      return res
+    })
 }
 
 export function updatePost (post) {

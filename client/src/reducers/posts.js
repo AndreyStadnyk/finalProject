@@ -1,40 +1,41 @@
 import {actionTypes} from '../actions'
 
 const initialState = {
-  userPosts: [
-    {
-      id: 1,
-      date: new Date(),
-      text: 'My first post',
-      likes: 2
-    },
-    {
-      id: 2,
-      date: new Date(),
-      text: 'My second post',
-      likes: 5
-    }
-  ],
-  wallPosts: [
-    {
-      id: 1,
-      date: new Date(),
-      text: 'My first post',
-      likes: 2
-    },
-    {
-      id: 2,
-      date: new Date(),
-      text: 'My second post',
-      likes: 5
-    }
-  ]
+  pending: true,
+  userPosts: null,
+  wallPosts: null
 }
 
 export default function postsReducer (state = initialState, action) {
   let currentPost
 
   switch (action.type) {
+    case actionTypes.FETCH_USER_POSTS_PENDING:
+      return {
+        ...state,
+        pending: true
+      }
+
+    case actionTypes.FETCH_USER_POSTS_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        userPosts: action.payload
+      }
+
+    case actionTypes.FETCH_WALL_POSTS_PENDING:
+      return {
+        ...state,
+        pending: true
+      }
+
+    case actionTypes.FETCH_WALL_POSTS_SUCCESS:
+      return {
+        ...state,
+        pending: false,
+        wallPosts: action.payload
+      }
+
     case actionTypes.UPDATE_POST:
       currentPost = { ...action.payload }
       return {
