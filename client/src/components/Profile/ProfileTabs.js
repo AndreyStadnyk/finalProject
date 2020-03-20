@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react'
+import React, { useEffect } from 'react'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
@@ -9,8 +9,9 @@ import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Tape from '../Tape/Tape'
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchUserPosts} from '../../actions/postActions'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserPosts } from '../../actions/postActions'
+import ProfileUpdate from './ProfileUpdate'
 
 function TabPanel (props) {
   const { children, value, index, ...other } = props
@@ -68,10 +69,12 @@ export default function ProfileTabs () {
 
   const {
     pending,
-    userPosts
+    userPosts,
+    currentUser
   } = useSelector(state => ({
     pending: state.posts.pending,
-    userPosts: state.posts.userPosts
+    userPosts: state.posts.userPosts,
+    currentUser: state.users.currentUser
   }))
 
   useEffect(() => {
@@ -91,7 +94,7 @@ export default function ProfileTabs () {
   if (pending) {
     return (
       <div className={classes.parent}>
-        <CircularProgress size={100} />
+        <CircularProgress size={100}/>
       </div>
     )
   }
@@ -108,7 +111,7 @@ export default function ProfileTabs () {
           aria-label="full width tabs"
         >
           <Tab label="Posts" {...a11yProps(0)} />
-          <Tab label="Friends" {...a11yProps(1)} />
+          <Tab label="Edit profile" {...a11yProps(1)} />
           <Tab label="Requests" {...a11yProps(2)} />
           <Tab label="Messages" {...a11yProps(3)} />
 
@@ -120,10 +123,10 @@ export default function ProfileTabs () {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Tape posts={userPosts} />
+          <Tape posts={userPosts}/>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
-          Item Two
+          <ProfileUpdate currentUser={currentUser}/>
         </TabPanel>
         <TabPanel value={value} index={2} dir={theme.direction}>
           Item Three
