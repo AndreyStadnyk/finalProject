@@ -138,7 +138,7 @@ export default function ProfileUpdate (props) {
       {errors.username &&
         <Alert variant='outlined' className={classes.alert} severity="error">Username must be min 8 A-z characters please!</Alert>}
       {errors.password &&
-        <Alert variant='outlined'className={classes.alert} severity="error">Password field required!</Alert>}
+        <Alert variant='outlined' className={classes.alert} severity="error">Password field required!</Alert>}
 
     </form>
   )
