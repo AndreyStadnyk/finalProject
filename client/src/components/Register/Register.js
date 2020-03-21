@@ -62,6 +62,9 @@ export default function SignUp() {
     const [email, setEmail] = useState('');
     const [username, setUsername] = useState('');
     const [date, setDate] = useState('');
+    const [age, setAge] = React.useState('');
+
+
 
     const submitValue = event => {
         event.preventDefault();
@@ -169,7 +172,7 @@ export default function SignUp() {
                                         }}
                                     />
                                 </form>
-                                <GenderSelect/>
+                                <GenderSelect setAge={setAge}/>
                             </div>
 
                         </Grid>

@@ -4,7 +4,7 @@ import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Button from '@material-ui/core/Button';
+import Register from '/client/src/components/Register/Register';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -19,13 +19,13 @@ const useStyles = makeStyles(theme => ({
 
 export default function ControlledOpenSelect() {
     const classes = useStyles();
-    const [age, setAge] = React.useState('');
-
 
 
     const handleChange = event => {
-        setAge(event.target.value);
-    };
+        props.setAge(event.target.value)
+    }
+
+
     return (
         <div>
 
@@ -34,7 +34,7 @@ export default function ControlledOpenSelect() {
                 <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    value={age}
+                    // value={age}
 onChange={handleChange}
                 >
                     <MenuItem value="">
