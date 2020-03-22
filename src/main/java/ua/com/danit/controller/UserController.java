@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import ua.com.danit.dto.request.UserRequest;
+import ua.com.danit.dto.response.GenericResponse;
 import ua.com.danit.dto.response.UserResponse;
 import ua.com.danit.mapping.UserMapper;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -59,7 +60,13 @@ public class UserController {
 
     List<UserResponse> foundUsers = userMapper.searchForUsersListByName(queryStr);
     return ResponseEntity.ok(foundUsers);
+  }
 
+  @PostMapping("/resetPassword")
+  public void resetPassword(HttpServletRequest request, @RequestBody UserRequest userRequest) {
+//    GenericResponse response =
+     userMapper.resetPassword(request, userRequest);
+//    return response;
   }
 
 }

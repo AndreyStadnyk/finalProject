@@ -10,6 +10,25 @@ spring:
     url: jdbc://mysql://localhost:3306/qa
     password: 12345
 
+  #Gmail SMTP
+  mail:
+    host: smtp.gmail.com
+    port: 587
+    username: Fs9finalProject
+    password: 9sf_project_lanif
+    properties:
+      mail:
+        transport:
+          protokol: smtp
+        smtp:
+          auth: true
+          connectiontimeout: 5000
+          timeout: 5000
+          writetimeout: 5000
+          starttls:
+            enable: true
+        debug: true
+
 server:
   port: 9001
 
