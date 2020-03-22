@@ -40,16 +40,13 @@ export const fetchWallPosts = () => dispatch => {
     })
 }
 
-export function addPost(post, ownerUsername) {
-
+export function addPost (post, ownerUsername) {
   return dispatch => api.post(`/api/posts/${ownerUsername}`, post)
-    .then( results => {
+    .then(results => {
       api.get(`/api/posts`).then(results => {
-        dispatch(fetchWallPosts())
+        dispatch(fetchUserPosts())
       })
-        .catch(err => console.log(err))
     })
-
 }
 
 export function updatePost (post) {

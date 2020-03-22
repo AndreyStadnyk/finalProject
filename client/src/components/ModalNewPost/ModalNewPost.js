@@ -1,4 +1,4 @@
-import React, {forwardRef, useEffect, useImperativeHandle, useState} from 'react';
+import React, {useState} from 'react';
 import {makeStyles} from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
@@ -6,7 +6,10 @@ import Fade from '@material-ui/core/Fade';
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import {addPost} from "../../actions/postActions";
-import {useDispatch} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
+import {Publish} from "@material-ui/icons";
+import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
+import {toastr} from "react-redux-toastr";
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -25,19 +28,16 @@ const useStyles = makeStyles(theme => ({
   root: {
     '& > *': {
       margin: theme.spacing(2),
-      width: '125ch',
-      height: '1ch',
     },
   },
 
   button: {
-    margin: theme.spacing(1),
-
+    margin: theme.spacing(2),
   },
 
   form: {
     marginTop: theme.spacing(5),
-    width: '125ch',
+    width: '100ch',
     height: '40ch',
     display: 'flex',
     alignItems: 'center',
@@ -48,68 +48,48 @@ const useStyles = makeStyles(theme => ({
   text: {
     width: '75ch',
     height: '50ch',
-  }
+  },
 }));
 
-function ModalNewPost(props, ref) {
+export default function ModalNewPost(props) {
 
   const classes = useStyles();
   const dispatch = useDispatch();
-  console.log(props.modalActive);
+  const {
+    currentUser
+  } = useSelector(state => ({
+    currentUser: state.users.currentUser
+  }))
 
-  const [open, setOpen] = useState(() => {
-    console.log(props.modalActive);
-    // console.log(ref.current.value);
-    if (props.modalActive === undefined || !props.modalActive) {
-      console.log(props.modalActive);
-      return false;
-
-    } else {
-      console.log(props.modalActive);
-      return true
-    }
-  })
-
-let counter = 0;
-  useEffect(() => {
-    if (props.modalActive === true) {
-      console.log("in useEffect");
-      handleOpen();
-    }
-  } )
-
-  useImperativeHandle(ref,
-    () => ({
-      value: open
-    }),
-    [open]
-  );
-
-  console.log(open);
-  const handleOpen = () => {
-    setOpen(true);
-    counter++;
-    console.log("handleOpen");
-  };
-
+  const [text, setText] = useState("");
   const handleClose = () => {
-    setOpen(false);
-    console.log("handleClose");
-
+    props.setActive(false);
   };
 
   const handleClick = () => {
-    dispatch(addPost({
-      text: 'Lorem'
-    }, "PMatroskin"));
+    if (text) {
+      dispatch(addPost({
+        text: text
+      }, currentUser.username));
+    } else {
+      toastr.info('Ooops!', 'Your post was empty')
+    }
     handleClose();
+  }
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+  }
+
+  const onChange = (e) => {
+    setText(e.target.value);
   }
 
   return (
     <div>
       <Modal
         className={classes.modal}
-        open={open}
+        open={props.modalActive}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -117,18 +97,27 @@ let counter = 0;
           timeout: 500,
         }}
       >
-        <Fade in={open}>
+        <Fade in={props.modalActive}>
           <div className={classes.paper}>
-            <form className={classes.form} noValidate autoComplete="off" flexContainerVertical>
-              <TextField className={classes.text} id="outlined-basic" label="What's on your mind?" variant="outlined"/>
-
+            <form className={classes.form} noValidate autoComplete="off"
+                  onSubmit={handleSubmit}
+            >
+              <TextField className={classes.text}
+                         id="outlined-full-width-error-helper-text"
+                         multiline
+                         rows="10"
+                         label="What's on your mind?"
+                         variant="outlined"
+                         onChange={onChange}
+                         value={text}
+              />
               <Button
                 variant="contained"
                 color="primary"
+                endIcon={<Publish/>}
                 className={classes.button}
                 onClick={handleClick}
-              >
-                Post
+              >POST
               </Button>
             </form>
           </div>
@@ -137,5 +126,3 @@ let counter = 0;
     </div>
   )
 }
-
-export default forwardRef(ModalNewPost);
