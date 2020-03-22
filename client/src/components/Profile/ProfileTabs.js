@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
 import { makeStyles, useTheme } from '@material-ui/core/styles'
@@ -8,10 +8,13 @@ import Tabs from '@material-ui/core/Tabs'
 import Tab from '@material-ui/core/Tab'
 import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
+import Button from '@material-ui/core/Button'
+import PostAddIcon from '@material-ui/icons/PostAdd'
 import Tape from '../Tape/Tape'
 import { useDispatch, useSelector } from 'react-redux'
 import { fetchUserPosts } from '../../actions/postActions'
 import ProfileUpdate from './ProfileUpdate'
+import ModalWindow from "../ModalNewPost/ModalNewPost";
 
 function TabPanel (props) {
   const { children, value, index, ...other } = props
@@ -64,8 +67,17 @@ const useStyles = makeStyles(theme => ({
 export default function ProfileTabs () {
   const classes = useStyles()
   const theme = useTheme()
-  const [value, setValue] = React.useState(0)
+  const [value, setValue] = useState(0)
+  const [modalActive, setActive] = useState(false)
   const dispatch = useDispatch()
+  const tabsRef = useRef(false);
+
+  // useEffect(() => {
+  //   if (!tabsRef.current.value) {
+  //     //console.log(modalActive);
+  //     setActive({...modalActive, modalActive: false})
+  //   }
+  // }, [modalActive, dispatch])
 
   const {
     pending,
@@ -91,29 +103,36 @@ export default function ProfileTabs () {
     setValue(index)
   }
 
+  const toggleModal = () => {
+    setActive( true)
+  }
+
   if (pending) {
     return (
       <div className={classes.parent}>
-        <CircularProgress size={100}/>
+        <CircularProgress size={100} />
       </div>
     )
   }
-
+const modal = modalActive ?
+  <ModalWindow modalActive = {modalActive} ref = {tabsRef}/> : null
   return (
-    <div className={classes.root}>
-      <AppBar position="static" color="default">
-        <Tabs
-          value={value}
-          onChange={handleChange}
-          indicatorColor="primary"
-          textColor="primary"
-          variant="fullWidth"
-          aria-label="full width tabs"
-        >
-          <Tab label="Posts" {...a11yProps(0)} />
-          <Tab label="Edit profile" {...a11yProps(1)} />
-          <Tab label="Requests" {...a11yProps(2)} />
-          <Tab label="Messages" {...a11yProps(3)} />
+    <>
+      {modal}
+      <div className={classes.root}>
+        <AppBar position="static" color="default">
+          <Tabs
+            value={value}
+            onChange={handleChange}
+            indicatorColor="primary"
+            textColor="primary"
+            variant="fullWidth"
+            aria-label="full width tabs"
+          >
+            <Tab label="Posts" {...a11yProps(0)} />
+            <Tab label="Edit profile" {...a11yProps(1)} />
+            <Tab label="Requests" {...a11yProps(2)} />
+            <Tab label="Messages" {...a11yProps(3)} />
 
         </Tabs>
       </AppBar>
@@ -123,7 +142,16 @@ export default function ProfileTabs () {
         onChangeIndex={handleChangeIndex}
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
-          <Tape posts={userPosts}/>
+          <Button
+            variant="contained"
+            color="primary"
+            className={classes.button}
+            startIcon={<PostAddIcon/>}
+            onClick={toggleModal}
+          >
+            Add post
+          </Button>
+          <Tape posts={userPosts} />
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <ProfileUpdate currentUser={currentUser}/>
@@ -135,7 +163,8 @@ export default function ProfileTabs () {
           Item Four
         </TabPanel>
 
-      </SwipeableViews>
-    </div>
+        </SwipeableViews>
+      </div>
+    </>
   )
 }
