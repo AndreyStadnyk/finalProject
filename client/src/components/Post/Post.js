@@ -1,9 +1,7 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Avatar from 'material-ui/Avatar'
-//import FlatButton from 'material-ui/FlatButton'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
 import EditIcon from '@material-ui/icons/Edit';
-//import {CSSTransition} from 'react-transition-group'
 import './Post.css'
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
@@ -13,17 +11,23 @@ import {useDispatch} from "react-redux";
 import makeStyles from "@material-ui/core/styles/makeStyles";
 import CardContent from "@material-ui/core/CardContent";
 import Card from "@material-ui/core/Card";
+import ModalWindow from "../ModalNewPost/ModalNewPost";
 
 export default function Post(props) {
-  // const [, setOpenState] = useState(false)
-  // const open = () => setOpenState(true)
-  // const close = () => setOpenState(false)
+
   const dispatch = useDispatch();
+  const [modalActive, setActive] = useState(false)
 
   const handleClickDelete = () => {
     dispatch(deletePost(props.post.id));
   }
 
+  const toggleModal = () => {
+    setActive(true)
+  }
+
+  const modal = modalActive ?
+    <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
 
   const useStyles = makeStyles(theme => ({
     root: {
@@ -64,20 +68,22 @@ export default function Post(props) {
   const classes = useStyles();
 
   return (
+    <>
+      {modal}
       <Card className={classes.root}>
         <div className={classes.details}>
           <div className={classes.avatar}>
-            <Avatar  src="https://i.pravatar.cc/300"/>
+            <Avatar src="https://i.pravatar.cc/300"/>
           </div>
-          <CardContent className={classes.content} >
+          <CardContent className={classes.content}>
             <div className={classes.text}>
-            <Typography component="p" variant="p">
-              {props.post.date.toString()}
-            </Typography>
-            <Typography
-              component="p" variant="p">
-              {props.post.text}
-            </Typography>
+              <Typography component="p" variant="body1">
+                {props.post.date.toString()}
+              </Typography>
+              <Typography
+                component="p" variant="body1">
+                {props.post.text}
+              </Typography>
             </div>
           </CardContent>
           <IconButton
@@ -85,7 +91,7 @@ export default function Post(props) {
             style={{color: lightBlue.A700}}
             onClick={e => {
               e.stopPropagation()
-              alert('Clicked Button')
+              toggleModal()
             }}
           >
             <EditIcon/>
@@ -103,35 +109,6 @@ export default function Post(props) {
           </IconButton>
         </div>
       </Card>
+    </>
   )
 }
-
-// const PopUp = ({state, close}) => {
-//   return (
-//     <div>
-//       {state.open
-//         ? <CSSTransition
-//           transitionName="pop"
-//           transitionEnterTimeout={2000}
-//           transitionLeaveTimeout={300}
-//         >
-//           <div
-//             style={{
-//               width: window.innerWidth,
-//               height: window.innerHeight,
-//               position: 'fixed',
-//               left: 0,
-//               top: 0,
-//               overflowX: 'hidden',
-//               backgroundColor: 'white',
-//               zIndex: '999'
-//             }}
-//           >
-//             <span>THIS POST ID: {state.id}</span>
-//             <FlatButton label="Close" onClick={close}/>
-//           </div>
-//         </CSSTransition>
-//         : null}
-//     </div>
-//   )
-// }
