@@ -1,38 +1,38 @@
-import React, {useState} from 'react';
-import {makeStyles} from '@material-ui/core/styles';
-import Modal from '@material-ui/core/Modal';
-import Backdrop from '@material-ui/core/Backdrop';
-import Fade from '@material-ui/core/Fade';
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-import {addPost, updatePost} from "../../actions/postActions";
-import {useDispatch, useSelector} from "react-redux";
-import {Publish} from "@material-ui/icons";
+import React, {useState} from 'react'
+import {makeStyles} from '@material-ui/core/styles'
+import Modal from '@material-ui/core/Modal'
+import Backdrop from '@material-ui/core/Backdrop'
+import Fade from '@material-ui/core/Fade'
+import TextField from '@material-ui/core/TextField'
+import Button from '@material-ui/core/Button'
+import {addPost, updatePost} from '../../actions/postActions'
+import {useDispatch, useSelector} from 'react-redux'
+import {Publish} from '@material-ui/icons'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
-import {toastr} from "react-redux-toastr";
+import {toastr} from 'react-redux-toastr'
 
 const useStyles = makeStyles(theme => ({
   modal: {
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
+    justifyContent: 'center'
   },
 
   paper: {
     backgroundColor: theme.palette.background.paper,
     border: '3px solid #3f51b5',
     boxShadow: theme.shadows[10],
-    padding: theme.spacing(3, 3, 3),
+    padding: theme.spacing(3, 3, 3)
   },
 
   root: {
     '& > *': {
-      margin: theme.spacing(2),
-    },
+      margin: theme.spacing(2)
+    }
   },
 
   button: {
-    margin: theme.spacing(2),
+    margin: theme.spacing(2)
   },
 
   form: {
@@ -47,48 +47,46 @@ const useStyles = makeStyles(theme => ({
 
   text: {
     width: '75ch',
-    height: '50ch',
-  },
-}));
+    height: '50ch'
+  }
+}))
 
-export default function ModalNewPost(props) {
-
-  const classes = useStyles();
-  const dispatch = useDispatch();
+export default function ModalNewPost (props) {
+  const classes = useStyles()
+  const dispatch = useDispatch()
   const {
     currentUser
   } = useSelector(state => ({
     currentUser: state.users.currentUser
   }))
 
-  const [text, setText] = useState(props.post ? props.post.text : "");
-  const post = props.post;
+  const [text, setText] = useState(props.post ? props.post.text : '')
+  const post = props.post
 
   const handleClose = () => {
-    props.setActive(false);
-  };
+    props.setActive(false)
+  }
 
   const handleClick = () => {
     if (props.post) {
-      post.text = text;
-      dispatch(updatePost(post));
-    }
-    else if (text && !props.post) {
+      post.text = text
+      dispatch(updatePost(post))
+    } else if (text && !props.post) {
       dispatch(addPost({
         text: text
-      }, currentUser.username));
+      }, currentUser.username))
     } else {
       toastr.info('Ooops!', 'Your post was empty')
     }
-    handleClose();
+    handleClose()
   }
 
   const handleSubmit = (e) => {
-    e.preventDefault();
+    e.preventDefault()
   }
 
   const onChange = (e) => {
-    setText(e.target.value);
+    setText(e.target.value)
   }
 
   return (
@@ -100,22 +98,22 @@ export default function ModalNewPost(props) {
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
-          timeout: 500,
+          timeout: 500
         }}
       >
         <Fade in={props.modalActive}>
           <div className={classes.paper}>
             <form className={classes.form} noValidate autoComplete="off"
-                  onSubmit={handleSubmit}
+              onSubmit={handleSubmit}
             >
               <TextField className={classes.text}
-                         id="outlined-full-width-error-helper-text"
-                         multiline
-                         rows="10"
-                         label="What's on your mind?"
-                         variant="outlined"
-                         onChange={onChange}
-                         value={text}
+                id="outlined-full-width-error-helper-text"
+                multiline
+                rows="10"
+                label="What's on your mind?"
+                variant="outlined"
+                onChange={onChange}
+                value={text}
               />
               <Button
                 variant="contained"

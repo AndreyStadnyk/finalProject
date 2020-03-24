@@ -14,9 +14,9 @@ import Tape from '../Tape/Tape'
 import {useDispatch, useSelector} from 'react-redux'
 import {fetchUserPosts} from '../../actions/postActions'
 import ProfileUpdate from './ProfileUpdate'
-import ModalWindow from "../ModalNewPost/ModalNewPost";
+import ModalWindow from '../ModalNewPost/ModalNewPost'
 
-function TabPanel(props) {
+function TabPanel (props) {
   const {children, value, index, ...other} = props
 
   return (
@@ -39,7 +39,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 }
 
-function a11yProps(index) {
+function a11yProps (index) {
   return {
     id: `full-width-tab-${index}`,
     'aria-controls': `full-width-tabpanel-${index}`
@@ -64,7 +64,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ProfileTabs() {
+export default function ProfileTabs () {
   const classes = useStyles()
   const theme = useTheme()
   const [value, setValue] = useState(0)
@@ -106,8 +106,8 @@ export default function ProfileTabs() {
       </div>
     )
   }
-  const modal = modalActive ?
-    <ModalWindow modalActive={modalActive} setActive={setActive}/> : null
+  const modal = modalActive
+    ? <ModalWindow modalActive={modalActive} setActive={setActive}/> : null
   return (
     <>
       {modal}

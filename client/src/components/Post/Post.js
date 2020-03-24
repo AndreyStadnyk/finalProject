@@ -1,33 +1,32 @@
 import React, {useState} from 'react'
 import Avatar from 'material-ui/Avatar'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
-import EditIcon from '@material-ui/icons/Edit';
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
+import EditIcon from '@material-ui/icons/Edit'
 import './Post.css'
-import IconButton from "@material-ui/core/IconButton";
-import Typography from "@material-ui/core/Typography";
-import {pink, lightBlue} from "@material-ui/core/colors";
-import {deletePost} from "../../actions/postActions";
-import {useDispatch} from "react-redux";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import CardContent from "@material-ui/core/CardContent";
-import Card from "@material-ui/core/Card";
-import ModalWindow from "../ModalNewPost/ModalNewPost";
+import IconButton from '@material-ui/core/IconButton'
+import Typography from '@material-ui/core/Typography'
+import {pink, lightBlue} from '@material-ui/core/colors'
+import {deletePost} from '../../actions/postActions'
+import {useDispatch} from 'react-redux'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import CardContent from '@material-ui/core/CardContent'
+import Card from '@material-ui/core/Card'
+import ModalWindow from '../ModalNewPost/ModalNewPost'
 
-export default function Post(props) {
-
-  const dispatch = useDispatch();
+export default function Post (props) {
+  const dispatch = useDispatch()
   const [modalActive, setActive] = useState(false)
 
   const handleClickDelete = () => {
-    dispatch(deletePost(props.post.id));
+    dispatch(deletePost(props.post.id))
   }
 
   const toggleModal = () => {
     setActive(true)
   }
 
-  const modal = modalActive ?
-    <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+  const modal = modalActive
+    ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
 
   const useStyles = makeStyles(theme => ({
     root: {
@@ -35,7 +34,7 @@ export default function Post(props) {
       borderRadius: 15
     },
     details: {
-      display: 'flex',
+      display: 'flex'
     },
     avatar: {
       display: 'flex',
@@ -49,23 +48,23 @@ export default function Post(props) {
     },
     text: {
       display: 'flex',
-      flexDirection: 'column',
+      flexDirection: 'column'
     },
     cover: {
-      width: 151,
+      width: 151
     },
     controls: {
       display: 'flex',
       alignItems: 'center',
       paddingLeft: theme.spacing(1),
-      paddingBottom: theme.spacing(1),
+      paddingBottom: theme.spacing(1)
     },
     button: {
       width: 40,
       height: 40
     }
-  }));
-  const classes = useStyles();
+  }))
+  const classes = useStyles()
 
   return (
     <>
@@ -101,8 +100,8 @@ export default function Post(props) {
             className={classes.button}
             style={{color: pink[500]}}
             onClick={e => {
-              e.stopPropagation();
-              handleClickDelete();
+              e.stopPropagation()
+              handleClickDelete()
             }}
           >
             <DeleteForeverIcon/>
