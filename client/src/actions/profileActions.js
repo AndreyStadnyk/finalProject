@@ -4,7 +4,7 @@ export const profileTypes = {
   FETCH_USER_PENDING: 'FETCH_USER_PENDING',
   FETCH_USER_SUCCESS: 'FETCH_USER_SUCCESS',
   UPDATE_USER: 'UPDATE_USER',
-    CREATE_USER: 'CREATE_USER'
+  CREATE_USER: 'CREATE_USER'
 }
 
 export const fetchCurrentUser = () => dispatch => {
@@ -31,12 +31,11 @@ export function updateUser (user) {
       payload: data
     }))
 }
-export function createUser(frmDetails) {
-  return dispatch =>  api.post("/api/users", frmDetails)
-        .then(() => dispatch({
-            type: profileTypes.CREATE_USER,
-            payload: frmDetails,
+export function createUser (frmDetails) {
+  return dispatch => api.post('/api/users', frmDetails)
+    .then(() => dispatch({
+      type: profileTypes.CREATE_USER,
+      payload: frmDetails
 
-        }))
-
+    }))
 }

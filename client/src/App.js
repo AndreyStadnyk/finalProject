@@ -3,17 +3,17 @@ import React from 'react'
 import './App.css'
 import SignIn from './components/SignIn/sign-in'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
-import Register from "./components/Register/Register";
+import Register from './components/Register/Register'
 
-export default function App() {
-    return (
-        <div>
-            <Switch>
-                <Route exact path='/sign-up' component={Register}/>
+export default function App () {
+  return (
+    <div>
+      <Switch>
+        <Route exact path='/sign-up' component={Register}/>
 
-                <Route exact path='/sign-in' component={SignIn}/>
-                <Route exact path='/*' component={ProtectedRoute}/>
-            </Switch>
-        </div>
-    )
+        <Route exact path='/sign-in' component={SignIn}/>
+        <Route exact path='/*' component={ProtectedRoute}/>
+      </Switch>
+    </div>
+  )
 }

@@ -25,7 +25,7 @@ export default function usersReducer (state = initialState, action) {
         currentUser: action.payload
       }
     case actionTypes.CREATE_USER:
-      return{
+      return {
         ...state,
         userRegistered: true
       }
