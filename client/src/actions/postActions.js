@@ -5,7 +5,6 @@ export const postTypes = {
   FETCH_USER_POSTS_SUCCESS: 'FETCH_USER_POSTS_SUCCESS',
   FETCH_WALL_POSTS_PENDING: 'FETCH_WALL_POSTS_PENDING',
   FETCH_WALL_POSTS_SUCCESS: 'FETCH_WALL_POSTS_SUCCESS',
-  CREATE_POST: 'CREATE_POST',
   UPDATE_POST: 'UPDATE_POST',
   SWITCH_LIKE: 'SWITCH_LIKE'
 }
@@ -42,6 +41,15 @@ export const fetchWallPosts = () => dispatch => {
 
 export function addPost (post, ownerUsername) {
   return dispatch => api.post(`/api/posts/${ownerUsername}`, post)
+    .then(results => {
+      api.get(`/api/posts`).then(results => {
+        dispatch(fetchUserPosts())
+      })
+    })
+}
+
+export function deletePost (postId) {
+  return dispatch => api.deleteApi(`/api/posts/${postId}`)
     .then(results => {
       api.get(`/api/posts`).then(results => {
         dispatch(fetchUserPosts())
