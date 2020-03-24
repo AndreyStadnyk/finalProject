@@ -15,6 +15,10 @@ import Container from '@material-ui/core/Container';
 import {FetchData} from "../../helpers/FetchData";
 import GenderSelect from "../GenderSelect/GenderSelect";
 import {NavLink} from "react-router-dom";
+import CircularProgress from "@material-ui/core/CircularProgress";
+import {useDispatch, useSelector} from "react-redux";
+import {createUser} from "../../actions/profileActions";
+import {Redirect} from "react-router-dom";
 
 function Copyright() {
     return (
@@ -35,6 +39,10 @@ const useStyles = makeStyles(theme => ({
         display: 'flex',
         flexDirection: 'column',
         alignItems: 'center',
+    },
+    backdrop: {
+        zIndex: theme.zIndex.drawer + 1,
+        color: '#fff',
     },
     selectContainer: {
         display: "flex",
@@ -65,20 +73,25 @@ export default function SignUp() {
     const [age, setAge] = React.useState('');
 
 
-
+    const dispatch = useDispatch()
+    const userRegistered = useSelector(state => ({userRegistered: state.users.userRegistered}))
     const submitValue = event => {
         event.preventDefault();
         const frmdetails = {
-            'First Name': fName,
-            'Last Name': lName,
-            'Email': email,
-            'Password': password,
-            'Username': username,
-            'Gender': GenderSelect.prototype.age,
-            'Date': date
+            'firstName': fName,
+            'lastName': lName,
+            'address': email,
+            'password': password,
+            'username': username,
+            'gender': age,
+            'birthDate': date
         }
-        // FetchData.prototype.makeRequest("/api/users", "post", frmdetails, null)
-        console.log(frmdetails);
+        dispatch(createUser(frmdetails))
+        if (userRegistered ) {
+            return (
+              <Redirect to="/sign-in"/>
+            )
+        }
     }
 
 
@@ -165,7 +178,7 @@ export default function SignUp() {
                                         id="date"
                                         label="Birthday"
                                         type="date"
-                                        defaultValue="2017-05-24"
+                                        defaultValue=""
                                         className={classes.textField}
                                         InputLabelProps={{
                                             shrink: true,
@@ -190,9 +203,11 @@ export default function SignUp() {
                         color="primary"
                         className={classes.submit}
                         onClick={submitValue}
+                        // onCliCk={handleToggle}
                     >
                         Sign Up
                     </Button>
+
                     <Grid container justify="flex-end">
                         <Grid item>
                             <NavLink to="/sign-in" href="#" variant="body2">

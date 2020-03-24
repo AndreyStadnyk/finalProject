@@ -2,7 +2,8 @@ import {actionTypes} from '../actions'
 
 const initialState = {
   pending: true,
-  currentUser: null
+  currentUser: null,
+  userRegistered: false
 }
 
 export default function usersReducer (state = initialState, action) {
@@ -23,7 +24,11 @@ export default function usersReducer (state = initialState, action) {
         ...state,
         currentUser: action.payload
       }
-
+    case actionTypes.CREATE_USER:
+      return{
+        ...state,
+        userRegistered: true
+      }
     default:
       return state
   }

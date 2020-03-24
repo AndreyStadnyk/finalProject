@@ -1,10 +1,9 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import {makeStyles} from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
 import MenuItem from '@material-ui/core/MenuItem';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
-import Register from '/client/src/components/Register/Register';
 
 const useStyles = makeStyles(theme => ({
     button: {
@@ -12,17 +11,18 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(2),
     },
     formControl: {
-        marginLeft:"20px",
+        marginLeft: "20px",
         minWidth: 120,
     },
 }));
 
-export default function ControlledOpenSelect() {
+export default function ControlledOpenSelect(props) {
     const classes = useStyles();
 
 
     const handleChange = event => {
         props.setAge(event.target.value)
+
     }
 
 
@@ -34,18 +34,16 @@ export default function ControlledOpenSelect() {
                 <Select
                     labelId="demo-simple-select-helper-label"
                     id="demo-simple-select-helper"
-                    // value={age}
-onChange={handleChange}
+
+                    onChange={handleChange}
                 >
                     <MenuItem value="">
                         <em>None</em>
                     </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>Twenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
+                    <MenuItem value="Male">Male</MenuItem>
+                    <MenuItem value="Female">Female</MenuItem>
                 </Select>
             </FormControl>
-
 
 
         </div>
