@@ -1,99 +1,114 @@
-import React from 'react'
-import {Icon, Button, MuiThemeProvider} from '@material-ui/core'
-import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt'
-import ChatBubbleOutlinedIcon from '@material-ui/icons/ChatBubble'
-import ThumbUpAltOutlinedIcon from '@material-ui/icons/ThumbUpAltOutlined'
-import ReplyIcon from '@material-ui/icons/Reply'
-import Avatar from '@material-ui/core/Avatar'
-import {StylesProvider} from '@material-ui/styles'
-import makeStyles from '@material-ui/core/styles/makeStyles'
-import { useDispatch, useSelector } from 'react-redux'
-import { postTypes, updatePost } from '../../actions/postActions'
-
+import React, {useState} from 'react'
+import Avatar from 'material-ui/Avatar'
+import DeleteForeverIcon from '@material-ui/icons/DeleteForever';
+import EditIcon from '@material-ui/icons/Edit';
 import './Post.css'
-import createMuiTheme from '@material-ui/core/styles/createMuiTheme'
+import IconButton from "@material-ui/core/IconButton";
+import Typography from "@material-ui/core/Typography";
+import {pink, lightBlue} from "@material-ui/core/colors";
+import {deletePost} from "../../actions/postActions";
+import {useDispatch} from "react-redux";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import CardContent from "@material-ui/core/CardContent";
+import Card from "@material-ui/core/Card";
+import ModalWindow from "../ModalNewPost/ModalNewPost";
 
-const useStyles = makeStyles(theme => ({
+export default function Post(props) {
 
-}))
-const theme = createMuiTheme({
-  overrides: {
-    MuiButton: {
-      text: {
-        padding: '4px 30px',
-        textTransform: 'none'
-      }
-    }
+  const dispatch = useDispatch();
+  const [modalActive, setActive] = useState(false)
+
+  const handleClickDelete = () => {
+    dispatch(deletePost(props.post.id));
   }
-})
 
-export default function Post (props) {
-  const classes = useStyles()
-  const dispatch = useDispatch()
-  const { currentUser } = useSelector(state => ({
-    currentUser: state.users.currentUser
-  }))
+  const toggleModal = () => {
+    setActive(true)
+  }
+
+  const modal = modalActive ?
+    <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+
+  const useStyles = makeStyles(theme => ({
+    root: {
+      boxShadow: '1px 2px 1px 1px rgba(0,0,0,0.2), 2px 1px 1px 1px rgba(0,0,0,0.14), 2px 1px 3px 1px rgba(0,0,0,0.12)',
+      borderRadius: 15
+    },
+    details: {
+      display: 'flex',
+    },
+    avatar: {
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      width: 60
+    },
+    content: {
+      width: 'calc(100% - 170px)',
+      wordWrap: 'break-word'
+    },
+    text: {
+      display: 'flex',
+      flexDirection: 'column',
+    },
+    cover: {
+      width: 151,
+    },
+    controls: {
+      display: 'flex',
+      alignItems: 'center',
+      paddingLeft: theme.spacing(1),
+      paddingBottom: theme.spacing(1),
+    },
+    button: {
+      width: 40,
+      height: 40
+    }
+  }));
+  const classes = useStyles();
 
   return (
-    <MuiThemeProvider theme={theme}>
-      <StylesProvider>
-        <div className='card'>
-          <div className='subheader'>
-            <div className='info'>
-              <Avatar src='https://react.semantic-ui.com/images/wireframe/square-image.png' avatar />
-              <span className='user-name'>{currentUser.username}</span>
-            </div>
-            <Icon name='setting' />
+    <>
+      {modal}
+      <Card className={classes.root}>
+        <div className={classes.details}>
+          <div className={classes.avatar}>
+            <Avatar src="https://i.pravatar.cc/300"/>
           </div>
-          <p>date: {props.post.date.toString()}<br/>
-            text: {props.post.text}</p>
-          <div className='photo-holder' />
-
-          <div className='card-footer'>
-            <div className='pre-footer'>
-              <ThumbUpAltOutlinedIcon /> {props.post.likes}
+          <CardContent className={classes.content}>
+            <div className={classes.text}>
+              <Typography component="p" variant="body1">
+                {props.post.date.toString()}
+              </Typography>
+              <Typography
+                component="p" variant="body1">
+                {props.post.text}
+              </Typography>
             </div>
-            <Button onClick={() => dispatch(updatePost({
-              id: 1,
-              date: new Date(),
-              text: 'Lorem ipsum'
-            }))}>
-              Update post
-            </Button>
-            <div className='icon-container'>
-              <Button
+          </CardContent>
+          <IconButton
+            className={classes.button}
+            style={{color: lightBlue.A700}}
+            onClick={e => {
+              e.stopPropagation()
+              toggleModal()
+            }}
+          >
+            <EditIcon/>
+          </IconButton>
 
-                color='none'
-                className={classes.button}
-                startIcon={<ThumbUpAltIcon />}
-                onClick={() => dispatch({
-                  type: postTypes.SWITCH_LIKE,
-                  payload: props.post
-                })}
-              >
-                                Like
-              </Button>
-              {/* This Button uses a Font Icon, see the installation instructions in the Icon component docs. */}
-              <Button
-                color='none'
-                className={classes.button}
-                startIcon={<ChatBubbleOutlinedIcon />}
-              >
-                                Send
-              </Button>
-              <Button
-                color='none'
-                className={classes.button}
-                startIcon={<ReplyIcon />}
-              >
-                                Share
-              </Button>
-
-            </div>
-
-          </div>
+          <IconButton
+            className={classes.button}
+            style={{color: pink[500]}}
+            onClick={e => {
+              e.stopPropagation();
+              handleClickDelete();
+            }}
+          >
+            <DeleteForeverIcon/>
+          </IconButton>
         </div>
-      </StylesProvider>
-    </MuiThemeProvider>
+      </Card>
+    </>
   )
 }

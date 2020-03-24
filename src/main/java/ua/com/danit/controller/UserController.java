@@ -22,6 +22,8 @@ import java.util.List;
 public class UserController {
   private UserMapper userMapper;
 
+  int counter = 0;
+
   @Autowired
   public UserController(UserMapper userMapper) {
     this.userMapper = userMapper;
@@ -43,7 +45,12 @@ public class UserController {
   }
 
   @GetMapping("/current")
-  public ResponseEntity<UserResponse> getCurrentUser() {
+  public ResponseEntity<UserResponse> getCurrentUser() throws InterruptedException {
+    counter++;
+    if (counter % 3 == 0) {
+      return null;
+    }
+    Thread.sleep(1000);
     return ResponseEntity.ok(userMapper.getCurrentUser());
   }
 
