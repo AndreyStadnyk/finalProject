@@ -14,6 +14,7 @@ import ua.com.danit.dto.request.UserRequest;
 import ua.com.danit.dto.response.GenericResponse;
 import ua.com.danit.dto.response.UserResponse;
 import ua.com.danit.mapping.UserMapper;
+import ua.com.danit.service.UserService;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
@@ -22,12 +23,14 @@ import java.util.List;
 @RequestMapping("/api/users")
 public class UserController {
   private UserMapper userMapper;
+  private UserService userService;
 
   int counter = 0;
 
   @Autowired
-  public UserController(UserMapper userMapper) {
+  public UserController(UserMapper userMapper, UserService userService) {
     this.userMapper = userMapper;
+    this.userService = userService;
   }
 
   @PostMapping
@@ -63,10 +66,14 @@ public class UserController {
   }
 
   @PostMapping("/resetPassword")
-  public void resetPassword(HttpServletRequest request, @RequestBody UserRequest userRequest) {
-//    GenericResponse response =
-     userMapper.resetPassword(request, userRequest);
-//    return response;
+  public GenericResponse resetPassword(HttpServletRequest request, @RequestBody UserRequest userRequest) {
+     return userMapper.resetPassword(request, userRequest);
+  }
+
+  @GetMapping("/changePassword")
+  public GenericResponse changePassword(@RequestParam("username") String username, @RequestParam("token") String token,
+                               @RequestParam("pass1") String pass1, @RequestParam("pass2") String pass2) {
+    return userService.changePassword(username, token, pass1, pass2);
   }
 
 }

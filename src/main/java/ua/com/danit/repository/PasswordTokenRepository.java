@@ -6,4 +6,6 @@ import ua.com.danit.entity.PasswordResetToken;
 
 @Repository
 public interface PasswordTokenRepository extends JpaRepository<PasswordResetToken, Long> {
+  public PasswordResetToken findPasswordResetTokenByToken(String token);
+  public PasswordResetToken deleteByToken(String token);
 }

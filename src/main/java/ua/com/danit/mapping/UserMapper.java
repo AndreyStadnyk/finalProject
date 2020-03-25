@@ -52,10 +52,9 @@ public class UserMapper {
     return modelMapper.map(foundUsers, new TypeToken<List<UserResponse>>(){}.getType());
   }
 
-  public void resetPassword(HttpServletRequest request, UserRequest userRequest) {
+  public GenericResponse resetPassword(HttpServletRequest request, UserRequest userRequest) {
     User user = modelMapper.map(userRequest, User.class);
-    userService.resetPassword(request, user);
-
+    return userService.resetPassword(request, user);
   }
 
 }

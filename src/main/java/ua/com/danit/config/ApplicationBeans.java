@@ -29,7 +29,7 @@ public class ApplicationBeans {
     mailSender.setPort(587);
 
     mailSender.setUsername("Fs9finalProject");
-    mailSender.setPassword("hwdofearkpfflkig");
+    mailSender.setPassword("mglhrvvjxprvybfq");
 
     Properties props = mailSender.getJavaMailProperties();
     props.put("mail.transport.protocol", "smtp");

@@ -46,9 +46,6 @@ public class User {
   @Column(name = "password", nullable = false)
   private String password;
 
-//  @Column(name = "token", nullable = true)
-//  String token;
-
   @OneToMany(mappedBy = "author", cascade = CascadeType.ALL)
   private List<Post> posts = new ArrayList<>();
 
