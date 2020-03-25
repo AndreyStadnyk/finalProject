@@ -17,7 +17,11 @@ import ua.com.danit.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.beans.FeatureDescriptor;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 @Service
@@ -90,7 +94,7 @@ public class UserService {
     this.createPasswordResetTokenForUser(user, token);
     mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, user));
     String messageResetPasswordEmail =
-      "We have sent an email to your mail. Please follow the instructions in it to reset your password!";
+        "We have sent an email to your mail. Please follow the instructions in it to reset your password!";
     return new GenericResponse(messageResetPasswordEmail);
 
   }
@@ -106,12 +110,12 @@ public class UserService {
 
   private SimpleMailMessage constructResetTokenEmail(String contextPath, Locale locale, String token, User user) {
     String url = contextPath
-      + "api/users/changePassword?username="
-      + user.getUsername() + "&token="
-      + token;
-    String message = "Hello," + user.getUsername()+ "! "
-      + "We have received the password change request for your Facebook. " +
-      "Please, follow this link for password reset:";
+        + "api/users/changePassword?username="
+        + user.getUsername() + "&token="
+        + token;
+    String message = "Hello," + user.getUsername() + "! "
+        + "We have received the password change request for your Facebook. "
+        + "Please, follow this link for password reset:";
     return constructEmail("Reset Password", message + url, user);
   }
 
@@ -141,18 +145,20 @@ public class UserService {
     Date currentDate = new Date();
     if (currentDate.after(passToken.getExpiryDate())) {
       return false;
-    } else return true;
+    } else {
+      return true;
+    }
   }
 
   @Transactional
-  public GenericResponse changePassword (String username, String token, String pass1, String pass2) {
+  public GenericResponse changePassword(String username, String token, String pass1, String pass2) {
     String changePassSuccessful = "Your password was upgrated!";
     String changePassFailed = "Password change failed!";
     String changePassStatus;
 
     try {
       Boolean isTokenValid = validatePasswordResetToken(username, token);
-      if(isTokenValid && (pass1.equals(pass2))) {
+      if (isTokenValid && (pass1.equals(pass2))) {
         User user = findById(username);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         passwordTokenRepository.deleteByToken(token);
@@ -162,8 +168,7 @@ public class UserService {
         changePassStatus = changePassFailed;
       }
       return new GenericResponse(changePassStatus);
-    }
-    catch (Exception e) {
+    } catch (Exception e) {
       return new GenericResponse(changePassFailed, e.toString());
     }
   }

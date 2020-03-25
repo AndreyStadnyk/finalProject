@@ -67,7 +67,7 @@ public class UserController {
 
   @PostMapping("/resetPassword")
   public GenericResponse resetPassword(HttpServletRequest request, @RequestBody UserRequest userRequest) {
-     return userMapper.resetPassword(request, userRequest);
+    return userMapper.resetPassword(request, userRequest);
   }
 
   @GetMapping("/changePassword")
