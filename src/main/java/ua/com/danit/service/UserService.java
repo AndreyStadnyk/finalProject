@@ -15,29 +15,27 @@ import ua.com.danit.repository.PasswordTokenRepository;
 import ua.com.danit.repository.UserRepository;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
 import java.beans.FeatureDescriptor;
-import java.util.List;
-import java.util.Locale;
-import java.util.Objects;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Stream;
 
 @Service
 public class UserService {
+  private static final int EXPIRATION = 24 * 60 * 60 * 1000;
   private UserRepository userRepository;
   private BCryptPasswordEncoder passwordEncoder;
+  private PasswordTokenRepository passwordTokenRepository;
+  private JavaMailSender mailSender;
 
   @Autowired
-  public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+  public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder,
+                     PasswordTokenRepository passwordTokenRepository, JavaMailSender mailSender) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.passwordTokenRepository = passwordTokenRepository;
+    this.mailSender = mailSender;
   }
-
-  @Autowired
-  private PasswordTokenRepository passwordTokenRepository;
-
-  @Autowired
-  private JavaMailSender mailSender;
 
   public User create(User user) {
     user.setPassword(passwordEncoder.encode(user.getPassword()));
@@ -81,7 +79,7 @@ public class UserService {
     return (username.equals(this.getCurrentUser().getUsername()));
   }
 
-  public void resetPassword(HttpServletRequest request, User userRequest) {
+  public GenericResponse resetPassword(HttpServletRequest request, User userRequest) {
     String userName = userRequest.getUsername();
     String email = userRequest.getEmail();
     User user = email == null ? this.findById(userName) : this.findUserByEmail(email);
@@ -91,27 +89,30 @@ public class UserService {
     String token = UUID.randomUUID().toString();
     this.createPasswordResetTokenForUser(user, token);
     mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, user));
-//    return new GenericResponse(
-//      messages.getMessage("message.resetPasswordEmail", null, request.getLocale()));
+    String messageResetPasswordEmail =
+      "We have sent an email to your mail. Please follow the instructions in it to reset your password!";
+    return new GenericResponse(messageResetPasswordEmail);
 
   }
 
   public void createPasswordResetTokenForUser(User user, String token) {
+    Date currentDate = new Date();
     PasswordResetToken myToken = new PasswordResetToken();
     myToken.setUser(user);
     myToken.setToken(token);
+    myToken.setExpiryDate(new Date(currentDate.getTime() + EXPIRATION));
     passwordTokenRepository.save(myToken);
   }
 
   private SimpleMailMessage constructResetTokenEmail(String contextPath, Locale locale, String token, User user) {
     String url = contextPath
-      + "api/users/changePassword?id="
+      + "api/users/changePassword?username="
       + user.getUsername() + "&token="
       + token;
     String message = "Hello," + user.getUsername()+ "! "
       + "We have received the password change request for your Facebook. " +
       "Please, follow this link for password reset:";
-    return constructEmail("Reset Password", message + " \r\n" + url, user);
+    return constructEmail("Reset Password", message + url, user);
   }
 
   private SimpleMailMessage constructEmail(String subject, String body, User user) {
@@ -131,5 +132,39 @@ public class UserService {
     return url;
   }
 
+  public Boolean validatePasswordResetToken(String username, String token) {
+    PasswordResetToken passToken = passwordTokenRepository.findPasswordResetTokenByToken(token);
+    if ((passToken == null) || !(passToken.getUser().getUsername().equals(username))) {
+      return false;
+    }
 
+    Date currentDate = new Date();
+    if (currentDate.after(passToken.getExpiryDate())) {
+      return false;
+    } else return true;
+  }
+
+  @Transactional
+  public GenericResponse changePassword (String username, String token, String pass1, String pass2) {
+    String changePassSuccessful = "Your password was upgrated!";
+    String changePassFailed = "Password change failed!";
+    String changePassStatus;
+
+    try {
+      Boolean isTokenValid = validatePasswordResetToken(username, token);
+      if(isTokenValid && (pass1.equals(pass2))) {
+        User user = findById(username);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        passwordTokenRepository.deleteByToken(token);
+        updateUser(user);
+        changePassStatus = changePassSuccessful;
+      } else {
+        changePassStatus = changePassFailed;
+      }
+      return new GenericResponse(changePassStatus);
+    }
+    catch (Exception e) {
+      return new GenericResponse(changePassFailed, e.toString());
+    }
+  }
 }
