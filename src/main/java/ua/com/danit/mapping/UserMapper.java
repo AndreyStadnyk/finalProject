@@ -5,10 +5,12 @@ import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.danit.dto.request.UserRequest;
+import ua.com.danit.dto.response.GenericResponse;
 import ua.com.danit.dto.response.UserResponse;
 import ua.com.danit.entity.User;
 import ua.com.danit.service.UserService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @Component
@@ -48,6 +50,11 @@ public class UserMapper {
   public List<UserResponse> searchForUsersListByName(String queryStr) {
     List<User> foundUsers = userService.searchForUsersListByName(queryStr);
     return modelMapper.map(foundUsers, new TypeToken<List<UserResponse>>(){}.getType());
-
   }
+
+  public GenericResponse resetPassword(HttpServletRequest request, UserRequest userRequest) {
+    User user = modelMapper.map(userRequest, User.class);
+    return userService.resetPassword(request, user);
+  }
+
 }
