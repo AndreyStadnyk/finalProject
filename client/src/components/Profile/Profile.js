@@ -1,6 +1,7 @@
 import React from 'react'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ProfileCard from './ProfileCard'
+import {pink, lightBlue, grey} from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import TopMenu from '../TopMenu/top-menu'
@@ -11,7 +12,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     maxWidth: 1200,
     margin: 'auto'
-
   }
 
 }))

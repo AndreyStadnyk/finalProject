@@ -12,7 +12,8 @@ import Button from '@material-ui/core/Button'
 import PostAddIcon from '@material-ui/icons/PostAdd'
 import Tape from '../Tape/Tape'
 import {useDispatch, useSelector} from 'react-redux'
-import {fetchUserPosts} from '../../actions/postActions'
+import {fetchUserPosts, fetchUserPostsByAmount} from '../../actions/postActions'
+
 import ProfileUpdate from './ProfileUpdate'
 import ModalWindow from '../ModalNewPost/ModalNewPost'
 
@@ -83,7 +84,8 @@ export default function ProfileTabs () {
 
   useEffect(() => {
     if (userPosts === null) {
-      dispatch(fetchUserPosts())
+       // dispatch(fetchUserPosts())
+      dispatch(fetchUserPostsByAmount(11))
     }
   }, [userPosts, dispatch])
 

@@ -3,6 +3,7 @@ import api from '../helpers/FetchData'
 export const postTypes = {
   FETCH_USER_POSTS_PENDING: 'FETCH_USER_POSTS_PENDING',
   FETCH_USER_POSTS_SUCCESS: 'FETCH_USER_POSTS_SUCCESS',
+  FETCH_USER_POSTS_BY_AMOUNT: 'FETCH_USER_POSTS_BY_AMOUNT',
   FETCH_WALL_POSTS_PENDING: 'FETCH_WALL_POSTS_PENDING',
   FETCH_WALL_POSTS_SUCCESS: 'FETCH_WALL_POSTS_SUCCESS',
   UPDATE_POST: 'UPDATE_POST',
@@ -21,6 +22,26 @@ export const fetchUserPosts = () => dispatch => {
         payload: res
       })
       return res
+    })
+}
+
+export const fetchUserPostsByAmount = (amount) => dispatch => {
+  dispatch({
+    type: postTypes.FETCH_USER_POSTS_PENDING
+  })
+
+  api.get(`/api/posts`)
+    .then(res => {
+      dispatch({
+        type: postTypes.FETCH_USER_POSTS_BY_AMOUNT,
+        payload: {
+          userPosts: res.filter((item, index) => index <= amount - 1),
+          totalElements: res.length,
+          currentItems: amount
+        }
+      })
+      console.log(res)
+      return res.userPosts
     })
 }
 

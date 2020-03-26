@@ -3,7 +3,8 @@ import {actionTypes} from '../actions'
 const initialState = {
   pending: true,
   userPosts: null,
-  wallPosts: null
+  wallPosts: null,
+  totalElements: 0
 }
 
 export default function postsReducer (state = initialState, action) {
@@ -21,6 +22,15 @@ export default function postsReducer (state = initialState, action) {
         ...state,
         pending: false,
         userPosts: action.payload
+      }
+
+    case actionTypes.FETCH_USER_POSTS_BY_AMOUNT:
+      console.log(action.payload)
+      return {
+        ...state,
+        pending: false,
+        userPosts: action.payload,
+        totalElements: action.payload.length
       }
 
     case actionTypes.FETCH_WALL_POSTS_PENDING:
