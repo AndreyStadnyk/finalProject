@@ -2,75 +2,47 @@ package ua.com.danit.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.authentication.configurers.provisioning.JdbcUserDetailsManagerConfigurer;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.security.web.AuthenticationEntryPoint;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import ua.com.danit.service.UserService;
 
-import javax.sql.DataSource;
 
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
 
-  private AuthenticationEntryPoint authEntryPoint;
-  private BCryptPasswordEncoder passwordEncoder;
-  private DataSource dataSource;
+  private UserService userService;
 
   @Autowired
-  public WebSecurityConfig(AuthenticationEntryPoint authEntryPoint,
-                           BCryptPasswordEncoder passwordEncoder,
-                           DataSource dataSource) {
-    this.authEntryPoint = authEntryPoint;
-    this.passwordEncoder = passwordEncoder;
-    this.dataSource = dataSource;
-  }
-
-  public WebSecurityConfig(boolean disableDefaults,
-                           AuthenticationEntryPoint authEntryPoint,
-                           BCryptPasswordEncoder passwordEncoder,
-                           DataSource dataSource) {
-    super(disableDefaults);
-    this.authEntryPoint = authEntryPoint;
-    this.passwordEncoder = passwordEncoder;
-    this.dataSource = dataSource;
+  public WebSecurityConfig(UserService userService) {
+    this.userService = userService;
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-    http.csrf().disable();
 
-    http.authorizeRequests().anyRequest().authenticated();
-
-    http.httpBasic().authenticationEntryPoint(authEntryPoint);
-  }
-
-  @Autowired
-  public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
-
-    String password = "123";
-
-    this.passwordEncoder.encode(password);
-
-    JdbcUserDetailsManagerConfigurer<AuthenticationManagerBuilder>
-        authManager = auth.jdbcAuthentication();
-    authManager.dataSource(dataSource)
-        .usersByUsernameQuery(
-        "select username, password, from Users "
-          +
-        "where username=?")
-        .authoritiesByUsernameQuery(
-        "select username, from UserAuthorities "
-          +
-        "where username=?")
-        .passwordEncoder(this.passwordEncoder);
-
+    http
+      .csrf()
+      .disable()
+      .authorizeRequests()
+      .antMatchers(HttpMethod.GET)
+      .permitAll()
+      .anyRequest()
+      .authenticated()
+      .and()
+      .formLogin()
+      .loginPage("/sign-in")
+      .loginProcessingUrl("/auth");
 
   }
 
+  @Override
+  protected UserDetailsService userDetailsService() {
+    return userService;
+  }
 }
+

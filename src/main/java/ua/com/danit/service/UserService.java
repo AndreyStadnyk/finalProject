@@ -1,21 +1,30 @@
 package ua.com.danit.service;
 
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.danit.entity.User;
 import ua.com.danit.repository.UserRepository;
 
+import javax.management.MalformedObjectNameException;
+import javax.management.ObjectName;
+import javax.management.relation.Role;
 import java.beans.FeatureDescriptor;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
   private UserRepository userRepository;
   public BCryptPasswordEncoder passwordEncoder;
 
@@ -64,4 +73,22 @@ public class UserService {
   }
 
 
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    User userById = this.findById(username);
+    ObjectName user;
+    List<ObjectName> objectNames = new ArrayList<>();
+    try {
+      user = ObjectName.getInstance("user");
+      objectNames.add(user);
+    } catch (MalformedObjectNameException e) {
+      e.printStackTrace();
+    }
+    Role userRole = new Role("USER_ROLE",
+        objectNames);
+    List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+    grantedAuthorities.add((GrantedAuthority) () -> "user");
+    return new org.springframework.security.core.userdetails.User(userById.getUsername(),
+        userById.getPassword(), grantedAuthorities);
+  }
 }
