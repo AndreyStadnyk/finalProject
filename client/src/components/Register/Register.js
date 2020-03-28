@@ -82,6 +82,7 @@ export default function SignUp () {
       'gender': age,
       'birthDate': date
     }
+
     dispatch(createUser(frmdetails))
   }
 
