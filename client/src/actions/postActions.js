@@ -32,10 +32,12 @@ export const fetchUserPostsByAmount = (amount) => dispatch => {
 
   api.get(`/api/posts`)
     .then(res => {
+      console.log(res);
+
       dispatch({
         type: postTypes.FETCH_USER_POSTS_BY_AMOUNT,
         payload: {
-          userPosts: res.filter((item, index) => index <= amount - 1),
+          userPosts: res.content.filter((item, index) => index <= amount - 1),
           totalElements: res.length,
           currentItems: amount
         }

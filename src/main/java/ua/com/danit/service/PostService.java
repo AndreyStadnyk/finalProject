@@ -1,6 +1,8 @@
 package ua.com.danit.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import ua.com.danit.entity.Like;
 import ua.com.danit.entity.Post;
@@ -33,7 +35,7 @@ public class PostService {
   }
 
   private void checkIsCurrentUserTheAuthor(Post post) {
-    if (! userService.isCurrentUser(post.getAuthor().getUsername())) {
+    if (!userService.isCurrentUser(post.getAuthor().getUsername())) {
       throw new RuntimeException();
     }
   }
@@ -63,6 +65,10 @@ public class PostService {
 
   public List<Post> getAllPostsForCurrentUser() {
     return postRepository.findPostsByOwner(userService.getCurrentUser());
+  }
+
+  public Page<Post> findPosts (Pageable pageable) {
+    return postRepository.findPostsByOwner(userService.getCurrentUser(), pageable);
   }
 
   public Post getOrRemoveLikeByPostId(long postId) {

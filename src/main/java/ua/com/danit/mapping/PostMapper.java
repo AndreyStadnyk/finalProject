@@ -3,6 +3,8 @@ package ua.com.danit.mapping;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import ua.com.danit.dto.request.PostRequest;
 import ua.com.danit.dto.response.PostResponse;
@@ -43,6 +45,11 @@ public class PostMapper {
   public List<PostResponse> getAllPostsForCurrentUser() {
     List<Post> posts = postService.getAllPostsForCurrentUser();
     return modelMapper.map(posts, new TypeToken<List<PostResponse>>(){}.getType());
+  }
+
+  public Page<PostResponse> findPosts(Pageable pageable) {
+    Page<Post> posts = postService.findPosts(pageable);
+    return modelMapper.map(posts, new TypeToken<Page<PostResponse>>(){}.getType());
   }
 
   public PostResponse removeOrAddLikeByPostId(long postId) {

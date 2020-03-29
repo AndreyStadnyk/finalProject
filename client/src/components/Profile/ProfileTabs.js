@@ -84,8 +84,8 @@ export default function ProfileTabs () {
 
   useEffect(() => {
     if (userPosts === null) {
-       // dispatch(fetchUserPosts())
-      dispatch(fetchUserPostsByAmount(11))
+         // dispatch(fetchUserPosts())
+       dispatch(fetchUserPostsByAmount(11))
     }
   }, [userPosts, dispatch])
 
