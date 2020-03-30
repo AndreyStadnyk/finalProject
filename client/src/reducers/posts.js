@@ -50,7 +50,7 @@ export default function postsReducer(state = initialState, action) {
             }
 
         case actionTypes.CREATE_COMMENT:
-            currentPost.comment++
+
             currentPost = {...action.payload}
             return {
                 userPosts: state.userPosts.map(post => post.id === currentPost.id ? currentPost : post)

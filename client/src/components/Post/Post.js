@@ -26,11 +26,6 @@ export default function Post(props) {
     const handleClickDelete = () => {
         dispatch(deletePost(props.post.id))
     }
-    const {
-        currentUser
-    } = useSelector(state => ({
-        currentUser: state.users.currentUser
-    }))
 
     const onChange = (e) => {
         setComment(e.target.value)
@@ -39,15 +34,12 @@ export default function Post(props) {
         setActive(true)
     }
     const handleClickAddComment = () => {
-
-        const commentDetails = {
-            "Comment": comment
-        }
-        console.log(commentDetails);
-
+const frmdetails ={
+    "text" : comment
+}
         dispatch(createComment({
-            commentDetails
-        }, currentUser.username))
+            frmdetails
+        },))
     }
 
     const modal = modalActive

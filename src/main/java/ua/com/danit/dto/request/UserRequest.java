@@ -11,6 +11,7 @@ import java.util.List;
 public class UserRequest {
 
   private String username;
+  private String email;
   private String firstName;
   private String lastName;
   private LocalDate birthDate;
