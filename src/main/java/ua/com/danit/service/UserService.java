@@ -75,20 +75,16 @@ public class UserService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User userById = this.findById(username);
-    ObjectName user;
-    List<ObjectName> objectNames = new ArrayList<>();
-    try {
-      user = ObjectName.getInstance("user");
-      objectNames.add(user);
-    } catch (MalformedObjectNameException e) {
-      e.printStackTrace();
+    User user = this.findById(username);
+    org.springframework.security.core.userdetails.User.UserBuilder builder = null;
+    if (user != null) {
+      builder = org.springframework.security.core.userdetails.User.withUsername(username);
+      builder.password(new BCryptPasswordEncoder().encode(user.getPassword()));
+      builder.roles("USER");
+    } else {
+      throw new UsernameNotFoundException("User not found.");
     }
-    Role userRole = new Role("USER_ROLE",
-        objectNames);
-    List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-    grantedAuthorities.add((GrantedAuthority) () -> "user");
-    return new org.springframework.security.core.userdetails.User(userById.getUsername(),
-        userById.getPassword(), grantedAuthorities);
+    return builder.build();
   }
+
 }

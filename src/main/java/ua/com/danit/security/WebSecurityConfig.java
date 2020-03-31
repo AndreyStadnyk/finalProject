@@ -2,7 +2,6 @@ package ua.com.danit.security;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -14,30 +13,30 @@ import ua.com.danit.service.UserService;
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
-
   private UserService userService;
+  private SecurityFailureHandler failureHandler;
+  private SecuritySuccessHandler successHandler;
 
   @Autowired
-  public WebSecurityConfig(UserService userService) {
+  WebSecurityConfig(UserService userService,
+                    SecuritySuccessHandler successHandler,
+                    SecurityFailureHandler failureHandler) {
     this.userService = userService;
+    this.failureHandler = failureHandler;
+    this.successHandler = successHandler;
   }
 
   @Override
   protected void configure(HttpSecurity http) throws Exception {
-
-    http
-      .csrf()
-      .disable()
-      .authorizeRequests()
-      .antMatchers(HttpMethod.GET)
-      .permitAll()
+    http.csrf().and().authorizeRequests()
       .anyRequest()
       .authenticated()
       .and()
       .formLogin()
-      .loginPage("/sign-in")
-      .loginProcessingUrl("/auth");
-
+      .loginProcessingUrl("/auth")
+      .successHandler(successHandler)
+      .failureHandler(failureHandler)
+      .permitAll();
   }
 
   @Override
