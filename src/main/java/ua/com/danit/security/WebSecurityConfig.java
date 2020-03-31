@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import ua.com.danit.service.UserService;
 
 
@@ -16,14 +17,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   private UserService userService;
   private SecurityFailureHandler failureHandler;
   private SecuritySuccessHandler successHandler;
+  private AuthenticationEntryPoint authenticationEntryPoint;
 
   @Autowired
   WebSecurityConfig(UserService userService,
                     SecuritySuccessHandler successHandler,
-                    SecurityFailureHandler failureHandler) {
+                    SecurityFailureHandler failureHandler,
+                    AuthenticationEntryPoint authenticationEntryPoint) {
     this.userService = userService;
     this.failureHandler = failureHandler;
     this.successHandler = successHandler;
+    this.authenticationEntryPoint = authenticationEntryPoint;
   }
 
   @Override
@@ -31,6 +35,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     http.csrf().and().authorizeRequests()
       .anyRequest()
       .authenticated()
+      .and()
+      .exceptionHandling()
+      .authenticationEntryPoint(authenticationEntryPoint)
       .and()
       .formLogin()
       .loginProcessingUrl("/auth")

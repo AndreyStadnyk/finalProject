@@ -28,7 +28,6 @@ public class SecurityFailureHandler implements AuthenticationFailureHandler {
       HttpServletRequest httpServletRequest,
       HttpServletResponse httpServletResponse,
       AuthenticationException exc) throws IOException {
-    System.out.println("auth fail");
     AuthResult authResult = AuthResult.builder()
         .timestamp(new Date(System.currentTimeMillis()))
         .status(HttpStatus.UNAUTHORIZED.value())

@@ -5,33 +5,60 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+<<<<<<< HEAD
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+=======
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
+>>>>>>> master
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+import ua.com.danit.dto.response.GenericResponse;
+import ua.com.danit.entity.PasswordResetToken;
 import ua.com.danit.entity.User;
+import ua.com.danit.repository.PasswordTokenRepository;
 import ua.com.danit.repository.UserRepository;
 
+<<<<<<< HEAD
 import javax.management.MalformedObjectNameException;
 import javax.management.ObjectName;
 import javax.management.relation.Role;
 import java.beans.FeatureDescriptor;
 import java.util.ArrayList;
+=======
+import javax.servlet.http.HttpServletRequest;
+import javax.transaction.Transactional;
+import java.beans.FeatureDescriptor;
+import java.util.Date;
+>>>>>>> master
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 @Service
+<<<<<<< HEAD
 public class UserService implements UserDetailsService {
+=======
+public class UserService {
+  private static final int EXPIRATION = 24 * 60 * 60 * 1000;
+>>>>>>> master
   private UserRepository userRepository;
-  public BCryptPasswordEncoder passwordEncoder;
+  private BCryptPasswordEncoder passwordEncoder;
+  private PasswordTokenRepository passwordTokenRepository;
+  private JavaMailSender mailSender;
 
   @Autowired
-  public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder) {
+  public UserService(UserRepository userRepository, BCryptPasswordEncoder passwordEncoder,
+                     PasswordTokenRepository passwordTokenRepository, JavaMailSender mailSender) {
     this.userRepository = userRepository;
     this.passwordEncoder = passwordEncoder;
+    this.passwordTokenRepository = passwordTokenRepository;
+    this.mailSender = mailSender;
   }
 
   public User create(User user) {
@@ -64,6 +91,10 @@ public class UserService implements UserDetailsService {
 
   }
 
+  public User findUserByEmail(String email) {
+    return userRepository.findByEmail(email);
+  }
+
   public User getCurrentUser() {
     return userRepository.findAll().get(0);
   }
@@ -72,7 +103,21 @@ public class UserService implements UserDetailsService {
     return (username.equals(this.getCurrentUser().getUsername()));
   }
 
+  public GenericResponse resetPassword(HttpServletRequest request, User userRequest) {
+    String userName = userRequest.getUsername();
+    String email = userRequest.getEmail();
+    User user = email == null ? this.findById(userName) : this.findUserByEmail(email);
+    if (user == null) {
+      throw new RuntimeException();
+    }
+    String token = UUID.randomUUID().toString();
+    this.createPasswordResetTokenForUser(user, token);
+    mailSender.send(constructResetTokenEmail(getAppUrl(request), request.getLocale(), token, user));
+    String messageResetPasswordEmail =
+        "We have sent an email to your mail. Please follow the instructions in it to reset your password!";
+    return new GenericResponse(messageResetPasswordEmail);
 
+<<<<<<< HEAD
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
     User user = this.findById(username);
@@ -87,4 +132,81 @@ public class UserService implements UserDetailsService {
     return builder.build();
   }
 
+=======
+  }
+
+  public void createPasswordResetTokenForUser(User user, String token) {
+    Date currentDate = new Date();
+    PasswordResetToken myToken = new PasswordResetToken();
+    myToken.setUser(user);
+    myToken.setToken(token);
+    myToken.setExpiryDate(new Date(currentDate.getTime() + EXPIRATION));
+    passwordTokenRepository.save(myToken);
+  }
+
+  private SimpleMailMessage constructResetTokenEmail(String contextPath, Locale locale, String token, User user) {
+    String url = contextPath
+        + "api/users/changePassword?username="
+        + user.getUsername() + "&token="
+        + token;
+    String message = "Hello," + user.getUsername() + "! "
+        + "We have received the password change request for your Facebook. "
+        + "Please, follow this link for password reset:";
+    return constructEmail("Reset Password", message + url, user);
+  }
+
+  private SimpleMailMessage constructEmail(String subject, String body, User user) {
+    SimpleMailMessage email = new SimpleMailMessage();
+    email.setSubject(subject);
+    email.setText(body);
+    email.setTo(user.getEmail());
+    email.setReplyTo("noreply@fs9finalproject.com");
+    email.setFrom("security@fs9finalproject.com");
+    return email;
+  }
+
+  private String getAppUrl(HttpServletRequest request) {
+    String url = request.getRequestURL().toString();
+    int index = url.indexOf("api");
+    url = url.substring(0, index);
+    return url;
+  }
+
+  public Boolean validatePasswordResetToken(String username, String token) {
+    PasswordResetToken passToken = passwordTokenRepository.findPasswordResetTokenByToken(token);
+    if ((passToken == null) || !(passToken.getUser().getUsername().equals(username))) {
+      return false;
+    }
+
+    Date currentDate = new Date();
+    if (currentDate.after(passToken.getExpiryDate())) {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
+  @Transactional
+  public GenericResponse changePassword(String username, String token, String pass1, String pass2) {
+    String changePassSuccessful = "Your password was upgrated!";
+    String changePassFailed = "Password change failed!";
+    String changePassStatus;
+
+    try {
+      Boolean isTokenValid = validatePasswordResetToken(username, token);
+      if (isTokenValid && (pass1.equals(pass2))) {
+        User user = findById(username);
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        passwordTokenRepository.deleteByToken(token);
+        updateUser(user);
+        changePassStatus = changePassSuccessful;
+      } else {
+        changePassStatus = changePassFailed;
+      }
+      return new GenericResponse(changePassStatus);
+    } catch (Exception e) {
+      return new GenericResponse(changePassFailed, e.toString());
+    }
+  }
+>>>>>>> master
 }
