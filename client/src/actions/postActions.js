@@ -72,12 +72,13 @@ export function updatePost(post) {
         }))
 }
 
-export function createComment(comment) {
-    return dispatch => api.post('/api/posts', comment)
+export function createComment(data, postId) {
+
+    return dispatch => api.post(`/api/comments/${postId}`, data)
         .then(() =>
                 dispatch(({
                     type: postTypes.CREATE_COMMENT,
-                    payload: comment
+                    payload: data
 
             })
         ))

@@ -53,8 +53,7 @@ export default function postsReducer(state = initialState, action) {
 
             currentPost = {...action.payload}
             return {
-                userPosts: state.userPosts.map(post => post.id === currentPost.id ? currentPost : post)
-
+                 userPosts: state.userPosts.map(post => post.id === currentPost.id ? currentPost : post)
             }
         default:
             return state

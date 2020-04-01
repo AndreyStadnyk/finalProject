@@ -23,6 +23,7 @@ export default function Post(props) {
     const dispatch = useDispatch()
     const [modalActive, setActive] = useState(false)
     const [comment, setComment] = useState("")
+
     const handleClickDelete = () => {
         dispatch(deletePost(props.post.id))
     }
@@ -33,13 +34,11 @@ export default function Post(props) {
     const toggleModal = () => {
         setActive(true)
     }
+    const postId = props.post.id
     const handleClickAddComment = () => {
-const frmdetails ={
-    "text" : comment
-}
-        dispatch(createComment({
-            frmdetails
-        },))
+        console.log(postId);
+        dispatch(createComment({comment}, postId
+        ))
     }
 
     const modal = modalActive

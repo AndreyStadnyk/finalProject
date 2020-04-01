@@ -8,6 +8,11 @@ const initialState = {
 
 export default function usersReducer (state = initialState, action) {
   switch (action.type) {
+    case actionTypes.CREATE_USER:
+      return {
+        ...state,
+        userRegistered: true
+      }
     case actionTypes.FETCH_USER_PENDING:
       return {
         ...state,
@@ -24,11 +29,7 @@ export default function usersReducer (state = initialState, action) {
         ...state,
         currentUser: action.payload
       }
-    case actionTypes.CREATE_USER:
-      return {
-        ...state,
-        userRegistered: true
-      }
+
     default:
       return state
   }
