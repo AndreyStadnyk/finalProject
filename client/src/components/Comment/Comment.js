@@ -2,40 +2,30 @@ import React, {useState} from 'react'
 import Avatar from 'material-ui/Avatar'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import EditIcon from '@material-ui/icons/Edit'
-import './Post.css'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import {pink, lightBlue} from '@material-ui/core/colors'
-import {deletePost} from '../../actions/postActions'
+import {deleteComment} from '../../actions/postActions'
 import {useDispatch} from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
 import Card from '@material-ui/core/Card'
-import ModalWindow from '../ModalPost/ModalPost'
-import Comment from '../Comment/Comment'
-import Button from '@material-ui/core/Button'
 import ModalComment from '../ModalComment/ModalComment'
 
-export default function Post (props) {
+export default function Comment (props) {
   const dispatch = useDispatch()
-  const [modalActive, setActive] = useState(false)
   const [commentModalActive, setCommentActive] = useState(false)
 
   const handleClickDelete = () => {
-    dispatch(deletePost(props.post.id))
-  }
-
-  const toggleModal = () => {
-    setActive(true)
+    dispatch(deleteComment(props.comment.id))
   }
 
   const toggleCommentModal = () => {
     setCommentActive(true)
   }
 
-  const modal = modalActive
-    ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
-  const commentModal = commentModalActive ? <ModalComment setCommentActive={setCommentActive}/> : null
+  const commentModal = commentModalActive ? <ModalComment
+    comment={props.comment} setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
     root: {
@@ -77,7 +67,6 @@ export default function Post (props) {
 
   return (
     <>
-      {modal}
       {commentModal}
       <Card className={classes.root}>
         <div className={classes.details}>
@@ -87,40 +76,11 @@ export default function Post (props) {
           <CardContent className={classes.content}>
             <div className={classes.text}>
               <Typography component="p" variant="subtitle2">
-                Owner: {props.post.ownerUsername}
-              </Typography>
-              <Typography component="p" variant="subtitle2">
-                Author: {props.post.authorUsername}
-              </Typography>
-              <Typography component="p" variant="subtitle2">
-                {props.post.date.toString()}
+                Author: {props.comment.authorUsername}
               </Typography>
               <Typography component="p" variant="body1">
-                {props.post.text}
+                {props.comment.text}
               </Typography>
-              <Typography component="p" variant="h5">
-                Comments:
-              </Typography>
-              <Button
-                variant="contained"
-                color="primary"
-                className={classes.button}
-                onClick={toggleCommentModal}
-              >
-                Add
-              </Button>
-              {props.post.comments.map(comment => (
-                <Comment comment={comment}>
-                </Comment>
-              ))}
-              <Typography component="p" variant="h5">
-                Likes ({props.post.likes.length}):
-              </Typography>
-              {props.post.likes.map(like => (
-                <Typography component="p" variant="body2">
-                  {like.userUsername}
-                </Typography>
-              ))}
             </div>
           </CardContent>
           <IconButton
@@ -128,7 +88,7 @@ export default function Post (props) {
             style={{color: lightBlue.A700}}
             onClick={e => {
               e.stopPropagation()
-              toggleModal()
+              toggleCommentModal()
             }}
           >
             <EditIcon/>

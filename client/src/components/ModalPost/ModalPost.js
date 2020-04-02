@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ModalNewPost (props) {
+export default function ModalPost (props) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const {
