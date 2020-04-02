@@ -4,5 +4,7 @@ import lombok.Data;
 
 @Data
 public class LikeResponse {
-  private UserResponse user;
+  public Long id;
+  public String userUsername;
+  public Long postId;
 }
