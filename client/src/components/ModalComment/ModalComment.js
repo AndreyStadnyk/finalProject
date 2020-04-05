@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import {makeStyles} from '@material-ui/core/styles'
 import Modal from '@material-ui/core/Modal'
 import Backdrop from '@material-ui/core/Backdrop'
@@ -52,6 +52,7 @@ const useStyles = makeStyles(theme => ({
 export default function ModalComment (props) {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const [text, setText] = useState(props.comment ? props.comment.text : '')
   let comment = props.comment ? {...props.comment} : {}
 
   const handleClose = () => {
@@ -59,9 +60,11 @@ export default function ModalComment (props) {
   }
 
   const handleClick = () => {
+    comment.text = text
     if (props.comment) {
       dispatch(updateComment(comment))
     } else {
+      comment.postId = props.postId
       dispatch(addComment(comment))
     }
     handleClose()
@@ -72,14 +75,14 @@ export default function ModalComment (props) {
   }
 
   const onChange = (e) => {
-    comment.text = e.target.value
+    setText(e.target.value)
   }
 
   return (
     <div>
       <Modal
         className={classes.modal}
-        open={props.modalActive}
+        open={props.commentModalActive}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -87,7 +90,7 @@ export default function ModalComment (props) {
           timeout: 500
         }}
       >
-        <Fade in={props.modalActive}>
+        <Fade in={props.commentModalActive}>
           <div className={classes.paper}>
             <form className={classes.form} noValidate autoComplete="off"
               onSubmit={handleSubmit}
@@ -99,7 +102,7 @@ export default function ModalComment (props) {
                 label="What's on your mind?"
                 variant="outlined"
                 onChange={onChange}
-                value={comment.text}
+                value={text}
               />
               <Button
                 variant="contained"

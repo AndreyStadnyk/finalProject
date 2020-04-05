@@ -35,7 +35,8 @@ export default function Post (props) {
 
   const modal = modalActive
     ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
-  const commentModal = commentModalActive ? <ModalComment setCommentActive={setCommentActive}/> : null
+  const commentModal = commentModalActive ? <ModalComment commentModalActive={commentModalActive}
+    postId={props.post.id} setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
     root: {

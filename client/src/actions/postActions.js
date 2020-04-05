@@ -100,6 +100,6 @@ export function updateComment (comment) {
   return dispatch => api.put(`/api/comments/${comment.id}`, data)
     .then(dispatch({
       type: postTypes.UPDATE_COMMENT,
-      payload: data
+      payload: comment
     }))
 }

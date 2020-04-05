@@ -24,7 +24,7 @@ export default function Comment (props) {
     setCommentActive(true)
   }
 
-  const commentModal = commentModalActive ? <ModalComment
+  const commentModal = commentModalActive ? <ModalComment commentModalActive={commentModalActive}
     comment={props.comment} setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
