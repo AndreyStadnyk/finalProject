@@ -67,7 +67,7 @@ export default function SignUp () {
   const [email, setEmail] = useState('')
   const [username, setUsername] = useState('')
   const [date, setDate] = useState('')
-  const [age, setAge] = React.useState('')
+  const [gender, setGender] = React.useState('')
 
   const dispatch = useDispatch()
   const userRegistered = useSelector(state => state.users.userRegistered)
@@ -76,10 +76,10 @@ export default function SignUp () {
     const frmdetails = {
       'firstName': fName,
       'lastName': lName,
-      'address': email,
+      'email': email,
       'password': password,
       'username': username,
-      'gender': age,
+      'gender': gender,
       'birthDate': date
     }
     dispatch(createUser(frmdetails))
@@ -180,7 +180,7 @@ export default function SignUp () {
                     }}
                   />
                 </form>
-                <GenderSelect setAge={setAge}/>
+                <GenderSelect setGender={setGender}/>
               </div>
 
             </Grid>
@@ -198,7 +198,6 @@ export default function SignUp () {
             color="primary"
             className={classes.submit}
             onClick={submitValue}
-            // onCliCk={handleToggle}
           >
                         Sign Up
           </Button>

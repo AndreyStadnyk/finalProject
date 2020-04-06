@@ -5,11 +5,9 @@ import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import {addPost, updatePost} from '../../actions/postActions'
-import {useDispatch, useSelector} from 'react-redux'
+import {addComment, updateComment} from '../../actions/postActions'
+import {useDispatch} from 'react-redux'
 import {Publish} from '@material-ui/icons'
-import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
-import {toastr} from 'react-redux-toastr'
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -51,32 +49,23 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ModalNewPost (props) {
+export default function ModalComment (props) {
   const classes = useStyles()
   const dispatch = useDispatch()
-  const {
-    currentUser
-  } = useSelector(state => ({
-    currentUser: state.users.currentUser
-  }))
-
-  const [text, setText] = useState(props.post ? props.post.text : '')
-  const post = props.post
+  const [text, setText] = useState(props.comment ? props.comment.text : '')
+  let comment = props.comment ? {...props.comment} : {}
 
   const handleClose = () => {
-    props.setActive(false)
+    props.setCommentActive(false)
   }
 
   const handleClick = () => {
-    if (props.post) {
-      post.text = text
-      dispatch(updatePost(post))
-    } else if (text && !props.post) {
-      dispatch(addPost({
-        text: text
-      }, currentUser.username))
+    comment.text = text
+    if (props.comment) {
+      dispatch(updateComment(comment))
     } else {
-      toastr.info('Ooops!', 'Your post was empty')
+      comment.postId = props.postId
+      dispatch(addComment(comment))
     }
     handleClose()
   }
@@ -93,7 +82,7 @@ export default function ModalNewPost (props) {
     <div>
       <Modal
         className={classes.modal}
-        open={props.modalActive}
+        open={props.commentModalActive}
         onClose={handleClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
@@ -101,7 +90,7 @@ export default function ModalNewPost (props) {
           timeout: 500
         }}
       >
-        <Fade in={props.modalActive}>
+        <Fade in={props.commentModalActive}>
           <div className={classes.paper}>
             <form className={classes.form} noValidate autoComplete="off"
               onSubmit={handleSubmit}
@@ -121,7 +110,7 @@ export default function ModalNewPost (props) {
                 endIcon={<Publish/>}
                 className={classes.button}
                 onClick={handleClick}
-              >POST
+              >COMMENT
               </Button>
             </form>
           </div>
