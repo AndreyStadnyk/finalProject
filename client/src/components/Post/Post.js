@@ -22,8 +22,20 @@ import TextField from "../Register/Register";
 export default function Post(props) {
     const dispatch = useDispatch()
     const [modalActive, setActive] = useState(false)
-    const [comment, setComment] = useState("")
-
+    const [text, setComment] = useState("")
+    // const [comments] = useSelector(state => (
+    //         state.post.comments
+    //     ))
+    const {
+        userPosts
+    } = useSelector(state => ({
+        userPosts: state.posts.userPosts
+    }))
+    console.log(userPosts);
+    const commentArray = props.post.comments;
+    const commentsList = commentArray.map((comment) => {
+        return (<li>{comment.text}</li>)
+    })
     const handleClickDelete = () => {
         dispatch(deletePost(props.post.id))
     }
@@ -37,10 +49,9 @@ export default function Post(props) {
     const postId = props.post.id
     const handleClickAddComment = () => {
         console.log(postId);
-        dispatch(createComment({comment}, postId
+        dispatch(createComment({text, postId}, postId
         ))
     }
-
     const modal = modalActive
         ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
 
@@ -62,6 +73,9 @@ export default function Post(props) {
             alignItems: 'center',
             justifyContent: 'center',
             width: 60
+        },
+        commentsContainer: {
+            marginLeft:"20px"
         },
         content: {
             width: 'calc(100% - 170px)',
@@ -142,8 +156,14 @@ export default function Post(props) {
                         <DeleteForeverIcon/>
                     </IconButton>
                 </div>
+                <div className={classes.commentsContainer}>
+                    <span>Comments:</span>
+                    <li>{commentsList}</li>
+                </div>
+
                 <FormControl className={classes.margin}>
                     <Input
+                        placeholder={"type your comment..."}
                         onChange={onChange}
                         className={classes.input}
                         id="input-with-icon-adornment"
