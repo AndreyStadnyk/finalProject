@@ -18,7 +18,7 @@ public class UserResponse {
   private LocalDate birthDate;
   private String address;
   private String gender;
-  private List<FriendRequest> friendRequests;
-  private List<User> userFriends;
+  private List<FriendRequestResponse> friendRequests;
+  private List<UserFriendResponse> userFriends;
 
 }
