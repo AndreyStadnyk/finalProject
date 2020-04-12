@@ -7,6 +7,7 @@ export const postTypes = {
   FETCH_WALL_POSTS_PENDING: 'FETCH_WALL_POSTS_PENDING',
   FETCH_WALL_POSTS_SUCCESS: 'FETCH_WALL_POSTS_SUCCESS',
   UPDATE_POST: 'UPDATE_POST',
+  UPDATE_COMMENT: 'UPDATE_COMMENT',
   SWITCH_LIKE: 'SWITCH_LIKE'
 }
 
@@ -82,7 +83,6 @@ export function deletePost (postId) {
 
 export function updatePost (post) {
   const data = {
-    date: post.date,
     text: post.text
   }
 
@@ -90,5 +90,39 @@ export function updatePost (post) {
     .then(dispatch({
       type: postTypes.UPDATE_POST,
       payload: data
+    }))
+}
+
+export function addComment (comment) {
+  const data = {
+    text: comment.text
+  }
+
+  return dispatch => api.post(`/api/comments/${comment.postId}`, data)
+    .then(results => {
+      api.get(`/api/posts`).then(results => {
+        dispatch(fetchUserPosts())
+      })
+    })
+}
+
+export function deleteComment (commentId) {
+  return dispatch => api.deleteApi(`/api/comments/${commentId}`)
+    .then(results => {
+      api.get(`/api/posts`).then(results => {
+        dispatch(fetchUserPosts())
+      })
+    })
+}
+
+export function updateComment (comment) {
+  const data = {
+    text: comment.text
+  }
+
+  return dispatch => api.put(`/api/comments/${comment.id}`, data)
+    .then(dispatch({
+      type: postTypes.UPDATE_COMMENT,
+      payload: comment
     }))
 }
