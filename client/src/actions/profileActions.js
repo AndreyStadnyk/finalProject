@@ -8,12 +8,12 @@ export const profileTypes = {
 }
 
 export function createUser (frmDetails) {
-    return dispatch => api.post('/api/users', frmDetails)
-        .then(() => dispatch({
-            type: profileTypes.CREATE_USER,
-            payload: frmDetails
+  return dispatch => api.post('/api/users', frmDetails)
+    .then(() => dispatch({
+      type: profileTypes.CREATE_USER,
+      payload: frmDetails
 
-        }))
+    }))
 }
 export const fetchCurrentUser = () => dispatch => {
   dispatch({
