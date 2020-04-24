@@ -28,7 +28,6 @@ public class SecuritySuccessHandler implements AuthenticationSuccessHandler {
       HttpServletRequest httpServletRequest,
       HttpServletResponse httpServletResponse,
       Authentication authentication) throws IOException {
-    System.out.println("auth success");
     AuthResult authResult = AuthResult.builder()
         .timestamp(new Date(System.currentTimeMillis()))
         .status(HttpStatus.OK.value())

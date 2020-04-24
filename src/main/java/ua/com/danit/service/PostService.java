@@ -10,12 +10,7 @@ import ua.com.danit.repository.PostRepository;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-<<<<<<< HEAD
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
-=======
->>>>>>> master
 
 @Service
 public class PostService {
