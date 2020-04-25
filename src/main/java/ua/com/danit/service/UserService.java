@@ -1,9 +1,13 @@
 package ua.com.danit.service;
 
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,10 +17,9 @@ import ua.com.danit.entity.PasswordResetToken;
 import ua.com.danit.entity.User;
 import ua.com.danit.repository.PasswordTokenRepository;
 import ua.com.danit.repository.UserRepository;
-
+import java.beans.FeatureDescriptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.beans.FeatureDescriptor;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -25,7 +28,7 @@ import java.util.Locale;
 import java.util.stream.Stream;
 
 @Service
-public class UserService {
+public class UserService implements UserDetailsService {
   private static final int EXPIRATION = 24 * 60 * 60 * 1000;
   private UserRepository userRepository;
   private BCryptPasswordEncoder passwordEncoder;
@@ -55,10 +58,10 @@ public class UserService {
   private String[] getNullPropertyNames(User user) {
     BeanWrapper src = new BeanWrapperImpl(user);
     return Stream
-      .of(src.getPropertyDescriptors())
-      .map(FeatureDescriptor::getName)
-      .filter(propertyName -> Objects.isNull(src.getPropertyValue(propertyName)))
-      .toArray(String[]::new);
+        .of(src.getPropertyDescriptors())
+        .map(FeatureDescriptor::getName)
+        .filter(propertyName -> Objects.isNull(src.getPropertyValue(propertyName)))
+        .toArray(String[]::new);
   }
 
   public User findById(String username) {
@@ -96,8 +99,22 @@ public class UserService {
     String messageResetPasswordEmail =
         "We have sent an email to your mail. Please follow the instructions in it to reset your password!";
     return new GenericResponse(messageResetPasswordEmail);
-
   }
+
+  @Override
+  public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    User user = this.findById(username);
+    org.springframework.security.core.userdetails.User.UserBuilder builder = null;
+    if (user != null) {
+      builder = org.springframework.security.core.userdetails.User.withUsername(username);
+      builder.password(new BCryptPasswordEncoder().encode(user.getPassword()));
+      builder.roles("USER");
+    } else {
+      throw new UsernameNotFoundException("User not found.");
+    }
+    return builder.build();
+  }
+
 
   public void createPasswordResetTokenForUser(User user, String token) {
     Date currentDate = new Date();
