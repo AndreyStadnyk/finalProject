@@ -14,7 +14,7 @@ import Tape from '../Tape/Tape'
 import {useDispatch, useSelector} from 'react-redux'
 import {fetchUserPosts} from '../../actions/postActions'
 import ProfileUpdate from './ProfileUpdate'
-import ModalWindow from '../ModalNewPost/ModalNewPost'
+import ModalWindow from '../ModalPost/ModalPost'
 
 function TabPanel (props) {
   const {children, value, index, ...other} = props

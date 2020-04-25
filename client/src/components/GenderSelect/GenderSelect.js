@@ -20,7 +20,7 @@ export default function ControlledOpenSelect (props) {
   const classes = useStyles()
 
   const handleChange = event => {
-    props.setAge(event.target.value)
+    props.setGender(event.target.value)
   }
 
   return (
