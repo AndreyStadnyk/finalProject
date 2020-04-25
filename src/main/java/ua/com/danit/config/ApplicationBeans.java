@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import ua.com.danit.security.AuthenticationEntryPointImpl;
 
 import java.util.Properties;
 
