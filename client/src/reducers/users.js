@@ -3,7 +3,8 @@ import {actionTypes} from '../actions'
 const initialState = {
   pending: true,
   currentUser: null,
-  userRegistered: false
+  userRegistered: false,
+  userLogged: false
 }
 
 export default function usersReducer (state = initialState, action) {
@@ -13,6 +14,12 @@ export default function usersReducer (state = initialState, action) {
         ...state,
         userRegistered: true
       }
+    case actionTypes.LOG_USER:
+      return {
+        ...state,
+        userLogged: true
+      }
+
     case actionTypes.FETCH_USER_PENDING:
       return {
         ...state,

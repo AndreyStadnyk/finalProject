@@ -30,7 +30,7 @@ export default function Post (props) {
     userPosts: state.posts.userPosts
   }))
   console.log(userPosts)
-  const commentArray = props.post.comments
+  const commentArray = props.post.comments;
   const commentsList = commentArray.map((comment) => {
     return (<li>{comment.text}</li>)
   })

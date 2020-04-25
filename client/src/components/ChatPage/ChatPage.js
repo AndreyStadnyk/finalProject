@@ -21,7 +21,7 @@ export default function ChatPage (){
 
 return(
     <div className={classes.container}>
-        <Header/>
+
         <div>
             <div className={classes.leftPannelOfUsers}>
 
