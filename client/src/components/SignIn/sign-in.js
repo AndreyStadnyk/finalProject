@@ -47,15 +47,16 @@ export default function SignIn () {
   const userLogged = useSelector(state => state.users.userLogged)
   const signIn = event => {
     event.preventDefault()
-    const frmdetails = {
-      'password': password,
-      'username': username,
-    }
-    dispatch(logeUser(frmdetails))
+
+    const formData = new FormData()
+      formData.append('username', username);
+    formData.append('password', password);
+    console.log(formData);
+    dispatch(logeUser(formData))
   }
   if (userLogged === true) {
     return (
-        <Redirect to="/sign-in"/>
+        <Redirect to="/profile"/>
     )
   }
   return (
