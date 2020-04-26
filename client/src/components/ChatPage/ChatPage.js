@@ -1,6 +1,6 @@
 import React from "react";
-import makeStyles from "../Post/Post";
-import Header from "../Header/Header";
+import makeStyles from "@material-ui/core/styles/makeStyles";
+import Navbar from "../TopMenu/top-menu";
 
 export default function ChatPage (){
 
@@ -21,7 +21,7 @@ export default function ChatPage (){
 
 return(
     <div className={classes.container}>
-
+        <Navbar/>
         <div>
             <div className={classes.leftPannelOfUsers}>
 

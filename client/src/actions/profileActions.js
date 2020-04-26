@@ -17,7 +17,7 @@ export function createUser (frmDetails) {
     }))
 }
 export function logeUser(frmDetails) {
-    return dispatch => api.post('api/auth', frmDetails)
+    return dispatch => api.post('/auth', frmDetails)
         .then(() => dispatch({
             type: profileTypes.LOG_USER,
             payload: frmDetails
