@@ -14,9 +14,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Copyright from '../Copyright/copyright'
 import {NavLink} from 'react-router-dom'
-import { logeUser} from "../../actions/profileActions";
-import {useDispatch, useSelector} from "react-redux";
-import Redirect from "react-router-dom/es/Redirect";
+import {logeUser} from '../../actions/profileActions'
+import {useDispatch, useSelector} from 'react-redux'
+import Redirect from 'react-router-dom/es/Redirect'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -49,14 +49,14 @@ export default function SignIn () {
     event.preventDefault()
 
     const formData = new FormData()
-      formData.append('username', username);
-    formData.append('password', password);
-    console.log(formData);
+    formData.append('username', username)
+    formData.append('password', password)
+    console.log(formData)
     dispatch(logeUser(formData))
   }
   if (userLogged === true) {
     return (
-        <Redirect to="/profile"/>
+      <Redirect to="/profile"/>
     )
   }
   return (

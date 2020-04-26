@@ -7,7 +7,7 @@ import Wall from '../Wall/Wall'
 import NotFound from '../NotFound/NotFound'
 import {useDispatch, useSelector} from 'react-redux'
 import {fetchCurrentUser} from '../../actions/profileActions'
-import ChatPage from "../ChatPage/ChatPage";
+import ChatPage from '../ChatPage/ChatPage'
 
 const useStyles = makeStyles(theme => ({
   parent: {

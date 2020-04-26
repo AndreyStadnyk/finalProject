@@ -1,36 +1,35 @@
-import React from "react";
-import makeStyles from "@material-ui/core/styles/makeStyles";
-import Navbar from "../TopMenu/top-menu";
+import React from 'react'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import Navbar from '../TopMenu/top-menu'
 
-export default function ChatPage (){
+export default function ChatPage () {
+  const useStyles = makeStyles(theme => ({
+    leftPannelOfUsers: {
+      width: '30%',
+      backgroundColor: 'blue'
+    },
+    container: {
+      display: 'flex'
+    },
+    rightPannelChat: {
 
-    const useStyles = makeStyles(theme => ({
-        leftPannelOfUsers:{
-           width:"30%" ,
-            backgroundColor:"blue"
-        },
-        container:{
-            display:"flex",
-        },
-        rightPannelChat:{
+    }
 
-        }
+  }))
+  const classes = useStyles()
 
-    }))
-    const classes = useStyles()
-
-return(
+  return (
     <div className={classes.container}>
-        <Navbar/>
-        <div>
-            <div className={classes.leftPannelOfUsers}>
+      <Navbar/>
+      <div>
+        <div className={classes.leftPannelOfUsers}>
 
-            </div>
-            <div className={classes.rightPannelChat}>
-
-            </div>
         </div>
+        <div className={classes.rightPannelChat}>
+
+        </div>
+      </div>
 
     </div>
-)
+  )
 }
