@@ -10,7 +10,6 @@ export default function App () {
     <div>
       <Switch>
         <Route exact path='/sign-up' component={Register}/>
-
         <Route exact path='/sign-in' component={SignIn}/>
         <Route exact path='/*' component={ProtectedRoute}/>
       </Switch>

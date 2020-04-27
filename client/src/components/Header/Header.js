@@ -15,8 +15,9 @@ import MoreIcon from '@material-ui/icons/MoreVert'
 import FacebookIcon from '@material-ui/icons/Facebook'
 
 import './Header.css'
-import {NavLink} from 'react-router-dom'
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import {NavLink} from 'react-router-dom'
+import Redirect from 'react-router-dom/es/Redirect'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -96,7 +97,10 @@ export default function PrimarySearchAppBar () {
   const handleProfileMenuOpen = event => {
     setAnchorEl(event.currentTarget)
   }
-
+  const redirectToChat = () => {
+    console.log('asdasd')
+    return <Redirect to={'/chat'}/>
+  }
   const handleMobileMenuClose = () => {
     setMobileMoreAnchorEl(null)
   }
@@ -142,7 +146,7 @@ export default function PrimarySearchAppBar () {
       <MenuItem>
         <IconButton aria-label='show 4 new mails' color='inherit'>
           <Badge badgeContent={4} color='secondary'>
-            <MailIcon />
+            <MailIcon/>
           </Badge>
         </IconButton>
         <p>Messages</p>
@@ -150,7 +154,7 @@ export default function PrimarySearchAppBar () {
       <MenuItem>
         <IconButton aria-label='show 11 new notifications' color='inherit'>
           <Badge badgeContent={11} color='secondary'>
-            <NotificationsIcon />
+            <NotificationsIcon/>
           </Badge>
         </IconButton>
         <p>Notifications</p>
@@ -162,7 +166,7 @@ export default function PrimarySearchAppBar () {
           aria-haspopup='true'
           color='inherit'
         >
-          <AccountCircle />
+          <AccountCircle/>
         </IconButton>
         <p>Profile</p>
       </MenuItem>
@@ -180,7 +184,7 @@ export default function PrimarySearchAppBar () {
             color='inherit'
             aria-label='open drawer'
           >
-            <FacebookIcon />
+            <FacebookIcon/>
           </IconButton>
 
           <div className={classes.search}>
@@ -194,7 +198,7 @@ export default function PrimarySearchAppBar () {
             />
 
             <IconButton type='submit' className={classes.iconButton} aria-label='search'>
-              <SearchIcon />
+              <SearchIcon/>
             </IconButton>
           </div>
           <div className={classes.grow}>
@@ -209,15 +213,19 @@ export default function PrimarySearchAppBar () {
             </ul>
           </div>
           <div className={classes.sectionDesktop}>
-
-            <IconButton aria-label='show 4 new mails' color='inherit'>
+            <IconButton onClick={redirectToChat} aria-label='show 4 new mails' color='inherit'>
               <Badge badgeContent={4} color='secondary'>
-                <MailIcon />
+                <NavLink to={'/chat'}>
+
+                  <MailIcon/>
+                </NavLink>
               </Badge>
+
             </IconButton>
+
             <IconButton aria-label='show 17 new notifications' color='inherit'>
               <Badge badgeContent={17} color='secondary'>
-                <NotificationsIcon />
+                <NotificationsIcon/>
               </Badge>
             </IconButton>
             <IconButton
@@ -228,7 +236,7 @@ export default function PrimarySearchAppBar () {
               onClick={handleProfileMenuOpen}
               color='inherit'
             >
-              <AccountCircle />
+              <AccountCircle/>
             </IconButton>
           </div>
           <div className={classes.sectionMobile}>
@@ -239,7 +247,7 @@ export default function PrimarySearchAppBar () {
               onClick={handleMobileMenuOpen}
               color='inherit'
             >
-              <MoreIcon />
+              <MoreIcon/>
             </IconButton>
           </div>
         </Toolbar>
