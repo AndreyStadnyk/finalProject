@@ -6,74 +6,51 @@ import './Post.css'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import {pink, lightBlue} from '@material-ui/core/colors'
-import {createComment, deletePost} from '../../actions/postActions'
-import {useDispatch, useSelector} from 'react-redux'
+import {deletePost} from '../../actions/postActions'
+import {useDispatch} from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
 import Card from '@material-ui/core/Card'
-import FormControl from '@material-ui/core/FormControl'
-import Input from '@material-ui/core/Input'
-import InputAdornment from '@material-ui/core/InputAdornment'
-import SendIcon from '@material-ui/icons/Send'
-import ModalPost from '../ModalPost/ModalPost'
+import ModalWindow from '../ModalPost/ModalPost'
+import Comment from '../Comment/Comment'
+import Button from '@material-ui/core/Button'
+import ModalComment from '../ModalComment/ModalComment'
 
 export default function Post (props) {
   const dispatch = useDispatch()
   const [modalActive, setActive] = useState(false)
-  const [text, setComment] = useState('')
-  // const [comments] = useSelector(state => (
-  //         state.post.comments
-  //     ))
-  const {
-    userPosts
-  } = useSelector(state => ({
-    userPosts: state.posts.userPosts
-  }))
-  console.log(userPosts)
-  const commentArray = props.post.comments
-  const commentsList = commentArray.map((comment) => {
-    return (<li>{comment.text}</li>)
-  })
+  const [commentModalActive, setCommentActive] = useState(false)
+
   const handleClickDelete = () => {
     dispatch(deletePost(props.post.id))
   }
 
-  const onChange = (e) => {
-    setComment(e.target.value)
-  }
   const toggleModal = () => {
     setActive(true)
   }
-  const postId = props.post.id
-  const handleClickAddComment = () => {
-    console.log(postId)
-    dispatch(createComment({text, postId}, postId
-    ))
+
+  const toggleCommentModal = () => {
+    setCommentActive(true)
   }
+
   const modal = modalActive
-    ? <ModalPost modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+    ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+  const commentModal = commentModalActive ? <ModalComment commentModalActive={commentModalActive}
+    postId={props.post.id} setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
     root: {
-      display: 'flex',
       boxShadow: '1px 2px 1px 1px rgba(0,0,0,0.2), 2px 1px 1px 1px rgba(0,0,0,0.14), 2px 1px 3px 1px rgba(0,0,0,0.12)',
-      borderRadius: 15,
-      flexDirection: 'column'
-
+      borderRadius: 15
     },
     details: {
-      display: 'flex',
-      justifyContent: 'space-around'
-
+      display: 'flex'
     },
     avatar: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center',
       width: 60
-    },
-    commentsContainer: {
-      marginLeft: '20px'
     },
     content: {
       width: 'calc(100% - 170px)',
@@ -82,10 +59,6 @@ export default function Post (props) {
     text: {
       display: 'flex',
       flexDirection: 'column'
-    },
-    margin: {
-      margin: theme.spacing(1),
-      alignItems: 'flex-end'
     },
     cover: {
       width: 151
@@ -98,17 +71,7 @@ export default function Post (props) {
     },
     button: {
       width: 40,
-      height: 40,
-      hover: 'none'
-    },
-    input: {
-      display: 'flex',
-      flexDirection: 'row-reverse',
-      maxWidth: '200px'
-
-    },
-    iconSend: {
-      marginTop: '-5px'
+      height: 40
     }
   }))
   const classes = useStyles()
@@ -116,6 +79,7 @@ export default function Post (props) {
   return (
     <>
       {modal}
+      {commentModal}
       <Card className={classes.root}>
         <div className={classes.details}>
           <div className={classes.avatar}>
@@ -123,13 +87,41 @@ export default function Post (props) {
           </div>
           <CardContent className={classes.content}>
             <div className={classes.text}>
-              <Typography component="p" variant="body1">
+              <Typography component="p" variant="subtitle2">
+                  Owner: {props.post.ownerUsername}
+              </Typography>
+              <Typography component="p" variant="subtitle2">
+                  Author: {props.post.authorUsername}
+              </Typography>
+              <Typography component="p" variant="subtitle2">
                 {props.post.date.toString()}
               </Typography>
-              <Typography
-                component="p" variant="body1">
+              <Typography component="p" variant="body1">
                 {props.post.text}
               </Typography>
+              <Typography component="p" variant="h5">
+                  Comments:
+              </Typography>
+              <Button
+                variant="contained"
+                color="primary"
+                className={classes.button}
+                onClick={toggleCommentModal}
+              >
+                  Add
+              </Button>
+              {props.post.comments.map(comment => (
+                <Comment comment={comment}>
+                </Comment>
+              ))}
+              <Typography component="p" variant="h5">
+                  Likes ({props.post.likes.length}):
+              </Typography>
+              {props.post.likes.map(like => (
+                <Typography component="p" variant="body2">
+                  {like.userUsername}
+                </Typography>
+              ))}
             </div>
           </CardContent>
           <IconButton
@@ -154,36 +146,6 @@ export default function Post (props) {
             <DeleteForeverIcon/>
           </IconButton>
         </div>
-        <div className={classes.commentsContainer}>
-          <span>Comments:</span>
-          <li>{commentsList}</li>
-        </div>
-
-        <FormControl className={classes.margin}>
-          <Input
-            placeholder={'type your comment...'}
-            onChange={onChange}
-            className={classes.input}
-            id="input-with-icon-adornment"
-            startAdornment={
-              <InputAdornment
-                placeholder="Leave your comment"
-                position='end'>
-                <IconButton
-
-                  className={classes.button}
-                  style={{color: lightBlue.A700}}
-                  onClick={e => {
-                    e.stopPropagation()
-                    handleClickAddComment()
-                  }}
-                >
-                  <SendIcon className={classes.iconSend}/>
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
       </Card>
     </>
   )
