@@ -123,9 +123,6 @@ export default function ProfileTabs () {
           >
             <Tab label="Posts" {...a11yProps(0)} />
             <Tab label="Edit profile" {...a11yProps(1)} />
-            <Tab label="Requests" {...a11yProps(2)} />
-            <Tab label="Messages" {...a11yProps(3)} />
-
           </Tabs>
         </AppBar>
         <SwipeableViews
@@ -148,13 +145,6 @@ export default function ProfileTabs () {
           <TabPanel value={value} index={1} dir={theme.direction}>
             <ProfileUpdate currentUser={currentUser}/>
           </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            Item Three
-          </TabPanel>
-          <TabPanel value={value} index={3} dir={theme.direction}>
-            Item Four
-          </TabPanel>
-
         </SwipeableViews>
       </div>
     </>
