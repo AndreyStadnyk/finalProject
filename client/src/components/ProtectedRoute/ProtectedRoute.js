@@ -7,6 +7,7 @@ import Wall from '../Wall/Wall'
 import NotFound from '../NotFound/NotFound'
 import {useDispatch, useSelector} from 'react-redux'
 import {fetchCurrentUser} from '../../actions/profileActions'
+import ChatPage from '../ChatPage/ChatPage'
 
 const useStyles = makeStyles(theme => ({
   parent: {
@@ -23,8 +24,9 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function ProtectedRouter () {
-  const {currentUser, pending} = useSelector(state => ({
+  const {currentUser, userLogged, pending} = useSelector(state => ({
     currentUser: state.users.currentUser,
+    userLogged: state.users.userLogged,
     pending: state.users.pending
   }))
 
@@ -45,9 +47,10 @@ export default function ProtectedRouter () {
     )
   }
 
-  if (currentUser) {
+  if (currentUser && userLogged) {
     return (
       <Switch>
+        <Route exact path='/chat' component={ChatPage}/>
         <Route exact path='/profile' component={Profile}/>
         <Route exact path='/tape' component={Wall}/>
         <Route exact path='/*' component={NotFound}/>

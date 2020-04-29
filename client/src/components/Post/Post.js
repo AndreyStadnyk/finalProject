@@ -88,10 +88,10 @@ export default function Post (props) {
           <CardContent className={classes.content}>
             <div className={classes.text}>
               <Typography component="p" variant="subtitle2">
-                Owner: {props.post.ownerUsername}
+                  Owner: {props.post.ownerUsername}
               </Typography>
               <Typography component="p" variant="subtitle2">
-                Author: {props.post.authorUsername}
+                  Author: {props.post.authorUsername}
               </Typography>
               <Typography component="p" variant="subtitle2">
                 {props.post.date.toString()}
@@ -100,7 +100,7 @@ export default function Post (props) {
                 {props.post.text}
               </Typography>
               <Typography component="p" variant="h5">
-                Comments:
+                  Comments:
               </Typography>
               <Button
                 variant="contained"
@@ -108,14 +108,14 @@ export default function Post (props) {
                 className={classes.button}
                 onClick={toggleCommentModal}
               >
-                Add
+                  Add
               </Button>
               {props.post.comments.map(comment => (
                 <Comment comment={comment}>
                 </Comment>
               ))}
               <Typography component="p" variant="h5">
-                Likes ({props.post.likes.length}):
+                  Likes ({props.post.likes.length}):
               </Typography>
               {props.post.likes.map(like => (
                 <Typography component="p" variant="body2">

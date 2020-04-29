@@ -1,7 +1,7 @@
 import {Switch, Route} from 'react-router-dom'
 import React from 'react'
 import './App.css'
-import SignIn from './components/SignIn/sign-in'
+import SignIn from './components/SignIn/SignIn'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import Register from './components/Register/Register'
 
@@ -10,7 +10,6 @@ export default function App () {
     <div>
       <Switch>
         <Route exact path='/sign-up' component={Register}/>
-
         <Route exact path='/sign-in' component={SignIn}/>
         <Route exact path='/*' component={ProtectedRoute}/>
       </Switch>

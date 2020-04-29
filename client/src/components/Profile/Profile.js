@@ -4,7 +4,7 @@ import ProfileCard from './ProfileCard'
 import {pink, lightBlue, grey} from '@material-ui/core/colors'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
-import TopMenu from '../TopMenu/top-menu'
+import TopMenu from '../TopMenu/TopMenu'
 import ProfileTabs from './ProfileTabs'
 
 const useStyles = makeStyles(theme => ({

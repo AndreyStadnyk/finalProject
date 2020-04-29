@@ -50,11 +50,6 @@ public class UserController {
 
   @GetMapping("/current")
   public ResponseEntity<UserResponse> getCurrentUser() throws InterruptedException {
-    counter++;
-    if (counter % 3 == 0) {
-      return null;
-    }
-    Thread.sleep(1000);
     return ResponseEntity.ok(userMapper.getCurrentUser());
   }
 

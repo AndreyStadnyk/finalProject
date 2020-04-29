@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
@@ -14,6 +14,9 @@ import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import Copyright from '../Copyright/copyright'
 import {NavLink} from 'react-router-dom'
+import {logeUser} from '../../actions/profileActions'
+import {useDispatch, useSelector} from 'react-redux'
+import Redirect from 'react-router-dom/es/Redirect'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -36,8 +39,26 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function SignIn () {
+  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('')
   const classes = useStyles()
 
+  const dispatch = useDispatch()
+  const userLogged = useSelector(state => state.users.userLogged)
+  const signIn = event => {
+    event.preventDefault()
+
+    const formData = new FormData()
+    formData.append('username', username)
+    formData.append('password', password)
+    console.log(formData)
+    dispatch(logeUser(formData))
+  }
+  if (userLogged === true) {
+    return (
+      <Redirect to="/profile"/>
+    )
+  }
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -57,6 +78,7 @@ export default function SignIn () {
             id='email'
             label='Email Address'
             name='email'
+            onChange={e => setUsername(e.target.value)}
             autoComplete='email'
             autoFocus
           />
@@ -65,6 +87,7 @@ export default function SignIn () {
             margin='normal'
             required
             fullWidth
+            onChange={e => setPassword(e.target.value)}
             name='password'
             label='Password'
             type='password'
@@ -80,6 +103,7 @@ export default function SignIn () {
             fullWidth
             variant='contained'
             color='primary'
+            onClick={signIn}
             className={classes.submit}
           >
             Sign In
