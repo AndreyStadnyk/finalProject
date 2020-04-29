@@ -49,7 +49,7 @@ public class PostMapper {
 
   public Page<PostResponse> findPosts(Pageable pageable) {
     Page<Post> posts = postService.findPosts(pageable);
-    return modelMapper.map(posts, new TypeToken<Page<PostResponse>>(){}.getType());
+    return posts.map(post -> modelMapper.map(post, PostResponse.class));
   }
 
   public PostResponse removeOrAddLikeByPostId(long postId) {

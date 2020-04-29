@@ -16,8 +16,9 @@ import {fetchUserPosts, fetchUserPostsByAmount} from '../../actions/postActions'
 
 import ProfileUpdate from './ProfileUpdate'
 import ModalWindow from '../ModalPost/ModalPost'
+import InfiniteList from '../InfiniteScroll/InfiniteScroll'
 
-function TabPanel (props) {
+function TabPanel(props) {
   const {children, value, index, ...other} = props
 
   return (
@@ -40,7 +41,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 }
 
-function a11yProps (index) {
+function a11yProps(index) {
   return {
     id: `full-width-tab-${index}`,
     'aria-controls': `full-width-tabpanel-${index}`
@@ -65,7 +66,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ProfileTabs () {
+export default function ProfileTabs() {
   const classes = useStyles()
   const theme = useTheme()
   const [value, setValue] = useState(0)
@@ -84,8 +85,8 @@ export default function ProfileTabs () {
 
   useEffect(() => {
     if (userPosts === null) {
-         // dispatch(fetchUserPosts())
-       dispatch(fetchUserPostsByAmount(11))
+      // dispatch(fetchUserPosts())
+      dispatch(fetchUserPostsByAmount(11))
     }
   }, [userPosts, dispatch])
 
@@ -100,6 +101,7 @@ export default function ProfileTabs () {
   const toggleModal = () => {
     setActive(true)
   }
+
 
   if (pending) {
     return (
@@ -145,7 +147,14 @@ export default function ProfileTabs () {
             >
               Add post
             </Button>
-            <Tape posts={userPosts}/>
+            {/* <Tape posts={userPosts}/> */}
+            <InfiniteList
+              posts={userPosts}
+              fetchMore={() => dispatch((amount) => fetchUserPostsByAmount(amount))}
+              totalItems={userPosts.totalElements}
+              currentItems={userPosts.currentItems}
+            />
+
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             <ProfileUpdate currentUser={currentUser}/>
