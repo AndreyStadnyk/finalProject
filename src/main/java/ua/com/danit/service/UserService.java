@@ -5,6 +5,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -79,7 +82,12 @@ public class UserService implements UserDetailsService {
   }
 
   public User getCurrentUser() {
-    return userRepository.findAll().get(0);
+    String currentUserName = "";
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (!(authentication instanceof AnonymousAuthenticationToken)) {
+      currentUserName = authentication.getName();
+    }
+    return userRepository.findByUsername(currentUserName);
   }
 
   public boolean isCurrentUser(String username) {
