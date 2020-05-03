@@ -24,9 +24,8 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function ProtectedRouter () {
-  const {currentUser, userLogged, pending} = useSelector(state => ({
+  const {currentUser, pending} = useSelector(state => ({
     currentUser: state.users.currentUser,
-    userLogged: state.users.userLogged,
     pending: state.users.pending
   }))
 
@@ -47,9 +46,10 @@ export default function ProtectedRouter () {
     )
   }
 
-  if (currentUser && userLogged) {
+  if (currentUser) {
     return (
       <Switch>
+        <Route exact path='/' component={Wall}/>
         <Route exact path='/chat' component={ChatPage}/>
         <Route exact path='/profile' component={Profile}/>
         <Route exact path='/tape' component={Wall}/>

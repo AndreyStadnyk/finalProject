@@ -44,7 +44,11 @@ public class UserMapper {
 
   public UserResponse getCurrentUser() {
     User currentUser = userService.getCurrentUser();
-    return modelMapper.map(currentUser, UserResponse.class);
+    if (currentUser == null) {
+      return null;
+    } else {
+      return modelMapper.map(currentUser, UserResponse.class);
+    }
   }
 
   public List<UserResponse> searchForUsersListByName(String queryStr) {
