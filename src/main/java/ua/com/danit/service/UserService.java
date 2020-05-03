@@ -82,12 +82,12 @@ public class UserService implements UserDetailsService {
   }
 
   public User getCurrentUser() {
-    String currentUserName = "";
     Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-    if (!(authentication instanceof AnonymousAuthenticationToken)) {
-      currentUserName = authentication.getName();
+    if (authentication instanceof AnonymousAuthenticationToken) {
+      return null;
+    } else {
+      return userRepository.findByUsername(authentication.getName());
     }
-    return userRepository.findByUsername(currentUserName);
   }
 
   public boolean isCurrentUser(String username) {
