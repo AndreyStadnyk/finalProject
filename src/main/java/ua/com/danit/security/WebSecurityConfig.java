@@ -33,7 +33,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
   @Override
   protected void configure(HttpSecurity http) throws Exception {
     http.csrf().disable().authorizeRequests()
-      .anyRequest()
+      .antMatchers("/h2-console/**", "/swagger-ui.html", "/api/users",
+        "/api/users/current", "/api/users/resetPassword", "/api/users/changePassword")
+      .permitAll()
+      .antMatchers("/api/**")
       .authenticated()
       .and()
       .exceptionHandling()
@@ -44,6 +47,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       .successHandler(successHandler)
       .failureHandler(failureHandler)
       .permitAll();
+    http.headers().frameOptions().disable();
   }
 
   @Override

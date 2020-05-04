@@ -13,9 +13,10 @@ import Typography from '@material-ui/core/Typography'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
 import GenderSelect from '../GenderSelect/GenderSelect'
-import {NavLink, Redirect} from 'react-router-dom'
+import {NavLink} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 import {createUser} from '../../actions/profileActions'
+import Redirect from 'react-router-dom/es/Redirect'
 
 function Copyright () {
   return (
@@ -70,7 +71,7 @@ export default function SignUp () {
   const [gender, setGender] = React.useState('')
 
   const dispatch = useDispatch()
-  const userRegistered = useSelector(state => state.users.userRegistered)
+  const currentUser = useSelector(state => state.users.currentUser)
   const submitValue = event => {
     event.preventDefault()
     const frmdetails = {
@@ -82,12 +83,15 @@ export default function SignUp () {
       'gender': gender,
       'birthDate': date
     }
-    dispatch(createUser(frmdetails))
-  }
+    const formData = new FormData()
+    formData.append('username', username)
+    formData.append('password', password)
 
-  if (userRegistered === true) {
+    dispatch(createUser(frmdetails, formData))
+  }
+  if (currentUser) {
     return (
-      <Redirect to="/sign-in"/>
+      <Redirect to="/profile"/>
     )
   }
   return (

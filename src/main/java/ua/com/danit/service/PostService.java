@@ -28,7 +28,7 @@ public class PostService {
 
   public Post create(Post post, String ownerUsername) {
     post.setAuthor(userService.getCurrentUser());
-    post.setOwner(userService.findById(ownerUsername));
+    post.setOwner(userService.findByUsername(ownerUsername));
     post.setId(null);
     post.setDate(new Date());
     postRepository.save(post);
