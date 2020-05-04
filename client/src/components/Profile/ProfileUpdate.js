@@ -43,12 +43,10 @@ export default function ProfileUpdate (props) {
       alignItems: 'center'
     }
   }))
-  const { register, handleSubmit, watch, errors } = useForm()
+  const { register, handleSubmit, errors } = useForm()
   const onSubmit = data => { dispatch(updateUser(data)) }
   const dispatch = useDispatch()
   const classes = useStyles()
-
-  console.log(watch('lastName')) // watch input value by passing the name of it
 
   return (
     <form className={classes.root} onSubmit={handleSubmit(onSubmit)}>
@@ -97,7 +95,7 @@ export default function ProfileUpdate (props) {
               defaultValue={props.currentUser.username}
               variant='outlined'
               margin='normal'
-              inputRef={register({ required: true, minLength: 10, pattern: /^[A-Za-z]+$/i })}
+              inputRef={register({ required: true, minLength: 3, pattern: /^[A-Za-z]+$/i })}
               fullWidth
             />
             <TextField
@@ -136,7 +134,7 @@ export default function ProfileUpdate (props) {
         Save
       </Button>
       {errors.username &&
-        <Alert variant='outlined' className={classes.alert} severity="error">Username must be min 8 A-z characters please!</Alert>}
+        <Alert variant='outlined' className={classes.alert} severity="error">Username must be min 3 A-z characters please!</Alert>}
       {errors.password &&
         <Alert variant='outlined' className={classes.alert} severity="error">Password field required!</Alert>}
 

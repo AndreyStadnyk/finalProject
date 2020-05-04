@@ -1,12 +1,13 @@
 package ua.com.danit.config;
 
+import org.h2.server.web.WebServlet;
 import org.modelmapper.ModelMapper;
+import org.springframework.boot.web.servlet.ServletRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import ua.com.danit.security.AuthenticationEntryPointImpl;
 
 import java.util.Properties;
 
@@ -39,6 +40,13 @@ public class ApplicationBeans {
     props.put("mail.debug", "true");
 
     return mailSender;
+  }
+
+  @Bean
+  ServletRegistrationBean h2servletRegistration(){
+    ServletRegistrationBean registrationBean = new ServletRegistrationBean( new WebServlet());
+    registrationBean.addUrlMappings("/h2-console/*");
+    return registrationBean;
   }
 
 }

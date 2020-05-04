@@ -45,7 +45,7 @@ public class UserController {
 
   @GetMapping("/{username}")
   public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
-    return ResponseEntity.ok(userMapper.findById(username));
+    return ResponseEntity.ok(userMapper.findByUsername(username));
   }
 
   @GetMapping("/current")
