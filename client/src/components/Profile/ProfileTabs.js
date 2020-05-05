@@ -101,7 +101,7 @@ export default function ProfileTabs () {
     setActive(true)
   }
 
-  if (pending) {
+  if (pending && userPosts === null) {
     return (
       <div className={classes.parent}>
         <CircularProgress size={100}/>

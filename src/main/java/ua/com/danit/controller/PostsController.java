@@ -5,7 +5,14 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import ua.com.danit.dto.request.PostRequest;
 import ua.com.danit.dto.response.PostResponse;
 import ua.com.danit.mapping.PostMapper;
@@ -35,14 +42,10 @@ public class PostsController {
   }
 
   @DeleteMapping("/{postId}")
-  public ResponseEntity<PostResponse> delete(@PathVariable long postId) {
+  public ResponseEntity<PostResponse> delete(@PathVariable
+                                                   long postId) {
     return ResponseEntity.ok(postMapper.delete(postId));
   }
-
-//  @GetMapping
-//  public ResponseEntity<List<PostResponse>> getAllPosts() {
-//    return ResponseEntity.ok(postMapper.getAllPostsForCurrentUser());
-//  }
 
   @GetMapping
   public ResponseEntity<Page<PostResponse>> getAllPosts(@PageableDefault Pageable pageable) {

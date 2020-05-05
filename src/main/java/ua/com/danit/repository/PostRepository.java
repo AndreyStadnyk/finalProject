@@ -11,6 +11,6 @@ import java.util.List;
 public interface PostRepository extends JpaRepository<Post, Long> {
 
   List<Post> findPostsByOwner(User owner);
-  Page<Post> findPostsByOwner(User owner, Pageable pageable);
+  Page<Post> findPostsByOwner (User owner, Pageable pageable);
 
 }
