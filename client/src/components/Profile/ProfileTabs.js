@@ -13,8 +13,9 @@ import PostAddIcon from '@material-ui/icons/PostAdd'
 import Tape from '../Tape/Tape'
 import {useDispatch, useSelector} from 'react-redux'
 import {fetchUserPosts} from '../../actions/postActions'
-import ProfileUpdate from './ProfileUpdate'
 import ModalWindow from '../ModalPost/ModalPost'
+import { updateUser } from '../../actions/profileActions'
+import ProfileForm from './ProfileForm'
 
 function TabPanel (props) {
   const {children, value, index, ...other} = props
@@ -143,7 +144,7 @@ export default function ProfileTabs () {
             <Tape posts={userPosts}/>
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <ProfileUpdate currentUser={currentUser}/>
+            <ProfileForm userAction={updateUser} buttonLabel="Update" currentUser={currentUser}/>
           </TabPanel>
         </SwipeableViews>
       </div>
