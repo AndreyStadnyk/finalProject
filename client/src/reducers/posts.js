@@ -4,7 +4,8 @@ const initialState = {
   pending: true,
   userPosts: null,
   wallPosts: null,
-  totalElements: 0
+  totalElements: 0,
+  pageNumber: 0
 }
 
 export default function postsReducer (state = initialState, action) {

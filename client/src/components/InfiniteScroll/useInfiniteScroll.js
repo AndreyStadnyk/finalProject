@@ -1,8 +1,8 @@
-import {useState, useEffect} from 'react'
+import {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 
 const useInfiniteScroll = (callback) => {
-  const [isFetching, setIsFetching] = useState(true)
+  const isFetching = useSelector(state => state.posts.pending)
 
   const dispatch = useDispatch()
 
@@ -16,7 +16,6 @@ const useInfiniteScroll = (callback) => {
 
   useEffect(() => {
     window.addEventListener('scroll', handleScroll)
-    setIsFetching(true)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [handleScroll])
 
@@ -31,13 +30,10 @@ const useInfiniteScroll = (callback) => {
   function handleScroll () {
     if (pageNumber >= totalPages) return
     if ((window.innerHeight + document.documentElement.scrollTop) / document.documentElement.offsetHeight < 0.85 || isFetching) return
-    setTimeout(() => {
-      setIsFetching(false)
-      return dispatch(callback(pageNumber + 1))
-    }, 1000)
+    dispatch(callback(pageNumber + 1))
   }
 
-  return [isFetching, setIsFetching]
+  return isFetching
 }
 
 export default useInfiniteScroll
