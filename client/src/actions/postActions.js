@@ -59,7 +59,7 @@ export const fetchWallPosts = () => dispatch => {
     })
 }
 
-export function addPost(post, ownerUsername) {
+export function addPost (post, ownerUsername) {
   return dispatch => api.post(`/api/posts/${ownerUsername}`, post)
     .then(results => {
       api.get(`/api/posts`).then(results => {
@@ -68,7 +68,7 @@ export function addPost(post, ownerUsername) {
     })
 }
 
-export function deletePost(postId) {
+export function deletePost (postId) {
   return dispatch => api.deleteApi(`/api/posts/${postId}`)
     .then(results => {
       api.get(`/api/posts`).then(results => {
@@ -77,7 +77,7 @@ export function deletePost(postId) {
     })
 }
 
-export function updatePost(post) {
+export function updatePost (post) {
   const data = {
     text: post.text
   }
@@ -89,7 +89,7 @@ export function updatePost(post) {
     }))
 }
 
-export function addComment(comment) {
+export function addComment (comment) {
   const data = {
     text: comment.text
   }
@@ -102,7 +102,7 @@ export function addComment(comment) {
     })
 }
 
-export function deleteComment(commentId) {
+export function deleteComment (commentId) {
   return dispatch => api.deleteApi(`/api/comments/${commentId}`)
     .then(results => {
       api.get(`/api/posts`).then(results => {
@@ -111,7 +111,7 @@ export function deleteComment(commentId) {
     })
 }
 
-export function updateComment(comment) {
+export function updateComment (comment) {
   const data = {
     text: comment.text
   }

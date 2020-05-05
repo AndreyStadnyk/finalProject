@@ -12,15 +12,13 @@ import Button from '@material-ui/core/Button'
 import PostAddIcon from '@material-ui/icons/PostAdd'
 import Tape from '../Tape/Tape'
 import {useDispatch, useSelector} from 'react-redux'
-import {fetchUserPosts, fetchUserPostsByAmount} from '../../actions/postActions'
-
-import ProfileUpdate from './ProfileUpdate'
+import {fetchUserPostsByAmount} from '../../actions/postActions'
 import ModalWindow from '../ModalPost/ModalPost'
-import { updateUser } from '../../actions/profileActions'
+import {updateUser} from '../../actions/profileActions'
 import ProfileForm from './ProfileForm'
 import InfiniteList from '../InfiniteScroll/InfiniteScroll'
 
-function TabPanel(props) {
+function TabPanel (props) {
   const {children, value, index, ...other} = props
 
   return (
@@ -82,14 +80,11 @@ export default function ProfileTabs () {
   } = useSelector(state => ({
     pending: state.posts.pending,
     userPosts: state.posts.userPosts,
-    totalPages: state.posts.totalPages,
-    pageNumber: state.posts.pageNumber,
     currentUser: state.users.currentUser
   }))
 
   useEffect(() => {
     if (userPosts === null) {
-      // dispatch(fetchUserPosts())
       dispatch(fetchUserPostsByAmount(0))
     }
   }, [userPosts, dispatch])
@@ -147,7 +142,6 @@ export default function ProfileTabs () {
             >
               Add post
             </Button>
-            {/* <Tape posts={userPosts}/> */}
             <InfiniteList
               elements={userPosts}
               fetchHandler={fetchUserPostsByAmount}
