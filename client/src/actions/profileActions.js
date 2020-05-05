@@ -11,7 +11,7 @@ export const createUser = (frmDetails, formData) => dispatch => {
     type: profileTypes.FETCH_USER_PENDING
   })
   api.post('/api/users', frmDetails)
-    .then(api.post('/auth', formData)
+    .then(() => api.post('/auth', formData)
       .then(() => dispatch(fetchCurrentUser())))
 }
 
@@ -38,12 +38,10 @@ export const fetchCurrentUser = () => dispatch => {
     })
 }
 
-export function updateUser (user) {
-  const data = {...user}
-
-  return dispatch => api.put(`/api/users`, data)
+export function updateUser (frmDetails) {
+  return dispatch => api.put(`/api/users`, frmDetails)
     .then(dispatch({
       type: profileTypes.UPDATE_USER,
-      payload: data
+      payload: frmDetails
     }))
 }

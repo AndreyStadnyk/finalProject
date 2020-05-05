@@ -16,6 +16,8 @@ import {fetchUserPosts, fetchUserPostsByAmount} from '../../actions/postActions'
 
 import ProfileUpdate from './ProfileUpdate'
 import ModalWindow from '../ModalPost/ModalPost'
+import { updateUser } from '../../actions/profileActions'
+import ProfileForm from './ProfileForm'
 import InfiniteList from '../InfiniteScroll/InfiniteScroll'
 
 function TabPanel(props) {
@@ -41,7 +43,7 @@ TabPanel.propTypes = {
   value: PropTypes.any.isRequired
 }
 
-function a11yProps(index) {
+function a11yProps (index) {
   return {
     id: `full-width-tab-${index}`,
     'aria-controls': `full-width-tabpanel-${index}`
@@ -66,7 +68,7 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ProfileTabs() {
+export default function ProfileTabs () {
   const classes = useStyles()
   const theme = useTheme()
   const [value, setValue] = useState(0)
@@ -103,7 +105,6 @@ export default function ProfileTabs() {
   const toggleModal = () => {
     setActive(true)
   }
-
 
   if (pending) {
     return (
@@ -154,7 +155,7 @@ export default function ProfileTabs() {
 
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
-            <ProfileUpdate currentUser={currentUser}/>
+            <ProfileForm userAction={updateUser} buttonLabel="Update" currentUser={currentUser}/>
           </TabPanel>
         </SwipeableViews>
       </div>

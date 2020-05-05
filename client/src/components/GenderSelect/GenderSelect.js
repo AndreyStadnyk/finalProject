@@ -31,7 +31,7 @@ export default function ControlledOpenSelect (props) {
         <Select
           labelId="demo-simple-select-helper-label"
           id="demo-simple-select-helper"
-
+          defaultValue={props.gender}
           onChange={handleChange}
         >
           <MenuItem value="">
