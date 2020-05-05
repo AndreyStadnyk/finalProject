@@ -80,13 +80,15 @@ export default function ProfileTabs() {
   } = useSelector(state => ({
     pending: state.posts.pending,
     userPosts: state.posts.userPosts,
+    totalPages: state.posts.totalPages,
+    pageNumber: state.posts.pageNumber,
     currentUser: state.users.currentUser
   }))
 
   useEffect(() => {
     if (userPosts === null) {
       // dispatch(fetchUserPosts())
-      dispatch(fetchUserPostsByAmount(11))
+      dispatch(fetchUserPostsByAmount(0))
     }
   }, [userPosts, dispatch])
 
@@ -146,10 +148,8 @@ export default function ProfileTabs() {
             </Button>
             {/* <Tape posts={userPosts}/> */}
             <InfiniteList
-              posts={userPosts}
-              fetchMore={() => dispatch((amount) => fetchUserPostsByAmount(amount))}
-              totalItems={userPosts.totalElements}
-              currentItems={userPosts.currentItems}
+              elements={userPosts}
+              fetchHandler={fetchUserPostsByAmount}
             />
 
           </TabPanel>

@@ -30,8 +30,9 @@ export default function postsReducer (state = initialState, action) {
       return {
         ...state,
         pending: false,
-        userPosts: action.payload,
-        totalElements: action.payload.length
+        userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload),
+        pageNumber: action.pageNumber,
+        totalPages: action.totalPages
       }
 
     case actionTypes.FETCH_WALL_POSTS_PENDING:
