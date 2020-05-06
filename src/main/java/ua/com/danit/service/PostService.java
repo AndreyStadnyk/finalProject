@@ -68,7 +68,7 @@ public class PostService {
     return postRepository.findPostsByOwner(userService.getCurrentUser());
   }
 
-  public Page<Post> findPosts (Pageable pageable) {
+  public Page<Post> findPosts(Pageable pageable) {
     return postRepository.findPostsByOwner(userService.getCurrentUser(), pageable);
   }
 

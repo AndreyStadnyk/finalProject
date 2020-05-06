@@ -4,7 +4,6 @@ import Post from '../Post/Post'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 export default function InfiniteList (props) {
-  console.log(props)
   const isFetching = useInfiniteScroll(props.fetchHandler)
 
   return (

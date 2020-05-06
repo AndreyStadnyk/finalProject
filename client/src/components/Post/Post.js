@@ -7,7 +7,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import {pink, lightBlue} from '@material-ui/core/colors'
 import {deletePost} from '../../actions/postActions'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
 import Card from '@material-ui/core/Card'
@@ -111,7 +111,7 @@ export default function Post (props) {
                   Add
               </Button>
               {props.post.comments.map(comment => (
-                <Comment comment={comment}>
+                <Comment comment={comment} postId={props.post.id}>
                 </Comment>
               ))}
               <Typography component="p" variant="h5">

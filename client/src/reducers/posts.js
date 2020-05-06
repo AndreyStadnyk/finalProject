@@ -4,7 +4,6 @@ const initialState = {
   pending: true,
   userPosts: null,
   wallPosts: null,
-  totalElements: 0,
   pageNumber: 0
 }
 
@@ -27,7 +26,6 @@ export default function postsReducer (state = initialState, action) {
       }
 
     case actionTypes.FETCH_USER_POSTS_BY_AMOUNT:
-      console.log(action.payload)
       return {
         ...state,
         pending: false,
@@ -49,14 +47,26 @@ export default function postsReducer (state = initialState, action) {
         wallPosts: action.payload
       }
 
+    case actionTypes.POST_CREATED:
+      return {
+        ...state,
+        userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload)
+      }
+
+    case actionTypes.POST_DELETED:
+      return {
+        ...state,
+        userPosts: state.userPosts = state.userPosts.filter(post => post.id !== action.payload)
+      }
+
     case actionTypes.UPDATE_POST:
-      currentPost = { ...action.payload }
+      currentPost = {...action.payload}
       return {
         userPosts: state.userPosts.map(post => post.id === currentPost.id ? currentPost : post)
       }
 
     case actionTypes.UPDATE_COMMENT:
-      currentComment = { ...action.payload }
+      currentComment = {...action.payload}
       return {
         userPosts: state.userPosts.map(post => {
           if (post.id === currentComment.postId) {
@@ -69,8 +79,37 @@ export default function postsReducer (state = initialState, action) {
         })
       }
 
+    case actionTypes.COMMENT_CREATED:
+      currentComment = action.payload
+      return {
+        ...state,
+        userPosts: state.userPosts = state.userPosts.map(post => {
+          if (post.id === currentComment.postId) {
+            currentPost = post
+            currentPost.comments = currentPost.comments.concat(action.payload)
+            return currentPost
+          } else {
+            return post
+          }
+        })
+      }
+
+    case actionTypes.COMMENT_DELETED:
+      return {
+        ...state,
+        userPosts: state.userPosts = state.userPosts.map(post => {
+          if (post.id === action.payload) {
+            currentPost = post
+            currentPost.comments = currentPost.comments.filter(comment => comment.id !== action.commentId)
+            return currentPost
+          } else {
+            return post
+          }
+        })
+      }
+
     case actionTypes.SWITCH_LIKE:
-      currentPost = { ...action.payload }
+      currentPost = {...action.payload}
       currentPost.likes++
       return {
         userPosts: state.userPosts.map(post => post.id === currentPost.id ? currentPost : post)
