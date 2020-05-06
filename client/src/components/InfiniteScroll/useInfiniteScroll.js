@@ -27,6 +27,7 @@ const useInfiniteScroll = (callback) => {
     })
   }, [callback, isFetching])
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleScroll () {
     if (pageNumber >= totalPages) return
     if ((window.innerHeight + document.documentElement.scrollTop) / document.documentElement.offsetHeight < 0.85 || isFetching) return
