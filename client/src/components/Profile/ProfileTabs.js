@@ -10,12 +10,12 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import PostAddIcon from '@material-ui/icons/PostAdd'
-import Tape from '../Tape/Tape'
 import {useDispatch, useSelector} from 'react-redux'
-import {fetchUserPosts} from '../../actions/postActions'
+import {fetchUserPostsByAmount} from '../../actions/postActions'
 import ModalWindow from '../ModalPost/ModalPost'
-import { updateUser } from '../../actions/profileActions'
+import {updateUser} from '../../actions/profileActions'
 import ProfileForm from './ProfileForm'
+import InfiniteList from '../InfiniteScroll/InfiniteScroll'
 
 function TabPanel (props) {
   const {children, value, index, ...other} = props
@@ -84,7 +84,7 @@ export default function ProfileTabs () {
 
   useEffect(() => {
     if (userPosts === null) {
-      dispatch(fetchUserPosts())
+      dispatch(fetchUserPostsByAmount(0))
     }
   }, [userPosts, dispatch])
 
@@ -100,7 +100,7 @@ export default function ProfileTabs () {
     setActive(true)
   }
 
-  if (pending) {
+  if (pending && userPosts === null) {
     return (
       <div className={classes.parent}>
         <CircularProgress size={100}/>
@@ -141,7 +141,11 @@ export default function ProfileTabs () {
             >
               Add post
             </Button>
-            <Tape posts={userPosts}/>
+            <InfiniteList
+              elements={userPosts}
+              fetchHandler={fetchUserPostsByAmount}
+            />
+
           </TabPanel>
           <TabPanel value={value} index={1} dir={theme.direction}>
             <ProfileForm userAction={updateUser} buttonLabel="Update" currentUser={currentUser}/>

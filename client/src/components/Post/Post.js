@@ -111,7 +111,7 @@ export default function Post (props) {
                   Add
               </Button>
               {props.post.comments.map(comment => (
-                <Comment comment={comment}>
+                <Comment comment={comment} postId={props.post.id}>
                 </Comment>
               ))}
               <Typography component="p" variant="h5">

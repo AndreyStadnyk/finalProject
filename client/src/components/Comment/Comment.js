@@ -17,7 +17,7 @@ export default function Comment (props) {
   const [commentModalActive, setCommentActive] = useState(false)
 
   const handleClickDelete = () => {
-    dispatch(deleteComment(props.comment.id))
+    dispatch(deleteComment(props.comment.id, props.postId))
   }
 
   const toggleCommentModal = () => {
