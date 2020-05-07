@@ -6,7 +6,7 @@ import './Post.css'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import { pink, lightBlue } from '@material-ui/core/colors'
-import { deletePost } from '../../actions/postActions'
+import { deletePost, updateLike } from '../../actions/postActions'
 import { useDispatch } from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
@@ -25,6 +25,10 @@ export default function Post (props) {
 
   const handleClickDelete = () => {
     dispatch(deletePost(props.post.id))
+  }
+
+  const handleLike = () => {
+    dispatch(updateLike(props.post.id))
   }
 
   const toggleModal = () => {
@@ -75,6 +79,10 @@ export default function Post (props) {
     button: {
       width: 40,
       height: 40
+    },
+    like: {
+      height: 20,
+      width: 65
     }
   }))
   const classes = useStyles()
@@ -122,8 +130,14 @@ export default function Post (props) {
                   {like.userUsername}
                 </Typography>
               ))} arrow>
-                <Typography component="p" variant="h5">
-                  Likes ({props.post.likes.length}):
+                <Typography
+                  className={classes.like}
+                  component="p" variant="overline"
+                  onClick={e => {
+                    e.stopPropagation()
+                    handleLike()
+                  }}>
+                  Liked ({props.post.likes.length})
                 </Typography>
               </Tooltip>
             </div>
@@ -131,10 +145,10 @@ export default function Post (props) {
 
           <IconButton
             className={classes.button}
-            style={{ color: lightBlue.A700 }}
+            style={{ color: pink[200] }}
             onClick={e => {
               e.stopPropagation()
-              toggleModal()
+              handleLike()
             }}
           >
             <LikeIcon/>

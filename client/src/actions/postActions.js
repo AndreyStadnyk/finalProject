@@ -153,3 +153,12 @@ export const updateComment = (comment) => {
       payload: comment
     }))
 }
+
+export const updateLike = (postId) => {
+  return dispatch => {
+    dispatch({
+      type: postTypes.SWITCH_LIKE,
+      payload: postId
+    })
+  }
+}
