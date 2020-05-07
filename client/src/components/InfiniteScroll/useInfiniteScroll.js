@@ -1,7 +1,7 @@
 import {useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 
-const useInfiniteScroll = (callback) => {
+const useInfiniteScroll = (handler) => {
   const isFetching = useSelector(state => state.posts.pending)
 
   const dispatch = useDispatch()
@@ -22,16 +22,16 @@ const useInfiniteScroll = (callback) => {
   useEffect(() => {
     if (!isFetching) return
 
-    callback(() => {
+    handler(() => {
       console.log('called back')
     })
-  }, [callback, isFetching])
+  }, [handler, isFetching])
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   function handleScroll () {
     if (pageNumber >= totalPages) return
     if ((window.innerHeight + document.documentElement.scrollTop) / document.documentElement.offsetHeight < 0.85 || isFetching) return
-    dispatch(callback(pageNumber + 1))
+    dispatch(handler(pageNumber + 1))
   }
 
   return isFetching
