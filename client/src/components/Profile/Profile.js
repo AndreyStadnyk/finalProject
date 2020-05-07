@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
     flexGrow: 1,
     maxWidth: 1200,
     margin: 'auto'
-
   }
 
 }))
