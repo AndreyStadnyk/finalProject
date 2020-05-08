@@ -1,13 +1,13 @@
-import React, {useState} from 'react'
+import React, { useState } from 'react'
 import Avatar from 'material-ui/Avatar'
 import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
 import EditIcon from '@material-ui/icons/Edit'
 import './Post.css'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
-import {pink, lightBlue} from '@material-ui/core/colors'
-import {deletePost} from '../../actions/postActions'
-import {useDispatch} from 'react-redux'
+import { pink, lightBlue } from '@material-ui/core/colors'
+import { deletePost, updateLike } from '../../actions/postActions'
+import { useDispatch } from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
 import Card from '@material-ui/core/Card'
@@ -15,6 +15,8 @@ import ModalWindow from '../ModalPost/ModalPost'
 import Comment from '../Comment/Comment'
 import Button from '@material-ui/core/Button'
 import ModalComment from '../ModalComment/ModalComment'
+import Tooltip from '@material-ui/core/Tooltip'
+import LikeIcon from '@material-ui/icons/Favorite'
 
 export default function Post (props) {
   const dispatch = useDispatch()
@@ -23,6 +25,10 @@ export default function Post (props) {
 
   const handleClickDelete = () => {
     dispatch(deletePost(props.post.id))
+  }
+
+  const handleLike = () => {
+    dispatch(updateLike(props.post.id))
   }
 
   const toggleModal = () => {
@@ -36,7 +42,8 @@ export default function Post (props) {
   const modal = modalActive
     ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
   const commentModal = commentModalActive ? <ModalComment commentModalActive={commentModalActive}
-    postId={props.post.id} setCommentActive={setCommentActive}/> : null
+                                                          postId={props.post.id}
+                                                          setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
     root: {
@@ -72,6 +79,10 @@ export default function Post (props) {
     button: {
       width: 40,
       height: 40
+    },
+    like: {
+      height: 20,
+      width: 65
     }
   }))
   const classes = useStyles()
@@ -88,10 +99,10 @@ export default function Post (props) {
           <CardContent className={classes.content}>
             <div className={classes.text}>
               <Typography component="p" variant="subtitle2">
-                  Owner: {props.post.ownerUsername}
+                Owner: {props.post.ownerUsername}
               </Typography>
               <Typography component="p" variant="subtitle2">
-                  Author: {props.post.authorUsername}
+                Author: {props.post.authorUsername}
               </Typography>
               <Typography component="p" variant="subtitle2">
                 {props.post.date.toString()}
@@ -100,7 +111,7 @@ export default function Post (props) {
                 {props.post.text}
               </Typography>
               <Typography component="p" variant="h5">
-                  Comments:
+                Comments:
               </Typography>
               <Button
                 variant="contained"
@@ -108,25 +119,44 @@ export default function Post (props) {
                 className={classes.button}
                 onClick={toggleCommentModal}
               >
-                  Add
+                Add
               </Button>
               {props.post.comments.map(comment => (
                 <Comment comment={comment} postId={props.post.id}>
                 </Comment>
               ))}
-              <Typography component="p" variant="h5">
-                  Likes ({props.post.likes.length}):
-              </Typography>
-              {props.post.likes.map(like => (
+              <Tooltip title={props.post.likes.map(like => (
                 <Typography component="p" variant="body2">
                   {like.userUsername}
                 </Typography>
-              ))}
+              ))} arrow>
+                <Typography
+                  className={classes.like}
+                  component="p" variant="overline"
+                  onClick={e => {
+                    e.stopPropagation()
+                    handleLike()
+                  }}>
+                  Liked ({props.post.likes.length})
+                </Typography>
+              </Tooltip>
             </div>
           </CardContent>
+
           <IconButton
             className={classes.button}
-            style={{color: lightBlue.A700}}
+            style={{ color: pink[200] }}
+            onClick={e => {
+              e.stopPropagation()
+              handleLike()
+            }}
+          >
+            <LikeIcon/>
+          </IconButton>
+
+          <IconButton
+            className={classes.button}
+            style={{ color: lightBlue.A700 }}
             onClick={e => {
               e.stopPropagation()
               toggleModal()
@@ -137,7 +167,7 @@ export default function Post (props) {
 
           <IconButton
             className={classes.button}
-            style={{color: pink[500]}}
+            style={{ color: pink[500] }}
             onClick={e => {
               e.stopPropagation()
               handleClickDelete()
