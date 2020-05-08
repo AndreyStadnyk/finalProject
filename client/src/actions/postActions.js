@@ -146,7 +146,6 @@ export const updateComment = (comment) => {
   const data = {
     text: comment.text
   }
-
   return dispatch => api.put(`/api/comments/${comment.id}`, data)
     .then(dispatch({
       type: postTypes.UPDATE_COMMENT,
@@ -155,10 +154,9 @@ export const updateComment = (comment) => {
 }
 
 export const updateLike = (postId) => {
-  return dispatch => {
-    dispatch({
-      type: postTypes.SWITCH_LIKE,
-      payload: postId
-    })
-  }
+  return dispatch =>
+    api.post(`/api/posts/${postId}/likes`)
+      .then(results => {
+        dispatch({ type: postTypes.SWITCH_LIKE })
+      })
 }
