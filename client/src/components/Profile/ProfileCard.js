@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { makeStyles } from '@material-ui/core/styles'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
@@ -14,7 +14,6 @@ const useStyles = makeStyles({
     height: 300
   }
 })
-
 export default function ProfileCard () {
   const classes = useStyles()
   const {
@@ -23,7 +22,7 @@ export default function ProfileCard () {
     currentUser: state.users.currentUser
   }))
   return (
-    <Card className={classes.root}>
+    <Card variant='outlined' className={classes.root}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
