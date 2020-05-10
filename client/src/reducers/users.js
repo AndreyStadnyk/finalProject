@@ -2,7 +2,8 @@ import {actionTypes} from '../actions'
 
 const initialState = {
   pending: true,
-  currentUser: null
+  currentUser: null,
+  updateUserPage: false
 }
 
 export default function usersReducer (state = initialState, action) {
@@ -18,9 +19,16 @@ export default function usersReducer (state = initialState, action) {
         pending: false,
         currentUser: action.payload
       }
+    case actionTypes.UPDATE_USER_PAGE:
+      return {
+        ...state,
+        updateUserPage: action.payload
+      }
+
     case actionTypes.UPDATE_USER:
       return {
         ...state,
+        updateUserPage: false,
         currentUser: action.payload
       }
 

@@ -2,10 +2,9 @@ import api from '../helpers/FetchData'
 
 export const postTypes = {
   FETCH_USER_POSTS_PENDING: 'FETCH_USER_POSTS_PENDING',
-  FETCH_USER_POSTS_SUCCESS: 'FETCH_USER_POSTS_SUCCESS',
   FETCH_USER_POSTS_BY_AMOUNT: 'FETCH_USER_POSTS_BY_AMOUNT',
   FETCH_WALL_POSTS_PENDING: 'FETCH_WALL_POSTS_PENDING',
-  FETCH_WALL_POSTS_SUCCESS: 'FETCH_WALL_POSTS_SUCCESS',
+  FETCH_WALL_POSTS_BY_AMOUNT: 'FETCH_WALL_POSTS_BY_AMOUNT',
   UPDATE_POST: 'UPDATE_POST',
   POST_DELETED: 'POST_DELETED',
   POST_CREATED: 'POST_CREATED',
@@ -13,21 +12,6 @@ export const postTypes = {
   COMMENT_DELETED: 'COMMENT_DELETED',
   COMMENT_CREATED: 'COMMENT_CREATED',
   SWITCH_LIKE: 'SWITCH_LIKE'
-}
-
-export const fetchUserPosts = () => dispatch => {
-  dispatch({
-    type: postTypes.FETCH_USER_POSTS_PENDING
-  })
-
-  api.get(`/api/posts`)
-    .then(res => {
-      dispatch({
-        type: postTypes.FETCH_USER_POSTS_SUCCESS,
-        payload: res
-      })
-      return res
-    })
 }
 
 export const fetchUserPostsByAmount = (page) => dispatch => {
@@ -46,18 +30,19 @@ export const fetchUserPostsByAmount = (page) => dispatch => {
     })
 }
 
-export const fetchWallPosts = () => dispatch => {
+export const fetchWallPostsByAmount = (page) => dispatch => {
   dispatch({
     type: postTypes.FETCH_WALL_POSTS_PENDING
   })
 
-  api.get(`/api/posts`)
+  api.get(`/api/posts?page=${page}`)
     .then(res => {
       dispatch({
-        type: postTypes.FETCH_WALL_POSTS_SUCCESS,
-        payload: res
+        type: postTypes.FETCH_WALL_POSTS_BY_AMOUNT,
+        payload: res.content,
+        pageNumber: res.pageable.pageNumber,
+        totalPages: res.totalPages
       })
-      return res
     })
 }
 

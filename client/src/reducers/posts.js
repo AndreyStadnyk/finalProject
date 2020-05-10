@@ -18,13 +18,6 @@ export default function postsReducer (state = initialState, action) {
         pending: true
       }
 
-    case actionTypes.FETCH_USER_POSTS_SUCCESS:
-      return {
-        ...state,
-        pending: false,
-        userPosts: action.payload
-      }
-
     case actionTypes.FETCH_USER_POSTS_BY_AMOUNT:
       return {
         ...state,
@@ -40,11 +33,13 @@ export default function postsReducer (state = initialState, action) {
         pending: true
       }
 
-    case actionTypes.FETCH_WALL_POSTS_SUCCESS:
+    case actionTypes.FETCH_WALL_POSTS_BY_AMOUNT:
       return {
         ...state,
         pending: false,
-        wallPosts: action.payload
+        userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload),
+        pageNumber: action.pageNumber,
+        totalPages: action.totalPages
       }
 
     case actionTypes.POST_CREATED:
