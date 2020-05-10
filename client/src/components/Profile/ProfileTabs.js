@@ -1,7 +1,7 @@
-import React, {useEffect, useState} from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import SwipeableViews from 'react-swipeable-views'
-import {makeStyles, useTheme} from '@material-ui/core/styles'
+import { makeStyles, useTheme } from '@material-ui/core/styles'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import AppBar from '@material-ui/core/AppBar'
 import Tabs from '@material-ui/core/Tabs'
@@ -10,15 +10,15 @@ import Typography from '@material-ui/core/Typography'
 import Box from '@material-ui/core/Box'
 import Button from '@material-ui/core/Button'
 import PostAddIcon from '@material-ui/icons/PostAdd'
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchUserPostsByAmount} from '../../actions/postActions'
+import { useDispatch, useSelector } from 'react-redux'
+import { fetchUserPostsByAmount } from '../../actions/postActions'
 import ModalWindow from '../ModalPost/ModalPost'
-import {updateUser} from '../../actions/profileActions'
+import { updateUser } from '../../actions/profileActions'
 import ProfileForm from './ProfileForm'
 import InfiniteList from '../InfiniteScroll/InfiniteScroll'
 
 function TabPanel (props) {
-  const {children, value, index, ...other} = props
+  const { children, value, index, ...other } = props
 
   return (
     <Typography
@@ -50,7 +50,6 @@ function a11yProps (index) {
 const useStyles = makeStyles(theme => ({
   root: {
     backgroundColor: theme.palette.background.paper
-
   },
   parent: {
     width: '100%',
@@ -60,8 +59,11 @@ const useStyles = makeStyles(theme => ({
     left: 0,
     display: 'flex',
     alignItems: 'center',
-    justifyContent: 'center',
-    background: '#ddd'
+    justifyContent: 'center'
+  },
+  button: {
+    width: '100%',
+    marginBottom: 10
   }
 }))
 
