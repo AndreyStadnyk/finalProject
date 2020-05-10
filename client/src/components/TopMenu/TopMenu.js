@@ -5,6 +5,7 @@ import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
+import Link from '@material-ui/core/Link'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -50,6 +51,9 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       width: 200
     }
+  },
+  pageLink: {
+    margin: '0 20px'
   }
 }))
 
@@ -76,7 +80,16 @@ export default function TopMenu () {
               inputProps={{ 'aria-label': 'search' }}
             />
           </div>
-          <div className={classes.grow}/>
+          <Typography className={classes.pageLink} variant="h6" noWrap>
+            <Link href="/tape" color="inherit">
+              Tape
+            </Link>
+          </Typography>
+          <Typography className={classes.pageLink} variant="h6" noWrap>
+            <Link href="/profile" color="inherit">
+              Profile
+            </Link>
+          </Typography>
         </Toolbar>
       </AppBar>
     </div>

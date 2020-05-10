@@ -3,6 +3,7 @@ import api from '../helpers/FetchData'
 export const profileTypes = {
   FETCH_USER_PENDING: 'FETCH_USER_PENDING',
   FETCH_USER_SUCCESS: 'FETCH_USER_SUCCESS',
+  UPDATE_USER_PAGE: 'UPDATE_USER_PAGE',
   UPDATE_USER: 'UPDATE_USER'
 }
 
