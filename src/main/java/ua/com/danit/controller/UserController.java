@@ -45,16 +45,11 @@ public class UserController {
 
   @GetMapping("/{username}")
   public ResponseEntity<UserResponse> getUserByUsername(@PathVariable String username) {
-    return ResponseEntity.ok(userMapper.findById(username));
+    return ResponseEntity.ok(userMapper.findByUsername(username));
   }
 
   @GetMapping("/current")
   public ResponseEntity<UserResponse> getCurrentUser() throws InterruptedException {
-    counter++;
-    if (counter % 3 == 0) {
-      return null;
-    }
-    Thread.sleep(1000);
     return ResponseEntity.ok(userMapper.getCurrentUser());
   }
 

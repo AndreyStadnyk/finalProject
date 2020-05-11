@@ -6,7 +6,9 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import Button from '@material-ui/core/Button'
+import { profileTypes } from '../../actions/profileActions'
 
 const useStyles = makeStyles({
   root: {},
@@ -14,16 +16,26 @@ const useStyles = makeStyles({
     height: 300
   }
 })
-
 export default function ProfileCard () {
   const classes = useStyles()
+  const dispatch = useDispatch()
   const {
-    currentUser
+    currentUser,
+    updateUserPage
   } = useSelector(state => ({
-    currentUser: state.users.currentUser
+    currentUser: state.users.currentUser,
+    updateUserPage: state.users.updateUserPage
   }))
+
+  let buttonLabel
+  if (updateUserPage) {
+    buttonLabel = 'Cancel edit profile'
+  } else {
+    buttonLabel = 'Edit profile'
+  }
+
   return (
-    <Card className={classes.root}>
+    <Card variant='outlined' className={classes.root}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
@@ -35,8 +47,26 @@ export default function ProfileCard () {
             {currentUser.username}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {currentUser.address}
+            First name: {currentUser.firstName}
           </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Last name: {currentUser.lastName}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Email: {currentUser.email}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Address: {currentUser.address}
+          </Typography>
+          <Button
+            type="submit"
+            fullWidth
+            variant="contained"
+            color="primary"
+            onClick={() => dispatch({type: profileTypes.UPDATE_USER_PAGE, payload: !updateUserPage})}
+          >
+            {buttonLabel}
+          </Button>
         </CardContent>
       </CardActionArea>
 

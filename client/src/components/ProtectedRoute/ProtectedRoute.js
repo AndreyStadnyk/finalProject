@@ -49,6 +49,7 @@ export default function ProtectedRouter () {
   if (currentUser) {
     return (
       <Switch>
+        <Route exact path='/' component={Wall}/>
         <Route exact path='/chat' component={ChatPage}/>
         <Route exact path='/profile' component={Profile}/>
         <Route exact path='/tape' component={Wall}/>

@@ -17,7 +17,7 @@ export default function Comment (props) {
   const [commentModalActive, setCommentActive] = useState(false)
 
   const handleClickDelete = () => {
-    dispatch(deleteComment(props.comment.id))
+    dispatch(deleteComment(props.comment.id, props.postId))
   }
 
   const toggleCommentModal = () => {
@@ -29,8 +29,8 @@ export default function Comment (props) {
 
   const useStyles = makeStyles(theme => ({
     root: {
-      boxShadow: '1px 2px 1px 1px rgba(0,0,0,0.2), 2px 1px 1px 1px rgba(0,0,0,0.14), 2px 1px 3px 1px rgba(0,0,0,0.12)',
-      borderRadius: 15
+      borderRadius: 15,
+      marginBottom: 5
     },
     details: {
       display: 'flex'
@@ -68,7 +68,7 @@ export default function Comment (props) {
   return (
     <>
       {commentModal}
-      <Card className={classes.root}>
+      <Card variant="outlined" className={classes.root}>
         <div className={classes.details}>
           <div className={classes.avatar}>
             <Avatar src="https://i.pravatar.cc/300"/>

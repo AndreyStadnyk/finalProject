@@ -1,6 +1,6 @@
 import React from 'react'
 import makeStyles from '@material-ui/core/styles/makeStyles'
-import Navbar from '../TopMenu/top-menu'
+import Navbar from '../TopMenu/TopMenu'
 
 export default function ChatPage () {
   const useStyles = makeStyles(theme => ({

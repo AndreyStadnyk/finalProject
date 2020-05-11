@@ -5,6 +5,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -45,7 +48,7 @@ public class UserService implements UserDetailsService {
   }
 
   public User create(User user) {
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    //user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
 
@@ -64,8 +67,8 @@ public class UserService implements UserDetailsService {
         .toArray(String[]::new);
   }
 
-  public User findById(String username) {
-    return userRepository.findById(username).orElseThrow(RuntimeException::new);
+  public User findByUsername(String username) {
+    return userRepository.findByUsername(username);
   }
 
   public List<User> searchForUsersListByName(String queryStr) {
@@ -79,7 +82,12 @@ public class UserService implements UserDetailsService {
   }
 
   public User getCurrentUser() {
-    return userRepository.findAll().get(0);
+    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    if (authentication instanceof AnonymousAuthenticationToken) {
+      return null;
+    } else {
+      return userRepository.findByUsername(authentication.getName());
+    }
   }
 
   public boolean isCurrentUser(String username) {
@@ -89,7 +97,7 @@ public class UserService implements UserDetailsService {
   public GenericResponse resetPassword(HttpServletRequest request, User userRequest) {
     String userName = userRequest.getUsername();
     String email = userRequest.getEmail();
-    User user = email == null ? this.findById(userName) : this.findUserByEmail(email);
+    User user = email == null ? this.findByUsername(userName) : this.findUserByEmail(email);
     if (user == null) {
       throw new RuntimeException();
     }
@@ -103,7 +111,7 @@ public class UserService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = this.findById(username);
+    User user = this.findByUsername(username);
     org.springframework.security.core.userdetails.User.UserBuilder builder = null;
     if (user != null) {
       builder = org.springframework.security.core.userdetails.User.withUsername(username);
@@ -176,7 +184,7 @@ public class UserService implements UserDetailsService {
     try {
       Boolean isTokenValid = validatePasswordResetToken(username, token);
       if (isTokenValid && (pass1.equals(pass2))) {
-        User user = findById(username);
+        User user = findByUsername(username);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         passwordTokenRepository.deleteByToken(token);
         updateUser(user);
