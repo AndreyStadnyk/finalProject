@@ -25,8 +25,6 @@ public class UserController {
   private UserMapper userMapper;
   private UserService userService;
 
-  int counter = 0;
-
   @Autowired
   public UserController(UserMapper userMapper, UserService userService) {
     this.userMapper = userMapper;
