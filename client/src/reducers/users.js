@@ -3,7 +3,8 @@ import {actionTypes} from '../actions'
 const initialState = {
   pending: true,
   currentUser: null,
-  updateUserPage: false
+  updateUserPage: false,
+  resetPasswordStage: 0
 }
 
 export default function usersReducer (state = initialState, action) {
@@ -17,7 +18,8 @@ export default function usersReducer (state = initialState, action) {
       return {
         ...state,
         pending: false,
-        currentUser: action.payload
+        currentUser: action.payload,
+        resetPasswordStage: 0
       }
     case actionTypes.UPDATE_USER_PAGE:
       return {
@@ -30,6 +32,30 @@ export default function usersReducer (state = initialState, action) {
         ...state,
         updateUserPage: false,
         currentUser: action.payload
+      }
+
+    case actionTypes.RESET_PASSWORD_EMAIL_PENDING:
+      return {
+        ...state,
+        resetPasswordStage: 1
+      }
+
+    case actionTypes.RESET_PASSWORD_EMAIL_SUCCESS:
+      return {
+        ...state,
+        resetPasswordStage: 2
+      }
+
+    case actionTypes.RESET_PASSWORD_PENDING:
+      return {
+        ...state,
+        resetPasswordStage: 3
+      }
+
+    case actionTypes.RESET_PASSWORD_SUCCESS:
+      return {
+        ...state,
+        resetPasswordStage: 4
       }
 
     default:
