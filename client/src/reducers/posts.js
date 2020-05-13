@@ -27,6 +27,15 @@ export default function postsReducer (state = initialState, action) {
         totalPages: action.totalPages
       }
 
+    case actionTypes.FETCH_ANOTHER_USER_POSTS_BY_AMOUNT:
+      return {
+        ...state,
+        pending: false,
+        userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload),
+        pageNumber: action.pageNumber,
+        totalPages: action.totalPages
+      }
+
     case actionTypes.FETCH_WALL_POSTS_PENDING:
       return {
         ...state,
@@ -43,10 +52,25 @@ export default function postsReducer (state = initialState, action) {
       }
 
     case actionTypes.POST_CREATED:
+      // if (state.userPosts !== null) {
+      //   state.userPosts.splice(0, 0, action.payload)
+      // }
+      // console.log(state.userPosts)
       return {
         ...state,
-        userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload)
-      }
+        // userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload)
+        userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload).sort(
+          function (a, b) {
+            if (a.date < b.date) {
+              return 1
+            }
+            if (a.date > b.date) {
+              return -1
+            }
+          //  console.log(a.date.getTime())
+            return 0
+          }
+        ) }
 
     case actionTypes.POST_DELETED:
       return {

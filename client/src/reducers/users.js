@@ -4,7 +4,8 @@ const initialState = {
   pending: true,
   currentUser: null,
   updateUserPage: false,
-  resetPasswordStage: 0
+  resetPasswordStage: 0,
+  anotherUser: null
 }
 
 export default function usersReducer (state = initialState, action) {
@@ -14,12 +15,20 @@ export default function usersReducer (state = initialState, action) {
         ...state,
         pending: true
       }
+
     case actionTypes.FETCH_USER_SUCCESS:
       return {
         ...state,
         pending: false,
         currentUser: action.payload,
         resetPasswordStage: 0
+      }
+
+    case actionTypes.FETCH_ANOTHER_USER:
+      return {
+        ...state,
+        pending: false,
+        anotherUser: action.payload
       }
     case actionTypes.UPDATE_USER_PAGE:
       return {

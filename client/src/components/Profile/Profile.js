@@ -1,16 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import {useParams} from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ProfileCard from './ProfileCard'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import TopMenu from '../TopMenu/TopMenu'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateUser } from '../../actions/profileActions'
+import {fetchAnotherUser, updateUser} from '../../actions/profileActions'
 import ProfileForm from './ProfileForm'
 import Button from '@material-ui/core/Button'
 import PostAddIcon from '@material-ui/icons/PostAdd'
 import InfiniteList from '../InfiniteScroll/InfiniteScroll'
-import { fetchUserPostsByAmount } from '../../actions/postActions'
+import {fetchAnotherUserPostsByAmount, fetchUserPostsByAmount} from '../../actions/postActions'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ModalWindow from '../ModalPost/ModalPost'
 
@@ -37,24 +38,32 @@ function Profile () {
   const classes = useStyles()
   const [modalActive, setActive] = useState(false)
   const dispatch = useDispatch()
+  const username = useParams()
 
   const {
     pending,
     userPosts,
     currentUser,
+    anotherUser,
     updateUserPage
   } = useSelector(state => ({
     pending: state.posts.pending,
     userPosts: state.posts.userPosts,
     currentUser: state.users.currentUser,
+    anotherUser: state.users.anotherUser,
     updateUserPage: state.users.updateUserPage
   }))
 
   useEffect(() => {
     if (userPosts === null) {
-      dispatch(fetchUserPostsByAmount(0))
+      if (Object.keys(username).length === 0 && username.constructor === Object) {
+        dispatch(fetchUserPostsByAmount(0))
+      } else {
+        dispatch(fetchAnotherUser(username.username))
+        dispatch(fetchAnotherUserPostsByAmount(username.username, 0))
+      }
     }
-  }, [userPosts, dispatch])
+  }, [userPosts, dispatch, username, anotherUser])
 
   const toggleModal = () => {
     setActive(true)
@@ -105,7 +114,7 @@ function Profile () {
             <TopMenu/>
           </Grid>
           <Grid item xs={12} sm={3}>
-            <ProfileCard/>
+            <ProfileCard anotherUser ={anotherUser}/>
           </Grid>
           <Grid item xs={12} sm={9}>
             {profileContent}

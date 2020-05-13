@@ -47,3 +47,5 @@ insert into `posts` (post_id, author, owner, date, text) values (29, 'PMatroskin
 insert into `posts` (post_id, author, owner, date, text) values (30, 'PMatroskin', 'VPupkin', '2020-1-1', '30Some text from owner Pupkin and author Matroskin');
 insert into `posts` (post_id, author, owner, date, text) values (31, 'PMatroskin', 'VPupkin', '2020-1-1', '31Some text from owner and author Matroskin');
 insert into `posts` (post_id, author, owner, date, text) values (32, 'PMatroskin', 'VPupkin', '2020-1-1', '32Some text from owner Pupkin and author Matroskin');
+
+insert into `posts` (post_id, author, owner, date, text) values (36, 'PMatroskin', 'KPupkin', '2020-1-1', '1Some text from KPupkin');
