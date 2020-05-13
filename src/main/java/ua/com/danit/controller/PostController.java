@@ -19,13 +19,12 @@ import ua.com.danit.mapping.PostMapper;
 
 @RestController
 @RequestMapping("/api/posts")
-public class PostsController {
-
+public class PostController {
 
   private PostMapper postMapper;
 
   @Autowired
-  public PostsController(PostMapper postMapper) {
+  public PostController(PostMapper postMapper) {
     this.postMapper = postMapper;
   }
 
@@ -48,10 +47,15 @@ public class PostsController {
   }
 
   @GetMapping
-  public ResponseEntity<Page<PostResponse>> getAllPosts(@PageableDefault Pageable pageable) {
-    return ResponseEntity.ok(postMapper.findPosts(pageable));
+  public ResponseEntity<Page<PostResponse>> getAllPostsForCurrentUserWithPagination(@PageableDefault Pageable pageable) {
+    return ResponseEntity.ok(postMapper.getAllPostsForCurrentUserWithPagination(pageable));
   }
 
+  @GetMapping("/{username}")
+  public ResponseEntity<Page<PostResponse>> getAllPostsForAnotherUserWithPagination(@PathVariable String username,
+                                                                                    @PageableDefault Pageable pageable) {
+    return ResponseEntity.ok(postMapper.getAllPostsForAnotherUserWithPagination(username, pageable));
+  }
 
   @PostMapping("/{postId}/likes")
   public ResponseEntity<PostResponse> removeOrAddLike(@PathVariable long postId) {

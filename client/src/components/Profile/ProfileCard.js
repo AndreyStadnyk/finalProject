@@ -16,16 +16,22 @@ const useStyles = makeStyles({
     height: 300
   }
 })
-export default function ProfileCard () {
+export default function ProfileCard (props) {
   const classes = useStyles()
   const dispatch = useDispatch()
+  const anotherUsername = props.anotherUser ? props.anotherUser : {}
+
   const {
     currentUser,
+    anotherUser,
     updateUserPage
   } = useSelector(state => ({
     currentUser: state.users.currentUser,
+    anotherUser: state.users.anotherUser,
     updateUserPage: state.users.updateUserPage
   }))
+
+  const isCurrentUser = Object.keys(anotherUsername).length === 0
 
   let buttonLabel
   if (updateUserPage) {
@@ -33,6 +39,17 @@ export default function ProfileCard () {
   } else {
     buttonLabel = 'Edit profile'
   }
+
+  const editButton = isCurrentUser
+    ? <Button
+      type="submit"
+      fullWidth
+      variant="contained"
+      color="primary"
+      onClick={() => dispatch({type: profileTypes.UPDATE_USER_PAGE, payload: !updateUserPage})}
+    >
+      {buttonLabel}
+    </Button> : null
 
   return (
     <Card variant='outlined' className={classes.root}>
@@ -44,29 +61,21 @@ export default function ProfileCard () {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {currentUser.username}
+            {isCurrentUser ? currentUser.username : anotherUser.username}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            First name: {currentUser.firstName}
+            First name: {isCurrentUser ? currentUser.firstName : anotherUsername.firstName}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Last name: {currentUser.lastName}
+            Last name: {isCurrentUser ? currentUser.lastName : anotherUser.lastName}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Email: {currentUser.email}
+            Email: {isCurrentUser ? currentUser.email : anotherUser.email}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            Address: {currentUser.address}
+            Address: {isCurrentUser ? currentUser.address : anotherUser.address}
           </Typography>
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="primary"
-            onClick={() => dispatch({type: profileTypes.UPDATE_USER_PAGE, payload: !updateUserPage})}
-          >
-            {buttonLabel}
-          </Button>
+          {editButton}
         </CardContent>
       </CardActionArea>
 

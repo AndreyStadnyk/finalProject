@@ -8,7 +8,8 @@ export const profileTypes = {
   RESET_PASSWORD_EMAIL_PENDING: 'RESET_PASSWORD_EMAIL_PENDING',
   RESET_PASSWORD_EMAIL_SUCCESS: 'RESET_PASSWORD_EMAIL_SUCCESS',
   RESET_PASSWORD_PENDING: 'RESET_PASSWORD_PENDING',
-  RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS'
+  RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
+  FETCH_ANOTHER_USER: 'FETCH_ANOTHER_USER'
 }
 
 export const createUser = (frmDetails, formData) => dispatch => {
@@ -59,3 +60,20 @@ export function updateUser (frmDetails) {
       payload: frmDetails
     }))
 }
+
+export const fetchAnotherUser = (username) =>
+  dispatch => {
+    dispatch({
+      type: profileTypes.FETCH_USER_PENDING
+    })
+
+    api.get(`/api/users/${username}`)
+      .then(res => {
+        dispatch({
+          type: profileTypes.FETCH_ANOTHER_USER,
+          payload: res
+        })
+        console.log(res)
+        return res
+      })
+  }

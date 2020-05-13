@@ -47,8 +47,13 @@ public class PostMapper {
     return modelMapper.map(posts, new TypeToken<List<PostResponse>>(){}.getType());
   }
 
-  public Page<PostResponse> findPosts(Pageable pageable) {
-    Page<Post> posts = postService.findPosts(pageable);
+  public Page<PostResponse> getAllPostsForAnotherUserWithPagination(String username, Pageable pageable) {
+    Page<Post> posts = postService.getAllPostsForAnotherUserWithPagination(username, pageable);
+    return posts.map(post -> modelMapper.map(post, PostResponse.class));
+  }
+
+  public Page<PostResponse> getAllPostsForCurrentUserWithPagination(Pageable pageable) {
+    Page<Post> posts = postService.getAllPostsForCurrentUserWithPagination(pageable);
     return posts.map(post -> modelMapper.map(post, PostResponse.class));
   }
 
