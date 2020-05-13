@@ -27,7 +27,9 @@ export default function Post (props) {
     currentUser: state.users.currentUser
   }))
   const author = props.post.authorUsername
+  const owner = props.post.ownerUsername
   const isCurrentUserAuthor = currentUser.username === author
+  const isCurrentUserAuthorOrOwner = currentUser.username === author || currentUser.username === owner
   const handleClickDelete = () => {
     dispatch(deletePost(props.post.id))
   }
@@ -104,7 +106,7 @@ export default function Post (props) {
       <EditIcon/>
     </IconButton> : null
 
-  const deleteButton = isCurrentUserAuthor
+  const deleteButton = isCurrentUserAuthorOrOwner
     ? <IconButton
       className={classes.button}
       style={{ color: pink[500] }}

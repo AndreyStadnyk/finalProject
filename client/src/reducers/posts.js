@@ -1,7 +1,7 @@
 import {actionTypes} from '../actions'
 
 const initialState = {
-  pending: true,
+  pending: false,
   userPosts: null,
   wallPosts: null,
   pageNumber: 0
@@ -67,7 +67,7 @@ export default function postsReducer (state = initialState, action) {
             if (a.date > b.date) {
               return -1
             }
-          //  console.log(a.date.getTime())
+            //  console.log(a.date.getTime())
             return 0
           }
         ) }

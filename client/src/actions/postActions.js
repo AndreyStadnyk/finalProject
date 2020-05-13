@@ -23,7 +23,6 @@ export const fetchUserPostsByAmount = (page) => dispatch => {
 
   api.get(`/api/posts?page=${page}&sort=date,desc`)
     .then(res => {
-      console.log(res)
       dispatch({
         type: postTypes.FETCH_USER_POSTS_BY_AMOUNT,
         payload: res.content,
@@ -38,7 +37,7 @@ export const fetchAnotherUserPostsByAmount = (username, page) => dispatch => {
     type: postTypes.FETCH_USER_POSTS_PENDING
   })
 
-  api.get(`/api/posts/${username}?page=${page}`)
+  api.get(`/api/posts/${username}?page=${page}&sort=date,desc`)
     .then(res => {
       dispatch({
         type: postTypes.FETCH_ANOTHER_USER_POSTS_BY_AMOUNT,
@@ -54,7 +53,7 @@ export const fetchWallPostsByAmount = (page) => dispatch => {
     type: postTypes.FETCH_WALL_POSTS_PENDING
   })
 
-  api.get(`/api/posts?page=${page}`)
+  api.get(`/api/posts?page=${page}&sort=date,desc`)
     .then(res => {
       dispatch({
         type: postTypes.FETCH_WALL_POSTS_BY_AMOUNT,

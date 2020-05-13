@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import ProfileCard from './ProfileCard'
 import { makeStyles } from '@material-ui/core/styles'
@@ -56,14 +56,14 @@ function Profile () {
 
   useEffect(() => {
     if (userPosts === null) {
-      if (Object.keys(username).length === 0 && username.constructor === Object) {
+      if (Object.keys(username).length === 0 && username.constructor === Object && !pending) {
         dispatch(fetchUserPostsByAmount(0))
-      } else {
+      } else if (!pending) {
         dispatch(fetchAnotherUser(username.username))
         dispatch(fetchAnotherUserPostsByAmount(username.username, 0))
       }
     }
-  }, [userPosts, dispatch, username, anotherUser])
+  }, [userPosts, dispatch, username, anotherUser, pending])
 
   const toggleModal = () => {
     setActive(true)
