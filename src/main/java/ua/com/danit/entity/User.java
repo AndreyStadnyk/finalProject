@@ -12,6 +12,7 @@ import javax.persistence.CascadeType;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 @Data
 @Entity
@@ -51,5 +52,8 @@ public class User {
 
   @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL)
   private List<UserFriends> userFriends;
+
+  @OneToMany(mappedBy = "user")
+  private String userPic;
 
 }
