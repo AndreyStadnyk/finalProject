@@ -5,6 +5,7 @@ import SignIn from './components/SignIn/SignIn'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
 import SignUp from './components/SignUp/SignUp'
 import ResetPassword from './components/ResetPassword/ResetPassword'
+import ChangePassword from './components/ResetPassword/ChangePassword'
 
 export default function App () {
   return (
@@ -13,6 +14,7 @@ export default function App () {
         <Route exact path='/sign-up' component={SignUp}/>
         <Route exact path='/sign-in' component={SignIn}/>
         <Route exact path='/resetPassword' component={ResetPassword}/>
+        <Route exact path='/changePassword' component={ChangePassword}/>
         <Route exact path='/*' component={ProtectedRoute}/>
       </Switch>
     </div>

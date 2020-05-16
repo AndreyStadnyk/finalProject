@@ -134,10 +134,7 @@ public class UserService implements UserDetailsService {
   }
 
   private SimpleMailMessage constructResetTokenEmail(String contextPath, Locale locale, String token, User user) {
-    String url = contextPath
-        + "api/users/changePassword?username="
-        + user.getUsername() + "&token="
-        + token;
+    String url = contextPath + "changePassword?token=" + token;
     String message = "Hello," + user.getUsername() + "! "
         + "We have received the password change request for your Facebook. "
         + "Please, follow this link for password reset:";
