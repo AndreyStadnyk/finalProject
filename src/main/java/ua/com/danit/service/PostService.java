@@ -41,6 +41,13 @@ public class PostService {
     }
   }
 
+  private void checkIsCurrentUserTheAuthorOrOwner(Post post) {
+    if (!userService.isCurrentUser(post.getAuthor().getUsername())
+        && !userService.isCurrentUser(post.getOwner().getUsername())) {
+      throw new RuntimeException();
+    }
+  }
+
   public Post update(String text, Long postId) {
     Post post = postRepository
         .findById(postId)
@@ -54,7 +61,7 @@ public class PostService {
     Post post = postRepository
         .findById(postId)
         .orElseThrow(RuntimeException::new);
-    checkIsCurrentUserTheAuthor(post);
+    checkIsCurrentUserTheAuthorOrOwner(post);
     postRepository.delete(post);
     return post;
   }
@@ -68,8 +75,12 @@ public class PostService {
     return postRepository.findPostsByOwner(userService.getCurrentUser());
   }
 
-  public Page<Post> findPosts(Pageable pageable) {
+  public Page<Post> getAllPostsForCurrentUserWithPagination(Pageable pageable) {
     return postRepository.findPostsByOwner(userService.getCurrentUser(), pageable);
+  }
+
+  public Page<Post> getAllPostsForAnotherUserWithPagination(String username, Pageable pageable) {
+    return postRepository.findPostsByParams(username, pageable);
   }
 
   public Post getOrRemoveLikeByPostId(long postId) {
