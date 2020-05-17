@@ -56,7 +56,7 @@ public class FileService {
   }
 
   public String getFilePathByUsername(String username) {
-    String filePath = fileRepository.findByUser(userService.findById(username)).getImagePath();
+    String filePath = fileRepository.findByUser(userService.findByUsername(username)).getImagePath();
     return filePath;
   }
 }
