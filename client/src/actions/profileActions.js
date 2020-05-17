@@ -3,29 +3,43 @@ import api from '../helpers/FetchData'
 export const profileTypes = {
   FETCH_USER_PENDING: 'FETCH_USER_PENDING',
   FETCH_USER_SUCCESS: 'FETCH_USER_SUCCESS',
-  CREATE_USER: 'CREATE_USER',
-  UPDATE_USER: 'UPDATE_USER'
+  UPDATE_USER_PAGE: 'UPDATE_USER_PAGE',
+  UPDATE_USER: 'UPDATE_USER',
+  RESET_PASSWORD_PENDING: 'RESET_PASSWORD_PENDING',
+  RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
+  FETCH_ANOTHER_USER: 'FETCH_ANOTHER_USER'
 }
 
-export function createUser (frmDetails) {
-  return dispatch => api.post('/api/users', frmDetails)
-    .then(() => dispatch({
-      type: profileTypes.CREATE_USER,
-      payload: frmDetails
-
-    }))
+export const createUser = (frmDetails, formData) => dispatch => {
+  dispatch({ type: profileTypes.FETCH_USER_PENDING })
+  api.post('/api/users', frmDetails)
+    .then(() => api.post('/auth', formData)
+      .then(() => dispatch(fetchCurrentUser())))
 }
+
 export const logUser = frmDetails => dispatch => {
-  dispatch({
-    type: profileTypes.FETCH_USER_PENDING
-  })
+  dispatch({ type: profileTypes.FETCH_USER_PENDING })
   api.post('/auth', frmDetails)
     .then(() => dispatch(fetchCurrentUser()))
 }
+
+export const resetPassword = email => dispatch => {
+  dispatch({ type: profileTypes.RESET_PASSWORD_PENDING })
+  api.post('/api/users/resetPassword', { email })
+    .then(() => dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS }))
+}
+
+export const changePassword = (token, password) => dispatch => {
+  dispatch({ type: profileTypes.RESET_PASSWORD_PENDING })
+  api.get(`/api/users/changePassword?token=` + token + '&password=' + password)
+    .then(() => {
+      dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS })
+      fetchCurrentUser()
+    })
+}
+
 export const fetchCurrentUser = () => dispatch => {
-  dispatch({
-    type: profileTypes.FETCH_USER_PENDING
-  })
+  dispatch({ type: profileTypes.FETCH_USER_PENDING })
 
   api.get(`/api/users/current`)
     .then(res => {
@@ -37,12 +51,27 @@ export const fetchCurrentUser = () => dispatch => {
     })
 }
 
-export function updateUser (user) {
-  const data = {...user}
-
-  return dispatch => api.put(`/api/users`, data)
+export function updateUser (frmDetails) {
+  return dispatch => api.put(`/api/users`, frmDetails)
     .then(dispatch({
       type: profileTypes.UPDATE_USER,
-      payload: data
+      payload: frmDetails
     }))
 }
+
+export const fetchAnotherUser = (username) =>
+  dispatch => {
+    dispatch({
+      type: profileTypes.FETCH_USER_PENDING
+    })
+
+    api.get(`/api/users/${username}`)
+      .then(res => {
+        dispatch({
+          type: profileTypes.FETCH_ANOTHER_USER,
+          payload: res
+        })
+        console.log(res)
+        return res
+      })
+  }

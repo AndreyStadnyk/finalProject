@@ -3,14 +3,18 @@ import React from 'react'
 import './App.css'
 import SignIn from './components/SignIn/SignIn'
 import ProtectedRoute from './components/ProtectedRoute/ProtectedRoute'
-import Register from './components/Register/Register'
+import SignUp from './components/SignUp/SignUp'
+import ResetPassword from './components/ResetPassword/ResetPassword'
+import ChangePassword from './components/ResetPassword/ChangePassword'
 
 export default function App () {
   return (
     <div>
       <Switch>
-        <Route exact path='/sign-up' component={Register}/>
+        <Route exact path='/sign-up' component={SignUp}/>
         <Route exact path='/sign-in' component={SignIn}/>
+        <Route exact path='/resetPassword' component={ResetPassword}/>
+        <Route exact path='/changePassword' component={ChangePassword}/>
         <Route exact path='/*' component={ProtectedRoute}/>
       </Switch>
     </div>

@@ -3,18 +3,14 @@ import Avatar from '@material-ui/core/Avatar'
 import Button from '@material-ui/core/Button'
 import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
-import FormControlLabel from '@material-ui/core/FormControlLabel'
-import Checkbox from '@material-ui/core/Checkbox'
-import Link from '@material-ui/core/Link'
-import Grid from '@material-ui/core/Grid'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import {NavLink} from 'react-router-dom'
-import {logUser} from '../../actions/profileActions'
+import { changePassword } from '../../actions/profileActions'
 import {useDispatch, useSelector} from 'react-redux'
 import Redirect from 'react-router-dom/es/Redirect'
+import queryString from 'query-string'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -33,29 +29,45 @@ const useStyles = makeStyles(theme => ({
   },
   submit: {
     margin: theme.spacing(3, 0, 2)
+  },
+  parent: {
+    width: '100%',
+    height: '100%',
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    background: '#ddd'
   }
 }))
 
-export default function SignIn () {
+export default function ChangePassword (props) {
   const [password, setPassword] = useState('')
-  const [username, setUsername] = useState('')
   const classes = useStyles()
-
   const dispatch = useDispatch()
-  const currentUser = useSelector(state => state.users.currentUser)
-  const signIn = event => {
-    event.preventDefault()
+  const params = queryString.parse(props.location.search)
 
-    const formData = new FormData()
-    formData.append('username', username)
-    formData.append('password', password)
-    dispatch(logUser(formData))
-  }
+  const {
+    currentUser
+  } = useSelector(state => ({
+    currentUser: state.users.currentUser
+  }))
+
   if (currentUser) {
     return (
       <Redirect to="/profile"/>
     )
   }
+
+  const onChangePassword = event => {
+    event.preventDefault()
+    if (params && params.token) {
+      dispatch(changePassword(params.token, password))
+    }
+  }
+
   return (
     <Container component='main' maxWidth='xs'>
       <CssBaseline />
@@ -63,21 +75,10 @@ export default function SignIn () {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        <Typography component='h1' variant='h5'>
-          Sign in
-        </Typography>
         <form className={classes.form} noValidate>
-          <TextField
-            variant='outlined'
-            margin='normal'
-            required
-            fullWidth
-            id='username'
-            label='Username'
-            name='username'
-            onChange={e => setUsername(e.target.value)}
-            autoFocus
-          />
+          <Typography component='h1' variant='h5'>
+            Change Password
+          </Typography>
           <TextField
             variant='outlined'
             margin='normal'
@@ -90,32 +91,28 @@ export default function SignIn () {
             id='password'
             autoComplete='current-password'
           />
-          <FormControlLabel
-            control={<Checkbox value='remember' color='primary' />}
-            label='Remember me'
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            onChange={e => setPassword(e.target.value)}
+            name='confirmPassword'
+            label='Confirm Password'
+            type='password'
+            id='confirmPassword'
+            autoComplete='current-password'
           />
           <Button
             type='submit'
             fullWidth
             variant='contained'
             color='primary'
-            onClick={signIn}
+            onClick={onChangePassword}
             className={classes.submit}
           >
-            Sign In
+            Change Password
           </Button>
-          <Grid container>
-            <Grid item xs>
-              <Link href='/resetPassword' variant='body2'>
-                Forgot password?
-              </Link>
-            </Grid>
-            <Grid item>
-              <NavLink to="/sign-up" href='' variant='body2'>
-                {'Don\'t have an account? Sign Up'}
-              </NavLink>
-            </Grid>
-          </Grid>
         </form>
       </div>
     </Container>

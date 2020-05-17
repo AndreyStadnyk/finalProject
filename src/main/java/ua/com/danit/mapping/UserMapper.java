@@ -37,8 +37,8 @@ public class UserMapper {
     return modelMapper.map(updatedUser, UserResponse.class);
   }
 
-  public UserResponse findById(String username) {
-    User receivedUser = userService.findById(username);
+  public UserResponse findByUsername(String username) {
+    User receivedUser = userService.findByUsername(username);
     return modelMapper.map(receivedUser, UserResponse.class);
   }
 

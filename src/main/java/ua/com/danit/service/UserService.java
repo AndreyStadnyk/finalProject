@@ -48,7 +48,7 @@ public class UserService implements UserDetailsService {
   }
 
   public User create(User user) {
-    user.setPassword(passwordEncoder.encode(user.getPassword()));
+    //user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
 
@@ -67,8 +67,8 @@ public class UserService implements UserDetailsService {
         .toArray(String[]::new);
   }
 
-  public User findById(String username) {
-    return userRepository.findById(username).orElseThrow(RuntimeException::new);
+  public User findByUsername(String username) {
+    return userRepository.findByUsername(username);
   }
 
   public List<User> searchForUsersListByName(String queryStr) {
@@ -97,7 +97,7 @@ public class UserService implements UserDetailsService {
   public GenericResponse resetPassword(HttpServletRequest request, User userRequest) {
     String userName = userRequest.getUsername();
     String email = userRequest.getEmail();
-    User user = email == null ? this.findById(userName) : this.findUserByEmail(email);
+    User user = email == null ? this.findByUsername(userName) : this.findUserByEmail(email);
     if (user == null) {
       throw new RuntimeException();
     }
@@ -111,7 +111,7 @@ public class UserService implements UserDetailsService {
 
   @Override
   public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-    User user = this.findById(username);
+    User user = this.findByUsername(username);
     org.springframework.security.core.userdetails.User.UserBuilder builder = null;
     if (user != null) {
       builder = org.springframework.security.core.userdetails.User.withUsername(username);
@@ -134,10 +134,7 @@ public class UserService implements UserDetailsService {
   }
 
   private SimpleMailMessage constructResetTokenEmail(String contextPath, Locale locale, String token, User user) {
-    String url = contextPath
-        + "api/users/changePassword?username="
-        + user.getUsername() + "&token="
-        + token;
+    String url = contextPath + "changePassword?token=" + token;
     String message = "Hello," + user.getUsername() + "! "
         + "We have received the password change request for your Facebook. "
         + "Please, follow this link for password reset:";
@@ -184,7 +181,7 @@ public class UserService implements UserDetailsService {
     try {
       Boolean isTokenValid = validatePasswordResetToken(username, token);
       if (isTokenValid && (pass1.equals(pass2))) {
-        User user = findById(username);
+        User user = findByUsername(username);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
         passwordTokenRepository.deleteByToken(token);
         updateUser(user);

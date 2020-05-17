@@ -2,63 +2,101 @@ import api from '../helpers/FetchData'
 
 export const postTypes = {
   FETCH_USER_POSTS_PENDING: 'FETCH_USER_POSTS_PENDING',
-  FETCH_USER_POSTS_SUCCESS: 'FETCH_USER_POSTS_SUCCESS',
+  FETCH_USER_POSTS_BY_AMOUNT: 'FETCH_USER_POSTS_BY_AMOUNT',
   FETCH_WALL_POSTS_PENDING: 'FETCH_WALL_POSTS_PENDING',
+  FETCH_WALL_POSTS_BY_AMOUNT: 'FETCH_WALL_POSTS_BY_AMOUNT',
   FETCH_WALL_POSTS_SUCCESS: 'FETCH_WALL_POSTS_SUCCESS',
+  FETCH_ANOTHER_USER_POSTS_BY_AMOUNT: 'FETCH_ANOTHER_USER_POSTS_BY_AMOUNT',
   UPDATE_POST: 'UPDATE_POST',
+  POST_DELETED: 'POST_DELETED',
+  POST_CREATED: 'POST_CREATED',
   UPDATE_COMMENT: 'UPDATE_COMMENT',
+  COMMENT_DELETED: 'COMMENT_DELETED',
+  COMMENT_CREATED: 'COMMENT_CREATED',
   SWITCH_LIKE: 'SWITCH_LIKE'
 }
 
-export const fetchUserPosts = () => dispatch => {
+export const fetchUserPostsByAmount = (page) => dispatch => {
   dispatch({
     type: postTypes.FETCH_USER_POSTS_PENDING
   })
 
-  api.get(`/api/posts`)
+  api.get(`/api/posts?page=${page}&sort=date,desc`)
     .then(res => {
       dispatch({
-        type: postTypes.FETCH_USER_POSTS_SUCCESS,
-        payload: res
+        type: postTypes.FETCH_USER_POSTS_BY_AMOUNT,
+        payload: res.content,
+        pageNumber: res.pageable.pageNumber,
+        totalPages: res.totalPages
       })
-      return res
     })
 }
 
-export const fetchWallPosts = () => dispatch => {
+export const fetchAnotherUserPostsByAmount = (username, page) => dispatch => {
+  dispatch({
+    type: postTypes.FETCH_USER_POSTS_PENDING
+  })
+
+  api.get(`/api/posts/${username}?page=${page}&sort=date,desc`)
+    .then(res => {
+      dispatch({
+        type: postTypes.FETCH_ANOTHER_USER_POSTS_BY_AMOUNT,
+        payload: res.content,
+        pageNumber: res.pageable.pageNumber,
+        totalPages: res.totalPages
+      })
+    })
+}
+
+export const fetchWallPostsByAmount = (page) => dispatch => {
   dispatch({
     type: postTypes.FETCH_WALL_POSTS_PENDING
   })
 
-  api.get(`/api/posts`)
+  api.get(`/api/posts?page=${page}&sort=date,desc`)
     .then(res => {
       dispatch({
-        type: postTypes.FETCH_WALL_POSTS_SUCCESS,
-        payload: res
+        type: postTypes.FETCH_WALL_POSTS_BY_AMOUNT,
+        payload: res.content,
+        pageNumber: res.pageable.pageNumber,
+        totalPages: res.totalPages
       })
-      return res
     })
 }
 
-export function addPost (post, ownerUsername) {
+export const postCreated = (post) => {
+  return dispatch => {
+    dispatch({
+      type: postTypes.POST_CREATED,
+      payload: post
+    })
+  }
+}
+
+export const postDeleted = (postId) => {
+  return dispatch => {
+    dispatch({
+      type: postTypes.POST_DELETED,
+      payload: postId
+    })
+  }
+}
+
+export const addPost = (post, ownerUsername) => {
   return dispatch => api.post(`/api/posts/${ownerUsername}`, post)
     .then(results => {
-      api.get(`/api/posts`).then(results => {
-        dispatch(fetchUserPosts())
-      })
+      dispatch(postCreated(results))
     })
 }
 
-export function deletePost (postId) {
+export const deletePost = (postId) => {
   return dispatch => api.deleteApi(`/api/posts/${postId}`)
     .then(results => {
-      api.get(`/api/posts`).then(results => {
-        dispatch(fetchUserPosts())
-      })
+      dispatch(postDeleted(postId))
     })
 }
 
-export function updatePost (post) {
+export const updatePost = (post) => {
   const data = {
     text: post.text
   }
@@ -70,36 +108,58 @@ export function updatePost (post) {
     }))
 }
 
-export function addComment (comment) {
+export const commentCreated = (comment) => {
+  return dispatch => {
+    dispatch({
+      type: postTypes.COMMENT_CREATED,
+      payload: comment
+    })
+  }
+}
+
+export const commentDeleted = (commentId, postId) => {
+  return dispatch => {
+    dispatch({
+      type: postTypes.COMMENT_DELETED,
+      payload: postId,
+      commentId: commentId
+    })
+  }
+}
+
+export const addComment = (comment) => {
   const data = {
     text: comment.text
   }
 
   return dispatch => api.post(`/api/comments/${comment.postId}`, data)
     .then(results => {
-      api.get(`/api/posts`).then(results => {
-        dispatch(fetchUserPosts())
-      })
+      dispatch(commentCreated(results))
     })
 }
 
-export function deleteComment (commentId) {
+export const deleteComment = (commentId, postId) => {
   return dispatch => api.deleteApi(`/api/comments/${commentId}`)
     .then(results => {
-      api.get(`/api/posts`).then(results => {
-        dispatch(fetchUserPosts())
-      })
+      dispatch(commentDeleted(commentId, postId))
     })
 }
 
-export function updateComment (comment) {
+export const updateComment = (comment) => {
   const data = {
     text: comment.text
   }
-
   return dispatch => api.put(`/api/comments/${comment.id}`, data)
     .then(dispatch({
       type: postTypes.UPDATE_COMMENT,
       payload: comment
     }))
+}
+
+export const updateLike = (postId) => {
+  return dispatch =>
+    api.post(`/api/posts/${postId}/likes`)
+      .then(results => {
+        dispatch({ type: postTypes.SWITCH_LIKE })
+      })
 }

@@ -6,7 +6,9 @@ import CardActions from '@material-ui/core/CardActions'
 import CardContent from '@material-ui/core/CardContent'
 import CardMedia from '@material-ui/core/CardMedia'
 import Typography from '@material-ui/core/Typography'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import Button from '@material-ui/core/Button'
+import { profileTypes } from '../../actions/profileActions'
 
 const useStyles = makeStyles({
   root: {},
@@ -14,16 +16,43 @@ const useStyles = makeStyles({
     height: 300
   }
 })
-
-export default function ProfileCard () {
+export default function ProfileCard (props) {
   const classes = useStyles()
+  const dispatch = useDispatch()
+  const anotherUsername = props.anotherUser ? props.anotherUser : {}
+
   const {
-    currentUser
+    currentUser,
+    anotherUser,
+    updateUserPage
   } = useSelector(state => ({
-    currentUser: state.users.currentUser
+    currentUser: state.users.currentUser,
+    anotherUser: state.users.anotherUser,
+    updateUserPage: state.users.updateUserPage
   }))
+
+  const isCurrentUser = Object.keys(anotherUsername).length === 0
+
+  let buttonLabel
+  if (updateUserPage) {
+    buttonLabel = 'Cancel edit profile'
+  } else {
+    buttonLabel = 'Edit profile'
+  }
+
+  const editButton = isCurrentUser
+    ? <Button
+      type="submit"
+      fullWidth
+      variant="contained"
+      color="primary"
+      onClick={() => dispatch({type: profileTypes.UPDATE_USER_PAGE, payload: !updateUserPage})}
+    >
+      {buttonLabel}
+    </Button> : null
+
   return (
-    <Card className={classes.root}>
+    <Card variant='outlined' className={classes.root}>
       <CardActionArea>
         <CardMedia
           className={classes.media}
@@ -32,11 +61,21 @@ export default function ProfileCard () {
         />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {currentUser.username}
+            {isCurrentUser ? currentUser.username : anotherUser.username}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-            {currentUser.address}
+            First name: {isCurrentUser ? currentUser.firstName : anotherUsername.firstName}
           </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Last name: {isCurrentUser ? currentUser.lastName : anotherUser.lastName}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Email: {isCurrentUser ? currentUser.email : anotherUser.email}
+          </Typography>
+          <Typography variant="body2" color="textSecondary" component="p">
+            Address: {isCurrentUser ? currentUser.address : anotherUser.address}
+          </Typography>
+          {editButton}
         </CardContent>
       </CardActionArea>
 
