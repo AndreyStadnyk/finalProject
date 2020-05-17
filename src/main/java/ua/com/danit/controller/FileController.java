@@ -2,7 +2,11 @@ package ua.com.danit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.danit.dto.request.UserRequest;
 import ua.com.danit.dto.response.GenericResponse;
@@ -24,7 +28,7 @@ public class FileController {
   }
 
   @GetMapping("/getUserPicPathByUsername")
-  public String getUserPicPath (String username){
+  public String getUserPicPath(String username) {
     return fileService.getFilePathByUsername(username);
   }
 

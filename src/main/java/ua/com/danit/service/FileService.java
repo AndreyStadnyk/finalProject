@@ -25,7 +25,7 @@ public class FileService {
   }
 
   @Transactional
-  public GenericResponse uploadUserPic(MultipartFile file){
+  public GenericResponse uploadUserPic(MultipartFile file) {
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
     String fileUploadStatus;
@@ -55,7 +55,7 @@ public class FileService {
     fout.close();
   }
 
-  public String getFilePathByUsername(String username){
+  public String getFilePathByUsername(String username) {
     String filePath = fileRepository.findByUser(userService.findById(username)).getImagePath();
     return filePath;
   }
