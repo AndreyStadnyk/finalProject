@@ -39,14 +39,14 @@ export const findUser = (frmDetails) => dispatch => {
 }
 
 export const resetPassword = email => dispatch => {
-  dispatch({ type: profileTypes.RESET_PASSWORD_EMAIL_PENDING })
+  dispatch({ type: profileTypes.RESET_PASSWORD_PENDING })
   api.post('/api/users/resetPassword', { email })
-    .then(() => dispatch({ type: profileTypes.RESET_PASSWORD_EMAIL_SUCCESS }))
+    .then(() => dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS }))
 }
 
-export const changePassword = () => dispatch => {
+export const changePassword = (token, password) => dispatch => {
   dispatch({ type: profileTypes.RESET_PASSWORD_PENDING })
-  api.get(`/api/users/changePassword`)
+  api.get(`/api/users/changePassword?token=` + token + '&password=' + password)
     .then(() => {
       dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS })
       fetchCurrentUser()
