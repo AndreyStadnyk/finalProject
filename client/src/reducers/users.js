@@ -15,7 +15,11 @@ export default function usersReducer (state = initialState, action) {
         ...state,
         pending: true
       }
-
+    case actionTypes.LOG_OUT_USER:
+      return {
+        ...state,
+        currentUser: null
+      }
     case actionTypes.FETCH_USER_SUCCESS:
       return {
         ...state,
