@@ -25,24 +25,19 @@ public class FileService {
   }
 
   @Transactional
-  public GenericResponse uploadFile(MultipartFile file) {
+  public GenericResponse uploadUserPic(MultipartFile file){
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
     String fileUploadStatus;
-
-    String imagePath = "./storage/images" + file.getOriginalFilename();
+    String imagePath = "./storage/images/userPic/" + file.getOriginalFilename();
     User currentUser = userService.getCurrentUser();
+
     try {
-      File convertFile = new File(imagePath);
-      convertFile.createNewFile();
-      FileOutputStream fout = new FileOutputStream(convertFile);
-      fout.write(file.getBytes());
-      fout.close();
+      this.uploadFile(file, imagePath);
       Images image = new Images();
       image.setUser(currentUser);
       image.setImagePath(imagePath);
       fileRepository.save(image);
-      currentUser.setUserPic(imagePath);
       fileUploadStatus = fileUploadingSuccessful;
       return new GenericResponse(fileUploadStatus);
 
@@ -50,6 +45,19 @@ public class FileService {
       fileUploadStatus = fileUploadFailed;
       return new GenericResponse(fileUploadStatus, e.toString());
     }
+  }
+
+  public void uploadFile(MultipartFile file, String filePath) throws IOException {
+    File convertFile = new File(filePath);
+    convertFile.createNewFile();
+    FileOutputStream fout = new FileOutputStream(convertFile);
+    fout.write(file.getBytes());
+    fout.close();
+  }
+
+  public String getFilePathByUsername(String username){
+    String filePath = fileRepository.findByUser(userService.findById(username)).getImagePath();
+    return filePath;
   }
 }
 

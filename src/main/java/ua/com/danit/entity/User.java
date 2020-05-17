@@ -53,7 +53,4 @@ public class User {
   @OneToMany(mappedBy = "user1", cascade = CascadeType.ALL)
   private List<UserFriends> userFriends;
 
-  @OneToMany(mappedBy = "user")
-  private String userPic;
-
 }

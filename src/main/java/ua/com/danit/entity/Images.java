@@ -14,8 +14,8 @@ public class Images {
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   private Long id;
 
-  @ManyToOne
-  @JoinColumn(name = "username", nullable = true)
+  @ManyToOne(targetEntity = User.class, fetch = FetchType.EAGER)
+  @JoinColumn(nullable = true, name = "username")
   private User user;
 
   private String imagePath;

@@ -2,11 +2,9 @@ package ua.com.danit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
+import ua.com.danit.dto.request.UserRequest;
 import ua.com.danit.dto.response.GenericResponse;
 import ua.com.danit.service.FileService;
 
@@ -20,9 +18,14 @@ public class FileController {
     this.fileService = fileService;
   }
 
-  @RequestMapping(value = "/upload", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @RequestMapping(value = "/upload/userPic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public GenericResponse uploadFile(@RequestParam("file") MultipartFile file) {
-    return fileService.uploadFile(file);
+    return fileService.uploadUserPic(file);
+  }
+
+  @GetMapping("/getUserPicPathByUsername")
+  public String getUserPicPath (String username){
+    return fileService.getFilePathByUsername(username);
   }
 
 }
