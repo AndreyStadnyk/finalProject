@@ -22,12 +22,12 @@ public class FileController {
     this.fileService = fileService;
   }
 
-  @RequestMapping(value = "/upload/userPic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  @RequestMapping(value = "/img/user-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public GenericResponse uploadFile(@RequestParam("file") MultipartFile file) {
     return fileService.uploadUserPic(file);
   }
 
-  @GetMapping("/getUserPicPathByUsername")
+  @GetMapping("/img/user-pic")
   public String getUserPicPath(String username) {
     return fileService.getFilePathByUsername(username);
   }
