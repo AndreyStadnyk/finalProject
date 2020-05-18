@@ -1,15 +1,6 @@
-insert into `users` (username, email, first_name, last_name, address, gender, password) values ('VPupkin', 'Fs9finalProject@gmail.com', 'Vasya', 'Pupkin', 'New York', 'male', 'qwerty');
-insert into `users` (username, email, first_name, last_name, address, gender, password) values ('KPupkin', 'Katya@gmail.com', 'Katya', 'Pupkin', 'New York', 'male', 'asdfg');
-insert into `users` (username, email, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya@gmail.com', 'Petya', 'Matroskin', 'Wuhan','male', '12345');
-
-insert into `posts` (post_id, author, owner, date, text) values (1, 'PMatroskin', 'VPupkin', '2020-1-1', '1Some text from owner and author Matroskin');
-insert into `posts` (post_id, author, owner, date, text) values (2, 'PMatroskin', 'VPupkin', '2020-1-2', '2Some text from owner Pupkin and author Matroskin');
-
-insert into `comments` (id, text, post_id, username) values (1, 'It is a good idea, Matroskin', 1, 'VPupkin');
-insert into `comments` (id, text, post_id, username) values (2, 'I know, Pupkin', 1, 'PMatroskin');
-
-insert into `likes` (id, username, post_id) values (1, 'VPupkin', 1);
-insert into `likes` (id, username, post_id) values (2, 'KPupkin', 1);
+insert into `users` (username, email, first_name, last_name, address, gender, password) values ('VPupkin', 'Fs9finalProject@gmail.com', 'Vasya', 'Pupkin', 'New York', 'male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
+insert into `users` (username, email, first_name, last_name, address, gender, password) values ('KPupkin', 'Katya@gmail.com', 'Katya', 'Pupkin', 'New York', 'male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
+insert into `users` (username, email, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya@gmail.com', 'Petya', 'Matroskin', 'Wuhan','male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
 
 insert into `friend_requests` (id, requester, receiver) values (1, 'VPupkin', 'PMatroskin');
 insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'KPupkin');
@@ -17,7 +8,8 @@ insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'K
 insert into `user_friends` (id, user1, user2) values (1, 'VPupkin', 'KPupkin');
 insert into `user_friends` (id, user1, user2) values (2, 'KPupkin', 'VPupkin');
 
-
+insert into `posts` (post_id, author, owner, date, text) values (1, 'PMatroskin', 'VPupkin', '2020-1-1', '1Some text from owner and author Matroskin');
+insert into `posts` (post_id, author, owner, date, text) values (2, 'PMatroskin', 'VPupkin', '2020-1-2', '2Some text from owner Pupkin and author Matroskin');
 insert into `posts` (post_id, author, owner, date, text) values (3, 'PMatroskin', 'VPupkin', '2020-1-3', '3Some text from owner and author Matroskin');
 insert into `posts` (post_id, author, owner, date, text) values (4, 'PMatroskin', 'VPupkin', '2020-1-4', '4Some text from owner Pupkin and author Matroskin');
 insert into `posts` (post_id, author, owner, date, text) values (5, 'PMatroskin', 'VPupkin', '2020-1-5', '5Some text from owner and author Matroskin');
@@ -48,6 +40,11 @@ insert into `posts` (post_id, author, owner, date, text) values (29, 'PMatroskin
 insert into `posts` (post_id, author, owner, date, text) values (30, 'PMatroskin', 'VPupkin', '2020-1-30', '30Some text from owner Pupkin and author Matroskin');
 insert into `posts` (post_id, author, owner, date, text) values (31, 'VPupkin', 'VPupkin', '2020-1-31', '31Some text from owner and author Pupkin');
 insert into `posts` (post_id, author, owner, date, text) values (32, 'PMatroskin', 'VPupkin', '2020-2-1', '32Some text from owner Pupkin and author Matroskin');
-
 insert into `posts` (post_id, author, owner, date, text) values (36, 'VPupkin', 'KPupkin', '2020-1-1', '1Some text from KPupkin');
 insert into `posts` (post_id, author, owner, date, text) values (37, 'PMatroskin', 'KPupkin', '2020-1-2', '2Some text from owner KPupkin and author Matroskin');
+
+insert into `comments` (id, text, post_id, username) values (1, 'It is a good idea, Matroskin', 1, 'VPupkin');
+insert into `comments` (id, text, post_id, username) values (2, 'I know, Pupkin', 1, 'PMatroskin');
+
+insert into `likes` (id, username, post_id) values (1, 'VPupkin', 1);
+insert into `likes` (id, username, post_id) values (2, 'KPupkin', 1);

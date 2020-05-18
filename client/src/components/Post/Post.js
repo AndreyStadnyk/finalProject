@@ -63,10 +63,10 @@ export default function Post (props) {
       display: 'flex'
     },
     avatar: {
-      margin: 20
+      margin: 10
     },
     content: {
-      width: 'calc(100% - 170px)',
+      width: 'calc(100% - 60px)',
       wordWrap: 'break-word'
     },
     text: {
@@ -82,10 +82,6 @@ export default function Post (props) {
     like: {
       height: 20,
       width: 100
-    },
-    buttonComment: {
-      width: 100,
-      height: 35
     },
     buttonGroup: {
       display: 'flex',
@@ -125,40 +121,40 @@ export default function Post (props) {
       {commentModal}
       <Card variant="outlined" className={classes.root}>
         <div className={classes.details}>
-          <div className={classes.avatar}>
-            <Avatar src="https://i.pravatar.cc/300"/>
-          </div>
           <CardContent className={classes.content}>
-            <div className={classes.text}>
-              <Typography component="p" variant="subtitle2">
-                Author: {author}
-              </Typography>
-              <Typography component="p" variant="subtitle2">
-                {props.post.date.toString()}
-              </Typography>
-              <Typography className={classes.postText} component="p" variant="h6">
-                {props.post.text}
-              </Typography>
-              {props.post.comments.map(comment => (
-                <Comment comment={comment} postId={props.post.id}>
-                </Comment>
-              ))}
-              <Tooltip title={props.post.likes.map(like => (
-                <Typography component="p" variant="body2">
-                  {like.userUsername}
+            <div className={classes.details}>
+              <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
+              <div className={classes.text}>
+                <Typography component="p" variant="subtitle2">
+                  Author: {author}
                 </Typography>
-              ))} arrow>
-                <Typography
-                  className={classes.like}
-                  component="p" variant="overline"
-                  onClick={e => {
-                    e.stopPropagation()
-                    handleLike()
-                  }}>
-                  I like it!({props.post.likes.length})
+                <Typography component="p" variant="subtitle2">
+                  {props.post.date.toString()}
                 </Typography>
-              </Tooltip>
+                <Typography className={classes.postText} component="p" variant="h6">
+                  {props.post.text}
+                </Typography>
+              </div>
             </div>
+            {props.post.comments.map(comment => (
+              <Comment comment={comment} postId={props.post.id}>
+              </Comment>
+            ))}
+            <Tooltip title={props.post.likes.map(like => (
+              <Typography component="p" variant="body2">
+                {like.userUsername}
+              </Typography>
+            ))} arrow>
+              <Typography
+                className={classes.like}
+                component="p" variant="overline"
+                onClick={e => {
+                  e.stopPropagation()
+                  handleLike()
+                }}>
+                I like it!({props.post.likes.length})
+              </Typography>
+            </Tooltip>
           </CardContent>
           <div className={classes.buttonGroup}>
             <IconButton

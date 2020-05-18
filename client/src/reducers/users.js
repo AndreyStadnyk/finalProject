@@ -43,28 +43,16 @@ export default function usersReducer (state = initialState, action) {
         currentUser: action.payload
       }
 
-    case actionTypes.RESET_PASSWORD_EMAIL_PENDING:
+    case actionTypes.RESET_PASSWORD_PENDING:
       return {
         ...state,
         resetPasswordStage: 1
       }
 
-    case actionTypes.RESET_PASSWORD_EMAIL_SUCCESS:
-      return {
-        ...state,
-        resetPasswordStage: 2
-      }
-
-    case actionTypes.RESET_PASSWORD_PENDING:
-      return {
-        ...state,
-        resetPasswordStage: 3
-      }
-
     case actionTypes.RESET_PASSWORD_SUCCESS:
       return {
         ...state,
-        resetPasswordStage: 4
+        resetPasswordStage: 2
       }
 
     default:
