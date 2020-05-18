@@ -2,18 +2,13 @@ package ua.com.danit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import ua.com.danit.dto.request.UserRequest;
 import ua.com.danit.dto.response.GenericResponse;
 import ua.com.danit.service.FileService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/file")
 public class FileController {
   private FileService fileService;
 
@@ -22,14 +17,29 @@ public class FileController {
     this.fileService = fileService;
   }
 
-  @RequestMapping(value = "/img/user-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public GenericResponse uploadFile(@RequestParam("file") MultipartFile file) {
+  @RequestMapping(value = "/user-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public GenericResponse uploadUserPic(@RequestParam("file") MultipartFile file) {
     return fileService.uploadUserPic(file);
   }
 
-  @GetMapping("/img/user-pic")
+  @GetMapping("/user-pic")
   public String getUserPicPath(String username) {
     return fileService.getFilePathByUsername(username);
+  }
+
+  @RequestMapping(value = "/post-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public GenericResponse uploadPostPic(@RequestParam ("postId") Long postId, @RequestParam("file") MultipartFile file) {
+    return fileService.uploadPostPic(postId, file);
+  }
+
+  @GetMapping("/post-pic")
+  public String getPostPicPath(Long postId) {
+    return fileService.getFilePathByPostId(postId);
+  }
+
+  @DeleteMapping("/post-pic")
+  public GenericResponse delete (@RequestParam ("imageName") String imageToDeleteName) {
+    return fileService.deletePostPic(imageToDeleteName);
   }
 
 }

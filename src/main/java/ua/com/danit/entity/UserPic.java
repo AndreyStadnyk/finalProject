@@ -13,8 +13,8 @@ import javax.persistence.GenerationType;
 
 @Data
 @Entity
-@Table(name = "images")
-public class Images {
+@Table(name = "user_pics")
+public class UserPic {
 
   @Id
   @Column(name = "image_id")
