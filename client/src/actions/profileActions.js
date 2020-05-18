@@ -29,13 +29,11 @@ export const resetPassword = email => dispatch => {
     .then(() => dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS }))
 }
 
-export const changePassword = (token, password) => dispatch => {
+export const changePassword = (username, token, pass1, pass2) => dispatch => {
   dispatch({ type: profileTypes.RESET_PASSWORD_PENDING })
-  api.get(`/api/users/changePassword?token=` + token + '&password=' + password)
-    .then(() => {
-      dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS })
-      fetchCurrentUser()
-    })
+  api.get('/api/users/changePassword?username=' +
+    username + '&token=' + token + '&pass1=' + pass1 + '&pass2=' + pass2)
+    .then(() => dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS }))
 }
 
 export const fetchCurrentUser = () => dispatch => {
