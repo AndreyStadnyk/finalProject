@@ -25,19 +25,19 @@ export default function Tape () {
 
   const {
     pending,
-    userPosts
+    wallPosts
   } = useSelector(state => ({
     pending: state.posts.pending,
-    userPosts: state.posts.userPosts
+    wallPosts: state.posts.wallPosts
   }))
 
   useEffect(() => {
-    if (userPosts === null) {
+    if (wallPosts === null) {
       dispatch(fetchWallPostsByAmount(0))
     }
-  }, [userPosts, dispatch])
+  }, [wallPosts, dispatch])
 
-  if (pending && userPosts === null) {
+  if (pending && wallPosts === null) {
     return (
       <div className={classes.parent}>
         <CircularProgress size={100}/>
@@ -47,7 +47,7 @@ export default function Tape () {
 
   return (
     <InfiniteList
-      elements={userPosts}
+      elements={wallPosts}
       fetchHandler={fetchWallPostsByAmount}
     />
   )

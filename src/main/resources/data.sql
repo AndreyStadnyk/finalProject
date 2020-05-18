@@ -12,6 +12,7 @@ insert into `likes` (id, username, post_id) values (1, 'VPupkin', 1);
 insert into `likes` (id, username, post_id) values (2, 'KPupkin', 1);
 
 insert into `friend_requests` (id, requester, receiver) values (1, 'VPupkin', 'PMatroskin');
+insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'KPupkin');
 
 insert into `user_friends` (id, user1, user2) values (1, 'VPupkin', 'KPupkin');
 insert into `user_friends` (id, user1, user2) values (2, 'KPupkin', 'VPupkin');

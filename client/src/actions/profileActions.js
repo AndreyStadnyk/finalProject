@@ -63,17 +63,12 @@ export function updateUser (frmDetails) {
 
 export const fetchAnotherUser = (username) =>
   dispatch => {
-    dispatch({
-      type: profileTypes.FETCH_USER_PENDING
-    })
-
     api.get(`/api/users/${username}`)
       .then(res => {
         dispatch({
           type: profileTypes.FETCH_ANOTHER_USER,
           payload: res
         })
-        console.log(res)
         return res
       })
   }

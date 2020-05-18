@@ -6,7 +6,7 @@ import './Post.css'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import { pink, lightBlue } from '@material-ui/core/colors'
-import { deletePost, updateLike } from '../../actions/postActions'
+import {deleteAnotherUserPost, deleteCurrentUserPost, updateLike} from '../../actions/postActions'
 import {useDispatch, useSelector} from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
@@ -29,9 +29,10 @@ export default function Post (props) {
   const author = props.post.authorUsername
   const owner = props.post.ownerUsername
   const isCurrentUserAuthor = currentUser.username === author
-  const isCurrentUserAuthorOrOwner = currentUser.username === author || currentUser.username === owner
+  const isCurrentUserOwner = currentUser.username === owner
   const handleClickDelete = () => {
-    dispatch(deletePost(props.post.id))
+    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.post.id))
+    else { dispatch(deleteCurrentUserPost(props.post.id)) }
   }
 
   const handleLike = () => {
@@ -106,7 +107,7 @@ export default function Post (props) {
       <EditIcon/>
     </IconButton> : null
 
-  const deleteButton = isCurrentUserAuthorOrOwner
+  const deleteButton = isCurrentUserAuthor || isCurrentUserOwner
     ? <IconButton
       className={classes.button}
       style={{ color: pink[500] }}

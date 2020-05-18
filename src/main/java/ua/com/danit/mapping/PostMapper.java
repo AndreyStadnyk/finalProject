@@ -57,6 +57,11 @@ public class PostMapper {
     return posts.map(post -> modelMapper.map(post, PostResponse.class));
   }
 
+  public Page<PostResponse> getAllPostsForCurrentUserAndFriendsWithPagination(Pageable pageable) {
+    Page<Post> posts = postService.getAllPostsForCurrentUserAndFriendsWithPagination(pageable);
+    return posts.map(post -> modelMapper.map(post, PostResponse.class));
+  }
+
   public PostResponse removeOrAddLikeByPostId(long postId) {
     Post post = postService.getOrRemoveLikeByPostId(postId);
     return modelMapper.map(post, PostResponse.class);

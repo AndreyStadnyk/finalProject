@@ -18,6 +18,14 @@ public interface PostRepository extends JpaRepository<Post, Long> {
 
   @Query("select p from Post p where "
       + "( p.owner.username = :username)")
-  Page<Post> findPostsByParams(@Param("username")String username, Pageable pageable);
-}
+  Page<Post> findPostsByUsername(
+      @Param("username")String username, Pageable pageable);
 
+  @Query("select p from Post p where "
+      + "( p.owner.username = :owner) or "
+      + "p.owner.username IN (select user2.username from UserFriends "
+      + "where user1.username = :owner "
+      + ")")
+  Page<Post> findPostsByOwnerAndUsernamesFriends(
+      String owner, Pageable pageable);
+}
