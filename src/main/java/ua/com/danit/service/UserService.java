@@ -48,13 +48,14 @@ public class UserService implements UserDetailsService {
   }
 
   public User create(User user) {
-    //user.setPassword(passwordEncoder.encode(user.getPassword()));
+    user.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(user);
   }
 
   public User updateUser(User user) {
     User currentUser = this.getCurrentUser();
     BeanUtils.copyProperties(user, currentUser, getNullPropertyNames(user));
+    currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(currentUser);
   }
 
@@ -115,7 +116,7 @@ public class UserService implements UserDetailsService {
     org.springframework.security.core.userdetails.User.UserBuilder builder = null;
     if (user != null) {
       builder = org.springframework.security.core.userdetails.User.withUsername(username);
-      builder.password(new BCryptPasswordEncoder().encode(user.getPassword()));
+      builder.password(user.getPassword());
       builder.roles("USER");
     } else {
       throw new UsernameNotFoundException("User not found.");
@@ -134,7 +135,10 @@ public class UserService implements UserDetailsService {
   }
 
   private SimpleMailMessage constructResetTokenEmail(String contextPath, Locale locale, String token, User user) {
-    String url = contextPath + "changePassword?token=" + token;
+    String url = contextPath
+        + "change-pass?username="
+        + user.getUsername() + "&token="
+        + token;
     String message = "Hello," + user.getUsername() + "! "
         + "We have received the password change request for your Facebook. "
         + "Please, follow this link for password reset:";
@@ -182,7 +186,7 @@ public class UserService implements UserDetailsService {
       Boolean isTokenValid = validatePasswordResetToken(username, token);
       if (isTokenValid && (pass1.equals(pass2))) {
         User user = findByUsername(username);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setPassword(pass1);
         passwordTokenRepository.deleteByToken(token);
         updateUser(user);
         changePassStatus = changePassSuccessful;

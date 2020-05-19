@@ -11,6 +11,7 @@ import { changePassword } from '../../actions/profileActions'
 import {useDispatch, useSelector} from 'react-redux'
 import Redirect from 'react-router-dom/es/Redirect'
 import queryString from 'query-string'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles(theme => ({
   paper: {
@@ -44,27 +45,34 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function ChangePassword (props) {
-  const [password, setPassword] = useState('')
+  const [pass1, setPass1] = useState('')
+  const [pass2, setPass2] = useState('')
   const classes = useStyles()
   const dispatch = useDispatch()
   const params = queryString.parse(props.location.search)
 
   const {
-    currentUser
+    resetPasswordStage
   } = useSelector(state => ({
-    currentUser: state.users.currentUser
+    resetPasswordStage: state.users.resetPasswordStage
   }))
 
-  if (currentUser) {
+  if (resetPasswordStage === 1) {
     return (
-      <Redirect to="/profile"/>
+      <div className={classes.parent}>
+        <CircularProgress size={100}/>
+      </div>
+    )
+  } else if (resetPasswordStage === 2) {
+    return (
+      <Redirect to="/sign-in"/>
     )
   }
 
   const onChangePassword = event => {
     event.preventDefault()
     if (params && params.token) {
-      dispatch(changePassword(params.token, password))
+      dispatch(changePassword(params.username, params.token, pass1, pass2))
     }
   }
 
@@ -84,11 +92,11 @@ export default function ChangePassword (props) {
             margin='normal'
             required
             fullWidth
-            onChange={e => setPassword(e.target.value)}
-            name='password'
+            onChange={e => setPass1(e.target.value)}
+            name='pass1'
             label='Password'
             type='password'
-            id='password'
+            id='pass1'
             autoComplete='current-password'
           />
           <TextField
@@ -96,11 +104,11 @@ export default function ChangePassword (props) {
             margin='normal'
             required
             fullWidth
-            onChange={e => setPassword(e.target.value)}
-            name='confirmPassword'
+            onChange={e => setPass2(e.target.value)}
+            name='pass2'
             label='Confirm Password'
             type='password'
-            id='confirmPassword'
+            id='pass2'
             autoComplete='current-password'
           />
           <Button

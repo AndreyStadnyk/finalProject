@@ -13,8 +13,8 @@ export default function App () {
       <Switch>
         <Route exact path='/sign-up' component={SignUp}/>
         <Route exact path='/sign-in' component={SignIn}/>
-        <Route exact path='/resetPassword' component={ResetPassword}/>
-        <Route exact path='/changePassword' component={ChangePassword}/>
+        <Route exact path='/reset-pass' component={ResetPassword}/>
+        <Route exact path='/change-pass' component={ChangePassword}/>
         <Route exact path='/*' component={ProtectedRoute}/>
       </Switch>
     </div>
