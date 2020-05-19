@@ -38,17 +38,20 @@ function Profile () {
   const classes = useStyles()
   const [modalActive, setActive] = useState(false)
   const dispatch = useDispatch()
-  const username = useParams()
-
+  const user = useParams()
+  let isUserCurrent = Object.keys(user).length === 0 && user.constructor === Object
+  
   const {
     pending,
     userPosts,
+    anotherUserPosts,
     currentUser,
     anotherUser,
     updateUserPage
   } = useSelector(state => ({
     pending: state.posts.pending,
     userPosts: state.posts.userPosts,
+    anotherUserPosts: state.posts.anotherUserPosts,
     currentUser: state.users.currentUser,
     anotherUser: state.users.anotherUser,
     updateUserPage: state.users.updateUserPage
@@ -56,20 +59,20 @@ function Profile () {
 
   useEffect(() => {
     if (userPosts === null) {
-      if (Object.keys(username).length === 0 && username.constructor === Object && !pending) {
+      if (isUserCurrent && !pending) {
         dispatch(fetchUserPostsByAmount(0))
-      } else if (!pending) {
-        dispatch(fetchAnotherUser(username.username))
-        dispatch(fetchAnotherUserPostsByAmount(username.username, 0))
+      } else if (!pending && anotherUserPosts === null) {
+        dispatch(fetchAnotherUser(user.username))
+        dispatch(fetchAnotherUserPostsByAmount(user.username, 0))
       }
     }
-  }, [userPosts, dispatch, username, anotherUser, pending])
+  }, [userPosts, dispatch, user, anotherUser, pending, anotherUserPosts, isUserCurrent])
 
   const toggleModal = () => {
     setActive(true)
   }
 
-  if (pending && userPosts === null) {
+  if (pending && userPosts === null && anotherUserPosts === null) {
     return (
       <div className={classes.parent}>
         <CircularProgress size={100}/>
@@ -98,7 +101,7 @@ function Profile () {
           Add post
         </Button>
         <InfiniteList
-          elements={userPosts}
+          elements={isUserCurrent ? userPosts : anotherUserPosts}
           fetchHandler={fetchUserPostsByAmount}
         />
       </div>

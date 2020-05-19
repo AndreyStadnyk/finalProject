@@ -79,8 +79,13 @@ public class PostService {
     return postRepository.findPostsByOwner(userService.getCurrentUser(), pageable);
   }
 
+  public Page<Post> getAllPostsForCurrentUserAndFriendsWithPagination(Pageable pageable) {
+    return postRepository.findPostsByOwnerAndUsernamesFriends(userService.getCurrentUser()
+        .getUsername(), pageable);
+  }
+
   public Page<Post> getAllPostsForAnotherUserWithPagination(String username, Pageable pageable) {
-    return postRepository.findPostsByParams(username, pageable);
+    return postRepository.findPostsByUsername(username, pageable);
   }
 
   public Post getOrRemoveLikeByPostId(long postId) {

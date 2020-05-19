@@ -3,6 +3,7 @@ import {actionTypes} from '../actions'
 const initialState = {
   pending: false,
   userPosts: null,
+  anotherUserPosts: null,
   wallPosts: null,
   pageNumber: 0
 }
@@ -13,6 +14,12 @@ export default function postsReducer (state = initialState, action) {
 
   switch (action.type) {
     case actionTypes.FETCH_USER_POSTS_PENDING:
+      return {
+        ...state,
+        pending: true
+      }
+
+    case actionTypes.FETCH_USER_POSTS_BY_AMOUNT_PENDING:
       return {
         ...state,
         pending: true
@@ -31,7 +38,7 @@ export default function postsReducer (state = initialState, action) {
       return {
         ...state,
         pending: false,
-        userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload),
+        anotherUserPosts: state.anotherUserPosts === null ? action.payload : state.anotherUserPosts.concat(action.payload),
         pageNumber: action.pageNumber,
         totalPages: action.totalPages
       }
@@ -46,19 +53,14 @@ export default function postsReducer (state = initialState, action) {
       return {
         ...state,
         pending: false,
-        userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload),
+        wallPosts: state.wallPosts === null ? action.payload : state.wallPosts.concat(action.payload),
         pageNumber: action.pageNumber,
         totalPages: action.totalPages
       }
 
-    case actionTypes.POST_CREATED:
-      // if (state.userPosts !== null) {
-      //   state.userPosts.splice(0, 0, action.payload)
-      // }
-      // console.log(state.userPosts)
+    case actionTypes.POST_FOR_CURRENT_USER_CREATED:
       return {
         ...state,
-        // userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload)
         userPosts: state.userPosts === null ? action.payload : state.userPosts.concat(action.payload).sort(
           function (a, b) {
             if (a.date < b.date) {
@@ -67,21 +69,47 @@ export default function postsReducer (state = initialState, action) {
             if (a.date > b.date) {
               return -1
             }
-            //  console.log(a.date.getTime())
             return 0
           }
         ) }
 
-    case actionTypes.POST_DELETED:
+    case actionTypes.POST_FOR_ANOTHER_USER_CREATED:
+      return {
+        ...state,
+        anotherUserPosts: state.anotherUserPosts === null ? action.payload : state.anotherUserPosts.concat(action.payload).sort(
+          function (a, b) {
+            if (a.date < b.date) {
+              return 1
+            }
+            if (a.date > b.date) {
+              return -1
+            }
+            return 0
+          }
+        ) }
+
+    case actionTypes.POST_FOR_CURRENT_USER_DELETED:
       return {
         ...state,
         userPosts: state.userPosts = state.userPosts.filter(post => post.id !== action.payload)
       }
 
-    case actionTypes.UPDATE_POST:
+    case actionTypes.POST_FOR_ANOTHER_USER_DELETED:
+      return {
+        ...state,
+        anotherUserPosts: state.anotherUserPosts = state.anotherUserPosts.filter(post => post.id !== action.payload)
+      }
+
+    case actionTypes.UPDATE_POST_FOR_CURRENT_USER:
       currentPost = {...action.payload}
       return {
         userPosts: state.userPosts.map(post => post.id === currentPost.id ? currentPost : post)
+      }
+
+    case actionTypes.UPDATE_POST_FOR_ANOTHER_USER:
+      currentPost = {...action.payload}
+      return {
+        anotherUserPosts: state.anotherUserPosts.map(post => post.id === currentPost.id ? currentPost : post)
       }
 
     case actionTypes.UPDATE_COMMENT:
