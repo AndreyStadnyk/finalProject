@@ -27,11 +27,25 @@ public class FileService {
   private PostService postService;
 
   @Autowired
-  public FileService(UserPicRepository userPicRepository, PostPicRepository postPicRepository, UserService userService, PostService postService) {
+  public FileService(UserPicRepository userPicRepository, PostPicRepository postPicRepository, UserService userService,
+                     PostService postService) {
     this.userPicRepository = userPicRepository;
     this.postPicRepository = postPicRepository;
     this.userService = userService;
     this.postService = postService;
+  }
+
+  private void uploadFile(MultipartFile file, String filePath) throws IOException {
+    File convertFile = new File(filePath);
+    convertFile.createNewFile();
+    FileOutputStream fout = new FileOutputStream(convertFile);
+    fout.write(file.getBytes());
+    fout.close();
+  }
+
+  private void deleteFile(String fileToDeletePath) throws IOException {
+    Path filePath = Paths.get(fileToDeletePath);
+    Files.delete(filePath);
   }
 
   @Transactional
@@ -57,22 +71,35 @@ public class FileService {
     }
   }
 
-  private void uploadFile(MultipartFile file, String filePath) throws IOException {
-    File convertFile = new File(filePath);
-    convertFile.createNewFile();
-    FileOutputStream fout = new FileOutputStream(convertFile);
-    fout.write(file.getBytes());
-    fout.close();
-  }
-
-  private void deleteFile(String fileToDeletePath) throws IOException {
-    Path filePath = Paths.get(fileToDeletePath);
-    Files.delete(filePath);
-  }
-
   public String getFilePathByUsername(String username) {
     String filePath = userPicRepository.findByUser(userService.findByUsername(username)).getImagePath();
     return filePath;
+  }
+
+  @Transactional
+  public GenericResponse deleteUserPic(String imageToDeleteName) {
+    String fileDeletingSuccessful = "File deleting successful complete!";
+    String fileDeletingFailed = "File deleting failed!";
+    String fileDeleteStatus;
+    String imageToDeletePath = "./storage/images/userPic/" + imageToDeleteName;
+    String ownerUserPicName = userPicRepository.findByImagePath(imageToDeletePath).getUser().getUsername();
+    Boolean doesHavePermissionToDeleteUserPic = userService.isCurrentUser(ownerUserPicName);
+
+    if (!doesHavePermissionToDeleteUserPic) {
+      fileDeleteStatus = fileDeletingFailed;
+      return new GenericResponse(fileDeleteStatus, "User picture can be deleted only by owner");
+    }
+
+    try {
+      this.deleteFile(imageToDeletePath);
+      userPicRepository.deleteByImagePath(imageToDeletePath);
+      fileDeleteStatus = fileDeletingSuccessful;
+      return new GenericResponse(fileDeleteStatus);
+
+    } catch (IOException e) {
+      fileDeleteStatus = fileDeletingFailed;
+      return new GenericResponse(fileDeleteStatus, e.toString());
+    }
   }
 
   @Transactional
@@ -105,6 +132,7 @@ public class FileService {
     return filePath;
   }
 
+  @Transactional
   public GenericResponse deletePostPic(String imageToDeleteName) {
     String fileDeletingSuccessful = "File deleting successful complete!";
     String fileDeletingFailed = "File deleting failed!";

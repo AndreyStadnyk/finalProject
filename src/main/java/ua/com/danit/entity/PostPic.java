@@ -19,7 +19,7 @@ public class PostPic {
   @Id
   @Column(name = "image_id")
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private Long Id;
+  private Long id;
 
   @ManyToOne(targetEntity = Post.class, fetch = FetchType.EAGER)
   @JoinColumn(nullable = true, name = "post_id")
