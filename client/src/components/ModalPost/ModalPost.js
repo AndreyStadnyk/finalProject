@@ -5,7 +5,12 @@ import Backdrop from '@material-ui/core/Backdrop'
 import Fade from '@material-ui/core/Fade'
 import TextField from '@material-ui/core/TextField'
 import Button from '@material-ui/core/Button'
-import {addPost, updatePost} from '../../actions/postActions'
+import {
+  addPostForAnotherUser,
+  addPostForCurrentUser,
+  updatePostForAnotherUser,
+  updatePostForCurrentUser
+} from '../../actions/postActions'
 import {useDispatch, useSelector} from 'react-redux'
 import {Publish} from '@material-ui/icons'
 import 'react-redux-toastr/lib/css/react-redux-toastr.min.css'
@@ -55,9 +60,11 @@ export default function ModalPost (props) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const {
-    currentUser
+    currentUser,
+    anotherUser
   } = useSelector(state => ({
-    currentUser: state.users.currentUser
+    currentUser: state.users.currentUser,
+    anotherUser: state.users.anotherUser
   }))
 
   const [text, setText] = useState(props.post ? props.post.text : '')
@@ -70,11 +77,18 @@ export default function ModalPost (props) {
   const handleClick = () => {
     if (props.post) {
       post.text = text
-      dispatch(updatePost(post))
+      if (anotherUser === null) dispatch(updatePostForCurrentUser(post))
+      else dispatch(updatePostForAnotherUser(post))
     } else if (text && !props.post) {
-      dispatch(addPost({
-        text: text
-      }, currentUser.username))
+      if (anotherUser !== null) {
+        dispatch(addPostForAnotherUser({
+          text: text
+        }, anotherUser.username))
+      } else {
+        dispatch(addPostForCurrentUser({
+          text: text
+        }, currentUser.username))
+      }
     } else {
       toastr.info('Ooops!', 'Your post was empty')
     }

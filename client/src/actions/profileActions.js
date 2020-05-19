@@ -44,13 +44,11 @@ export const resetPassword = email => dispatch => {
     .then(() => dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS }))
 }
 
-export const changePassword = (token, password) => dispatch => {
+export const changePassword = (username, token, pass1, pass2) => dispatch => {
   dispatch({ type: profileTypes.RESET_PASSWORD_PENDING })
-  api.get(`/api/users/changePassword?token=` + token + '&password=' + password)
-    .then(() => {
-      dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS })
-      fetchCurrentUser()
-    })
+  api.get('/api/users/changePassword?username=' +
+    username + '&token=' + token + '&pass1=' + pass1 + '&pass2=' + pass2)
+    .then(() => dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS }))
 }
 
 export const fetchCurrentUser = () => dispatch => {
@@ -76,17 +74,12 @@ export function updateUser (frmDetails) {
 
 export const fetchAnotherUser = (username) =>
   dispatch => {
-    dispatch({
-      type: profileTypes.FETCH_USER_PENDING
-    })
-
     api.get(`/api/users/${username}`)
       .then(res => {
         dispatch({
           type: profileTypes.FETCH_ANOTHER_USER,
           payload: res
         })
-        console.log(res)
         return res
       })
   }

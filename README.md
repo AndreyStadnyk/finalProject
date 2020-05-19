@@ -12,13 +12,17 @@
 
 [Swagger-UI](http://localhost:8080/swagger-ui.html#/)
 
+## Test data
+Username: VPupkin
+
+Password: 1111
+
 ## Developers
 1. Nikolaenko Alexey
 2. Shevchuk Marina
 3. Konev Vetal
 4. Stadnyk Andrey
 5. Hamad Emad
-6. Yermolenko Eduard
 
 ## Development Deployment
 1. Git clone
