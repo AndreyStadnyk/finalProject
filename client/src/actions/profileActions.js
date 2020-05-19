@@ -5,13 +5,13 @@ export const profileTypes = {
   FETCH_USER_SUCCESS: 'FETCH_USER_SUCCESS',
   UPDATE_USER_PAGE: 'UPDATE_USER_PAGE',
   UPDATE_USER: 'UPDATE_USER',
-    LOG_OUT_USER:'LOG_OUT_USER',
+  LOG_OUT_USER: 'LOG_OUT_USER',
   RESET_PASSWORD_EMAIL_PENDING: 'RESET_PASSWORD_EMAIL_PENDING',
   RESET_PASSWORD_EMAIL_SUCCESS: 'RESET_PASSWORD_EMAIL_SUCCESS',
   RESET_PASSWORD_PENDING: 'RESET_PASSWORD_PENDING',
   RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
   FETCH_ANOTHER_USER: 'FETCH_ANOTHER_USER',
-    SEARCH_OTHER_USERS: 'SEARCH_OTHER_USERS'
+  SEARCH_OTHER_USERS: 'SEARCH_OTHER_USERS'
 }
 
 export const createUser = (frmDetails, formData) => dispatch => {
@@ -28,14 +28,13 @@ export const logUser = frmDetails => dispatch => {
 }
 
 export const logOutUser = () => dispatch => {
-    dispatch({ type: profileTypes.LOG_OUT_USER })
-    api.post('/logout')
-
+  dispatch({ type: profileTypes.LOG_OUT_USER })
+  api.post('/logout')
 }
 
 export const findUser = (frmDetails) => dispatch => {
-    dispatch({ type: profileTypes.SEARCH_OTHER_USERS})
-    api.post('/api/users/search', frmDetails)
+  dispatch({ type: profileTypes.SEARCH_OTHER_USERS })
+  api.post('/api/users/search', frmDetails)
 }
 
 export const resetPassword = email => dispatch => {

@@ -53,6 +53,11 @@ export default function usersReducer (state = initialState, action) {
         resetPasswordStage: 1
       }
 
+    case actionTypes.SEARCH_OTHER_USERS:
+      return {
+        ...state
+      }
+
     case actionTypes.RESET_PASSWORD_SUCCESS:
       return {
         ...state,
