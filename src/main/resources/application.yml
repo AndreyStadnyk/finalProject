@@ -9,6 +9,8 @@ spring:
   datasource:
     url: jdbc://mysql://localhost:3306/qa
     password: 12345
+  resources:
+    static-locations=classpath:/storage/,classpath:/src/main/resources/public
 
 server:
   port: 9001

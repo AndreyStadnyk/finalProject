@@ -41,7 +41,7 @@ public class PostService {
     }
   }
 
-  private void checkIsCurrentUserTheAuthorOrOwner(Post post) {
+  public void checkIsCurrentUserTheAuthorOrOwner(Post post) {
     if (!userService.isCurrentUser(post.getAuthor().getUsername())
         && !userService.isCurrentUser(post.getOwner().getUsername())) {
       throw new RuntimeException();
