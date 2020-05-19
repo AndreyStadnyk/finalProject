@@ -57,6 +57,12 @@ public class PostController {
     return ResponseEntity.ok(postMapper.getAllPostsForAnotherUserWithPagination(username, pageable));
   }
 
+  @GetMapping("/tape")
+  public ResponseEntity<Page<PostResponse>> getAllPostsForCurrentUserAndFriendsWithPagination(
+      @PageableDefault Pageable pageable) {
+    return ResponseEntity.ok(postMapper.getAllPostsForCurrentUserAndFriendsWithPagination(pageable));
+  }
+
   @PostMapping("/{postId}/likes")
   public ResponseEntity<PostResponse> removeOrAddLike(@PathVariable long postId) {
     return ResponseEntity.ok(postMapper.removeOrAddLikeByPostId(postId));
