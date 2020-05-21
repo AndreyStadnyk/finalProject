@@ -115,6 +115,12 @@ export default function Post (props) {
       <DeleteForeverIcon/>
     </IconButton> : null
 
+  const formatter = new Intl.DateTimeFormat('ru', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  })
+
   return (
     <>
       {modal}
@@ -126,10 +132,10 @@ export default function Post (props) {
               <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
               <div className={classes.text}>
                 <Typography component="p" variant="subtitle2">
-                  Author: {author}
+                  <strong>{formatter.format(new Date(props.post.date))}</strong>
                 </Typography>
                 <Typography component="p" variant="subtitle2">
-                  {props.post.date.toString()}
+                  From author <strong>{author}</strong> to owner <strong>{owner}</strong>
                 </Typography>
                 <Typography className={classes.postText} component="p" variant="h6">
                   {props.post.text}
