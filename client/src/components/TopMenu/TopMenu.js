@@ -1,11 +1,14 @@
 import React from 'react'
-import { fade, makeStyles } from '@material-ui/core/styles'
+import {fade, makeStyles} from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 import Link from '@material-ui/core/Link'
+import Button from '@material-ui/core/Button'
+import {findUser, logOutUser} from '../../actions/profileActions'
+import {useDispatch} from 'react-redux'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -58,38 +61,50 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function TopMenu () {
+  const dispatch = useDispatch()
+
   const classes = useStyles()
+  const logOut = () => {
+    dispatch(logOutUser())
+  }
+  const handleSearchChange = (event) => {
+    dispatch(findUser(event.target.value))
+  }
 
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            Awesome messenger!
+                        Awesome messenger!
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon/>
             </div>
             <InputBase
+              onChange={handleSearchChange}
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput
               }}
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{'aria-label': 'search'}}
             />
           </div>
           <Typography className={classes.pageLink} variant="h6" noWrap>
             <Link href="/tape" color="inherit">
-              Tape
+                            Tape
             </Link>
           </Typography>
           <Typography className={classes.pageLink} variant="h6" noWrap>
             <Link href="/profile" color="inherit">
-              Profile
+                            Profile
             </Link>
           </Typography>
+          <Button onClick={logOut} color="inherit">
+                            Log Out
+          </Button>
         </Toolbar>
       </AppBar>
     </div>

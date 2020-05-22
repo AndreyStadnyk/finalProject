@@ -15,7 +15,11 @@ export default function usersReducer (state = initialState, action) {
         ...state,
         pending: true
       }
-
+    case actionTypes.LOG_OUT_USER:
+      return {
+        ...state,
+        currentUser: null
+      }
     case actionTypes.FETCH_USER_SUCCESS:
       return {
         ...state,
@@ -47,6 +51,11 @@ export default function usersReducer (state = initialState, action) {
       return {
         ...state,
         resetPasswordStage: 1
+      }
+
+    case actionTypes.SEARCH_OTHER_USERS:
+      return {
+        ...state
       }
 
     case actionTypes.RESET_PASSWORD_SUCCESS:
