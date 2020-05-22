@@ -11,7 +11,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
 import Card from '@material-ui/core/Card'
-import ModalWindow from '../ModalPost/ModalPost'
+import ModalPost from '../ModalPost/ModalPost'
 import Comment from '../Comment/Comment'
 import ModalComment from '../ModalComment/ModalComment'
 import Tooltip from '@material-ui/core/Tooltip'
@@ -39,7 +39,7 @@ export default function Post (props) {
     dispatch(updateLike(props.post.id))
   }
 
-  const toggleModal = () => {
+  const togglePostModal = () => {
     setActive(true)
   }
 
@@ -47,8 +47,8 @@ export default function Post (props) {
     setCommentActive(true)
   }
 
-  const modal = modalActive
-    ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+  const postModal = modalActive
+    ? <ModalPost modalActive={modalActive} post={props.post} setActive={setActive}/> : null
   const commentModal = commentModalActive ? <ModalComment
     commentModalActive={commentModalActive}
     postId={props.post.id}
@@ -97,7 +97,7 @@ export default function Post (props) {
       style={{ color: lightBlue.A700 }}
       onClick={e => {
         e.stopPropagation()
-        toggleModal()
+        togglePostModal()
       }}
     >
       <EditIcon/>
@@ -123,7 +123,7 @@ export default function Post (props) {
 
   return (
     <>
-      {modal}
+      {postModal}
       {commentModal}
       <Card variant="outlined" className={classes.root}>
         <div className={classes.details}>
@@ -143,7 +143,7 @@ export default function Post (props) {
               </div>
             </div>
             {props.post.comments.map(comment => (
-              <Comment comment={comment} postId={props.post.id}>
+              <Comment key={comment.id} comment={comment} postId={props.post.id}>
               </Comment>
             ))}
             <Tooltip title={props.post.likes.map(like => (

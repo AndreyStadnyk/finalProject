@@ -6,10 +6,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import {NavLink} from 'react-router-dom'
+import {Redirect, NavLink} from 'react-router-dom'
 import {useSelector} from 'react-redux'
 import {createUser} from '../../actions/profileActions'
-import Redirect from 'react-router-dom/es/Redirect'
 import ProfileForm from '../Profile/ProfileForm'
 
 const useStyles = makeStyles(theme => ({

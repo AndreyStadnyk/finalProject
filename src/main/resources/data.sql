@@ -1,6 +1,6 @@
-insert into `users` (username, email, first_name, last_name, address, gender, password) values ('VPupkin', 'Fs9finalProject@gmail.com', 'Vasya', 'Pupkin', 'New York', 'male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
-insert into `users` (username, email, first_name, last_name, address, gender, password) values ('KPupkin', 'Katya@gmail.com', 'Katya', 'Pupkin', 'New York', 'male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
-insert into `users` (username, email, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya@gmail.com', 'Petya', 'Matroskin', 'Wuhan','male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
+insert into `users` (username, email, first_name, last_name, address, gender, password) values ('VPupkin', 'Fs9finalProject@gmail.com', 'Vasya', 'Pupkin', 'New York', 'Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
+insert into `users` (username, email, first_name, last_name, address, gender, password) values ('KPupkin', 'Katya@gmail.com', 'Katya', 'Pupkin', 'New York', 'Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
+insert into `users` (username, email, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya@gmail.com', 'Petya', 'Matroskin', 'Wuhan','Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
 
 insert into `friend_requests` (id, requester, receiver) values (1, 'VPupkin', 'PMatroskin');
 insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'KPupkin');

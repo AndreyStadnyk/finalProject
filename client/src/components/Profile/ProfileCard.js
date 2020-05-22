@@ -75,11 +75,11 @@ export default function ProfileCard (props) {
           <Typography variant="body2" color="textSecondary" component="p">
             Address: {isCurrentUser ? currentUser.address : anotherUser.address}
           </Typography>
-          {editButton}
         </CardContent>
       </CardActionArea>
 
       <CardActions>
+        {editButton}
       </CardActions>
 
     </Card>

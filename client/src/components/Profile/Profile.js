@@ -110,19 +110,21 @@ function Profile () {
 
   return (
     <MuiThemeProvider>
-      {modal}
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TopMenu/>
+      <div>
+        {modal}
+        <div className={classes.root}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TopMenu/>
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <ProfileCard anotherUser ={anotherUser}/>
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              {profileContent}
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <ProfileCard anotherUser ={anotherUser}/>
-          </Grid>
-          <Grid item xs={12} sm={9}>
-            {profileContent}
-          </Grid>
-        </Grid>
+        </div>
       </div>
     </MuiThemeProvider>
   )
