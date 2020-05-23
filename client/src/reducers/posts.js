@@ -143,11 +143,14 @@ export default function postsReducer (state = initialState, action) {
         })
       }
 
-    case actionTypes.SWITCH_LIKE:
-      currentPost = {...action.payload}
-      currentPost.likes++
+    case actionTypes.SWITCH_LIKE_PROFILE:
       return {
-        userPosts: state.userPosts.map(post => post.id === currentPost.id ? currentPost : post)
+        userPosts: state.userPosts.map(post => post.id === action.payload.id ? action.payload : post)
+      }
+
+    case actionTypes.SWITCH_LIKE_WALL:
+      return {
+        wallPosts: state.wallPosts.map(post => post.id === action.payload.id ? action.payload : post)
       }
 
     default:

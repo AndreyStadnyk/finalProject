@@ -6,9 +6,10 @@ import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 import Link from '@material-ui/core/Link'
-import Button from '@material-ui/core/Button'
+import IconButton from '@material-ui/core/IconButton'
 import {findUser, logOutUser} from '../../actions/profileActions'
 import {useDispatch} from 'react-redux'
+import { ExitToApp } from '@material-ui/icons'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -94,17 +95,17 @@ export default function TopMenu () {
           </div>
           <Typography className={classes.pageLink} variant="h6" noWrap>
             <Link href="/tape" color="inherit">
-                            Tape
+              Tape
             </Link>
           </Typography>
           <Typography className={classes.pageLink} variant="h6" noWrap>
             <Link href="/profile" color="inherit">
-                            Profile
+              Profile
             </Link>
           </Typography>
-          <Button onClick={logOut} color="inherit">
-                            Log Out
-          </Button>
+          <IconButton onClick={logOut} color="inherit">
+            <ExitToApp/>
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>

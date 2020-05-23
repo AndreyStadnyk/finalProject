@@ -15,7 +15,8 @@ export const postTypes = {
   UPDATE_COMMENT: 'UPDATE_COMMENT',
   COMMENT_DELETED: 'COMMENT_DELETED',
   COMMENT_CREATED: 'COMMENT_CREATED',
-  SWITCH_LIKE: 'SWITCH_LIKE'
+  SWITCH_LIKE_PROFILE: 'SWITCH_LIKE_PROFILE',
+  SWITCH_LIKE_WALL: 'SWITCH_LIKE_WALL'
 }
 
 export const fetchUserPostsByAmount = (page) => dispatch => {
@@ -202,10 +203,13 @@ export const updateComment = (comment) => {
     }))
 }
 
-export const updateLike = (postId) => {
+export const updateLike = (postId, isProfile) => {
   return dispatch =>
     api.post(`/api/posts/${postId}/likes`)
       .then(results => {
-        dispatch({ type: postTypes.SWITCH_LIKE })
+        dispatch({
+          type: isProfile ? postTypes.SWITCH_LIKE_PROFILE : postTypes.SWITCH_LIKE_WALL,
+          payload: results
+        })
       })
 }

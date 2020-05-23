@@ -103,6 +103,7 @@ function Profile () {
         <InfiniteList
           elements={isUserCurrent ? userPosts : anotherUserPosts}
           fetchHandler={fetchUserPostsByAmount}
+          isProfile={true}
         />
       </div>
     )

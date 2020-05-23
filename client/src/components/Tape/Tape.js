@@ -49,6 +49,7 @@ export default function Tape () {
     <InfiniteList
       elements={wallPosts}
       fetchHandler={fetchWallPostsByAmount}
+      isProfile={false}
     />
   )
 }
