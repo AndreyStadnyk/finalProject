@@ -53,7 +53,7 @@ public class UserService implements UserDetailsService {
   }
 
   public User updateUser(User user) {
-    User currentUser = this.getCurrentUser();
+    User currentUser = findByUsername(user.getUsername());
     BeanUtils.copyProperties(user, currentUser, getNullPropertyNames(user));
     currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(currentUser);
@@ -141,7 +141,7 @@ public class UserService implements UserDetailsService {
         + token;
     String message = "Hello," + user.getUsername() + "! "
         + "We have received the password change request for your Facebook. "
-        + "Please, follow this link for password reset:";
+        + "Please, follow this link for password reset: ";
     return constructEmail("Reset Password", message + url, user);
   }
 

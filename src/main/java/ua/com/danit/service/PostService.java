@@ -10,9 +10,8 @@ import ua.com.danit.entity.User;
 import ua.com.danit.repository.PostRepository;
 
 import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
 import java.util.Optional;
-
 
 @Service
 public class PostService {
@@ -30,7 +29,8 @@ public class PostService {
     post.setAuthor(userService.getCurrentUser());
     post.setOwner(userService.findByUsername(ownerUsername));
     post.setId(null);
-    post.setDate(new Date());
+    Date date = new Date();
+    post.setDate(new Timestamp(date.getTime()));
     postRepository.save(post);
     return post;
   }
@@ -71,10 +71,6 @@ public class PostService {
         .orElseThrow(RuntimeException::new);
   }
 
-  public List<Post> getAllPostsForCurrentUser() {
-    return postRepository.findPostsByOwner(userService.getCurrentUser());
-  }
-
   public Page<Post> getAllPostsForCurrentUserWithPagination(Pageable pageable) {
     return postRepository.findPostsByOwner(userService.getCurrentUser(), pageable);
   }
@@ -109,22 +105,3 @@ public class PostService {
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

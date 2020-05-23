@@ -1,10 +1,8 @@
 import api from '../helpers/FetchData'
 
 export const postTypes = {
-  FETCH_USER_POSTS_PENDING: 'FETCH_USER_POSTS_PENDING',
+  FETCH_POSTS_PENDING: 'FETCH_POSTS_PENDING',
   FETCH_USER_POSTS_BY_AMOUNT: 'FETCH_USER_POSTS_BY_AMOUNT',
-  FETCH_USER_POSTS_BY_AMOUNT_PENDING: 'FETCH_USER_POSTS_BY_AMOUNT_PENDING',
-  FETCH_WALL_POSTS_PENDING: 'FETCH_WALL_POSTS_PENDING',
   FETCH_WALL_POSTS_BY_AMOUNT: 'FETCH_WALL_POSTS_BY_AMOUNT',
   FETCH_WALL_POSTS_SUCCESS: 'FETCH_WALL_POSTS_SUCCESS',
   FETCH_ANOTHER_USER_POSTS_BY_AMOUNT: 'FETCH_ANOTHER_USER_POSTS_BY_AMOUNT',
@@ -17,12 +15,13 @@ export const postTypes = {
   UPDATE_COMMENT: 'UPDATE_COMMENT',
   COMMENT_DELETED: 'COMMENT_DELETED',
   COMMENT_CREATED: 'COMMENT_CREATED',
-  SWITCH_LIKE: 'SWITCH_LIKE'
+  SWITCH_LIKE_PROFILE: 'SWITCH_LIKE_PROFILE',
+  SWITCH_LIKE_WALL: 'SWITCH_LIKE_WALL'
 }
 
 export const fetchUserPostsByAmount = (page) => dispatch => {
   dispatch({
-    type: postTypes.FETCH_USER_POSTS_PENDING
+    type: postTypes.FETCH_POSTS_PENDING
   })
 
   api.get(`/api/posts?page=${page}&sort=date,desc`)
@@ -38,7 +37,7 @@ export const fetchUserPostsByAmount = (page) => dispatch => {
 
 export const fetchAnotherUserPostsByAmount = (username, page) => dispatch => {
   dispatch({
-    type: postTypes.FETCH_USER_POSTS_BY_AMOUNT_PENDING
+    type: postTypes.FETCH_POSTS_PENDING
   })
 
   api.get(`/api/posts/${username}?page=${page}&sort=date,desc`)
@@ -54,7 +53,7 @@ export const fetchAnotherUserPostsByAmount = (username, page) => dispatch => {
 
 export const fetchWallPostsByAmount = (page) => dispatch => {
   dispatch({
-    type: postTypes.FETCH_WALL_POSTS_PENDING
+    type: postTypes.FETCH_POSTS_PENDING
   })
 
   api.get(`/api/posts/tape?page=${page}&sort=date,desc`)
@@ -204,10 +203,13 @@ export const updateComment = (comment) => {
     }))
 }
 
-export const updateLike = (postId) => {
+export const updateLike = (postId, isProfile) => {
   return dispatch =>
     api.post(`/api/posts/${postId}/likes`)
       .then(results => {
-        dispatch({ type: postTypes.SWITCH_LIKE })
+        dispatch({
+          type: isProfile ? postTypes.SWITCH_LIKE_PROFILE : postTypes.SWITCH_LIKE_WALL,
+          payload: results
+        })
       })
 }

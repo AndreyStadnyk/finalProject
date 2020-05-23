@@ -1,7 +1,6 @@
 package ua.com.danit.mapping;
 
 import org.modelmapper.ModelMapper;
-import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -10,8 +9,6 @@ import ua.com.danit.dto.request.PostRequest;
 import ua.com.danit.dto.response.PostResponse;
 import ua.com.danit.entity.Post;
 import ua.com.danit.service.PostService;
-
-import java.util.List;
 
 @Component
 public class PostMapper {
@@ -40,11 +37,6 @@ public class PostMapper {
   public PostResponse delete(long postId) {
     Post deletedPost = postService.deletePostById(postId);
     return modelMapper.map(deletedPost, PostResponse.class);
-  }
-
-  public List<PostResponse> getAllPostsForCurrentUser() {
-    List<Post> posts = postService.getAllPostsForCurrentUser();
-    return modelMapper.map(posts, new TypeToken<List<PostResponse>>(){}.getType());
   }
 
   public Page<PostResponse> getAllPostsForAnotherUserWithPagination(String username, Pageable pageable) {

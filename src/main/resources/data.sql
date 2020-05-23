@@ -1,6 +1,6 @@
-insert into `users` (username, email, first_name, last_name, address, gender, password) values ('VPupkin', 'Fs9finalProject@gmail.com', 'Vasya', 'Pupkin', 'New York', 'male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
-insert into `users` (username, email, first_name, last_name, address, gender, password) values ('KPupkin', 'Katya@gmail.com', 'Katya', 'Pupkin', 'New York', 'male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
-insert into `users` (username, email, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya@gmail.com', 'Petya', 'Matroskin', 'Wuhan','male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
+insert into `users` (username, email, first_name, last_name, address, gender, password) values ('VPupkin', 'Fs9finalProject@gmail.com', 'Vasya', 'Pupkin', 'New York', 'Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
+insert into `users` (username, email, first_name, last_name, address, gender, password) values ('KPupkin', 'Katya@gmail.com', 'Katya', 'Pupkin', 'New York', 'Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
+insert into `users` (username, email, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya@gmail.com', 'Petya', 'Matroskin', 'Wuhan','Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
 
 insert into `friend_requests` (id, requester, receiver) values (1, 'VPupkin', 'PMatroskin');
 insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'KPupkin');
@@ -8,11 +8,11 @@ insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'K
 insert into `user_friends` (id, user1, user2) values (1, 'VPupkin', 'KPupkin');
 insert into `user_friends` (id, user1, user2) values (2, 'KPupkin', 'VPupkin');
 
-insert into `posts` (post_id, author, owner, date, text) values (1, 'PMatroskin', 'VPupkin', '2020-1-1', '1Some text from owner and author Matroskin');
-insert into `posts` (post_id, author, owner, date, text) values (2, 'PMatroskin', 'VPupkin', '2020-1-2', '2Some text from owner Pupkin and author Matroskin');
-insert into `posts` (post_id, author, owner, date, text) values (3, 'PMatroskin', 'VPupkin', '2020-1-3', '3Some text from owner and author Matroskin');
-insert into `posts` (post_id, author, owner, date, text) values (4, 'PMatroskin', 'VPupkin', '2020-1-4', '4Some text from owner Pupkin and author Matroskin');
-insert into `posts` (post_id, author, owner, date, text) values (5, 'PMatroskin', 'VPupkin', '2020-1-5', '5Some text from owner and author Matroskin');
+insert into `posts` (post_id, author, owner, date, text) values (1, 'PMatroskin', 'VPupkin', '2020-1-1', 'BOOZY Strawberry Pineapple Popsicles are PERFECT FOR LABOR DAY!!! They are full of fresh ingredients and a kick of rum...Why make traditional cocktails when you can have fun adult popsicles?!');
+insert into `posts` (post_id, author, owner, date, text) values (2, 'PMatroskin', 'VPupkin', '2020-1-2', 'This strawberry sauce has only 3 INGREDIENTS (strawberries, sugar and lemon) and is so quick and easy to make! A deliciously versatile sauce or topping for desserts like cakes and ice cream, for pancakes and waffles and so much more!');
+insert into `posts` (post_id, author, owner, date, text) values (3, 'PMatroskin', 'VPupkin', '2020-1-3', 'These BEST EVER SOFT PEANUT BUTTER COOKIES have been a huge hit this summer on the blog. Make them & find out why.');
+insert into `posts` (post_id, author, owner, date, text) values (4, 'PMatroskin', 'VPupkin', '2020-1-4', 'The easy layers in this Cherry Oreo Icebox Cake make this the perfect no bake dessert for summer!');
+insert into `posts` (post_id, author, owner, date, text) values (5, 'PMatroskin', 'VPupkin', '2020-1-5', 'SNICKERS RICE KRISPIE TREATS: Gooey caramel, salty peanuts, and rich chocolate on top of traditional rice krispie treats. Everyone will go crazy for these.');
 insert into `posts` (post_id, author, owner, date, text) values (6, 'PMatroskin', 'VPupkin', '2020-1-6', '6Some text from owner Pupkin and author Matroskin');
 insert into `posts` (post_id, author, owner, date, text) values (7, 'PMatroskin', 'VPupkin', '2020-1-7', '7Some text from owner and author Matroskin');
 insert into `posts` (post_id, author, owner, date, text) values (8, 'PMatroskin', 'VPupkin', '2020-1-8', '8Some text from owner Pupkin and author Matroskin');
