@@ -5,7 +5,6 @@ import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +28,7 @@ public class FileController {
   }
 
   @GetMapping("/user-pic")
-  public String getUserPicPath(@PathVariable String username) {
+  public String getUserPicPath(@RequestParam String username) {
     return fileService.getFilePathByUsername(username);
   }
 
@@ -44,7 +43,7 @@ public class FileController {
   }
 
   @GetMapping("/post-pic")
-  public String getPostPicPath(@PathVariable Long postId) {
+  public String getPostPicPath(@RequestParam Long postId) {
     return fileService.getFilePathByPostId(postId);
   }
 
