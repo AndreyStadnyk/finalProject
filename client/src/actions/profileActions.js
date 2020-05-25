@@ -44,12 +44,9 @@ export const changeProfilePhoto = (frmDetails) => dispatch => {
     api.post('/api/file/user-pic', frmDetails)
 }
 
-export const getUserPhoto = (frmDetails, token) => dispatch => {
+export const getUserPhoto = (frmDetails) => dispatch => {
     dispatch({type: profileTypes.GET_PROFILE_PHOTO})
-    api.get('/api/file/user-pic', {
-        headers:
-            {Authorization: `Bearer ${token}`}
-    }, frmDetails)
+    api.get('/api/file/user-pic?username=' + frmDetails)
 }
 
 export const resetPassword = email => dispatch => {

@@ -35,10 +35,8 @@ const token = cookies.get('JSESSIONID')
         formDataForPhoto.append("file", file)
         dispatch(changeProfilePhoto(formDataForPhoto))
         if (isPhotoChanged) {
-            const data = {
-                'username': username
-            }
-            dispatch(getUserPhoto(data,))
+
+            dispatch(getUserPhoto(username))
         }
 
     }
