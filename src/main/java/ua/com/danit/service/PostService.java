@@ -10,9 +10,8 @@ import ua.com.danit.entity.User;
 import ua.com.danit.repository.PostRepository;
 
 import java.util.Date;
-import java.util.List;
+import java.sql.Timestamp;
 import java.util.Optional;
-
 
 @Service
 public class PostService {
@@ -30,13 +29,21 @@ public class PostService {
     post.setAuthor(userService.getCurrentUser());
     post.setOwner(userService.findByUsername(ownerUsername));
     post.setId(null);
-    post.setDate(new Date());
+    Date date = new Date();
+    post.setDate(new Timestamp(date.getTime()));
     postRepository.save(post);
     return post;
   }
 
   private void checkIsCurrentUserTheAuthor(Post post) {
     if (!userService.isCurrentUser(post.getAuthor().getUsername())) {
+      throw new RuntimeException();
+    }
+  }
+
+  public void checkIsCurrentUserTheAuthorOrOwner(Post post) {
+    if (!userService.isCurrentUser(post.getAuthor().getUsername())
+        && !userService.isCurrentUser(post.getOwner().getUsername())) {
       throw new RuntimeException();
     }
   }
@@ -54,7 +61,7 @@ public class PostService {
     Post post = postRepository
         .findById(postId)
         .orElseThrow(RuntimeException::new);
-    checkIsCurrentUserTheAuthor(post);
+    checkIsCurrentUserTheAuthorOrOwner(post);
     postRepository.delete(post);
     return post;
   }
@@ -64,12 +71,17 @@ public class PostService {
         .orElseThrow(RuntimeException::new);
   }
 
-  public List<Post> getAllPostsForCurrentUser() {
-    return postRepository.findPostsByOwner(userService.getCurrentUser());
+  public Page<Post> getAllPostsForCurrentUserWithPagination(Pageable pageable) {
+    return postRepository.findPostsByOwner(userService.getCurrentUser(), pageable);
   }
 
-  public Page<Post> findPosts(Pageable pageable) {
-    return postRepository.findPostsByOwner(userService.getCurrentUser(), pageable);
+  public Page<Post> getAllPostsForCurrentUserAndFriendsWithPagination(Pageable pageable) {
+    return postRepository.findPostsByOwnerAndUsernamesFriends(userService.getCurrentUser()
+        .getUsername(), pageable);
+  }
+
+  public Page<Post> getAllPostsForAnotherUserWithPagination(String username, Pageable pageable) {
+    return postRepository.findPostsByUsername(username, pageable);
   }
 
   public Post getOrRemoveLikeByPostId(long postId) {
@@ -93,22 +105,3 @@ public class PostService {
 
   }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

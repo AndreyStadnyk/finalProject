@@ -51,6 +51,7 @@ export default function ProtectedRouter () {
       <Switch>
         <Route exact path='/' component={Wall}/>
         <Route exact path='/chat' component={ChatPage}/>
+        <Route exact path='/profile/:username' component={Profile}/>
         <Route exact path='/profile' component={Profile}/>
         <Route exact path='/tape' component={Wall}/>
         <Route exact path='/*' component={NotFound}/>

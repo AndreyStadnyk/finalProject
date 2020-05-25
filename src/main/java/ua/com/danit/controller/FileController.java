@@ -1,28 +1,55 @@
 package ua.com.danit.controller;
 
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.util.Arrays;
+import ua.com.danit.dto.response.GenericResponse;
+import ua.com.danit.service.FileService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/file")
 public class FileController {
-  @RequestMapping(value = "/upload", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public ResponseEntity<Object> uploadFile(@RequestParam ("file") MultipartFile file) throws IOException{
-    File convertFile = new File("d:\\example\\" + file.getOriginalFilename());
-    convertFile.createNewFile();
-    FileOutputStream fout = new FileOutputStream(convertFile);
-    fout.write(file.getBytes());
-    fout.close();
-    return new ResponseEntity<>("File is uploaded successfully", HttpStatus.OK);
+  private FileService fileService;
+
+  @Autowired
+  public FileController(FileService fileService) {
+    this.fileService = fileService;
+  }
+
+  @RequestMapping(value = "/user-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public GenericResponse uploadUserPic(@RequestParam("file") MultipartFile file) {
+    return fileService.uploadUserPic(file);
+  }
+
+  @GetMapping("/user-pic")
+  public String getUserPicPath(String username) {
+    return fileService.getFilePathByUsername(username);
+  }
+
+  @DeleteMapping("/user-pic")
+  public GenericResponse deleteUserPic(@RequestParam ("imageName") String imageToDeleteName) {
+    return fileService.deleteUserPic(imageToDeleteName);
+  }
+
+  @RequestMapping(value = "/post-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public GenericResponse uploadPostPic(@RequestParam ("postId") Long postId, @RequestParam("file") MultipartFile file) {
+    return fileService.uploadPostPic(postId, file);
+  }
+
+  @GetMapping("/post-pic")
+  public String getPostPicPath(Long postId) {
+    return fileService.getFilePathByPostId(postId);
+  }
+
+  @DeleteMapping("/post-pic")
+  public GenericResponse deletePostPic(@RequestParam ("imageName") String imageToDeleteName) {
+    return fileService.deletePostPic(imageToDeleteName);
   }
 
 }

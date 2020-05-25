@@ -1,38 +1,43 @@
 import React, { useState } from 'react'
 import Avatar from 'material-ui/Avatar'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import EditIcon from '@material-ui/icons/Edit'
+import {DeleteForever, Edit, Favorite, FavoriteBorder, Message} from '@material-ui/icons'
 import './Post.css'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import { pink, lightBlue } from '@material-ui/core/colors'
-import { deletePost, updateLike } from '../../actions/postActions'
-import { useDispatch } from 'react-redux'
+import {deleteAnotherUserPost, deleteCurrentUserPost, updateLike} from '../../actions/postActions'
+import {useDispatch, useSelector} from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
 import Card from '@material-ui/core/Card'
-import ModalWindow from '../ModalPost/ModalPost'
+import ModalPost from '../ModalPost/ModalPost'
 import Comment from '../Comment/Comment'
 import ModalComment from '../ModalComment/ModalComment'
 import Tooltip from '@material-ui/core/Tooltip'
-import LikeIcon from '@material-ui/icons/Favorite'
-import MessageIcon from '@material-ui/icons/Message'
 import blue from '@material-ui/core/colors/blue'
+import Badge from '@material-ui/core/Badge'
 
 export default function Post (props) {
   const dispatch = useDispatch()
   const [modalActive, setActive] = useState(false)
   const [commentModalActive, setCommentActive] = useState(false)
-
+  const {currentUser} = useSelector(state => ({
+    currentUser: state.users.currentUser
+  }))
+  const author = props.post.authorUsername
+  const owner = props.post.ownerUsername
+  const isCurrentUserAuthor = currentUser.username === author
+  const isCurrentUserOwner = currentUser.username === owner
   const handleClickDelete = () => {
-    dispatch(deletePost(props.post.id))
+    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.post.id))
+    else { dispatch(deleteCurrentUserPost(props.post.id)) }
   }
 
   const handleLike = () => {
-    dispatch(updateLike(props.post.id))
+    dispatch(updateLike(props.post.id, props.isProfile))
   }
 
-  const toggleModal = () => {
+  const togglePostModal = () => {
     setActive(true)
   }
 
@@ -40,8 +45,8 @@ export default function Post (props) {
     setCommentActive(true)
   }
 
-  const modal = modalActive
-    ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+  const postModal = modalActive
+    ? <ModalPost modalActive={modalActive} post={props.post} setActive={setActive}/> : null
   const commentModal = commentModalActive ? <ModalComment
     commentModalActive={commentModalActive}
     postId={props.post.id}
@@ -56,10 +61,10 @@ export default function Post (props) {
       display: 'flex'
     },
     avatar: {
-      margin: 20
+      margin: 10
     },
     content: {
-      width: 'calc(100% - 170px)',
+      width: 'calc(100% - 60px)',
       wordWrap: 'break-word'
     },
     text: {
@@ -76,10 +81,6 @@ export default function Post (props) {
       height: 20,
       width: 100
     },
-    buttonComment: {
-      width: 100,
-      height: 35
-    },
     buttonGroup: {
       display: 'flex',
       flexDirection: 'column',
@@ -88,46 +89,64 @@ export default function Post (props) {
   }))
   const classes = useStyles()
 
+  const editButton = isCurrentUserAuthor
+    ? <IconButton
+      className={classes.button}
+      style={{ color: lightBlue.A700 }}
+      onClick={e => {
+        e.stopPropagation()
+        togglePostModal()
+      }}
+    >
+      <Edit/>
+    </IconButton> : null
+
+  const deleteButton = isCurrentUserAuthor || isCurrentUserOwner
+    ? <IconButton
+      className={classes.button}
+      style={{ color: pink[500] }}
+      onClick={e => {
+        e.stopPropagation()
+        handleClickDelete()
+      }}
+    >
+      <DeleteForever/>
+    </IconButton> : null
+
+  const likeIcon = props.post.likes.some(like => like.userUsername === currentUser.username)
+    ? <Favorite/> : <FavoriteBorder/>
+
+  const formatter = new Intl.DateTimeFormat('ru', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  })
+
   return (
     <>
-      {modal}
+      {postModal}
       {commentModal}
       <Card variant="outlined" className={classes.root}>
         <div className={classes.details}>
-          <div className={classes.avatar}>
-            <Avatar src="https://i.pravatar.cc/300"/>
-          </div>
           <CardContent className={classes.content}>
-            <div className={classes.text}>
-              <Typography component="p" variant="subtitle2">
-                Author: {props.post.authorUsername}
-              </Typography>
-              <Typography component="p" variant="subtitle2">
-                {props.post.date.toString()}
-              </Typography>
-              <Typography className={classes.postText} component="p" variant="h6">
-                {props.post.text}
-              </Typography>
-              {props.post.comments.map(comment => (
-                <Comment comment={comment} postId={props.post.id}>
-                </Comment>
-              ))}
-              <Tooltip title={props.post.likes.map(like => (
-                <Typography component="p" variant="body2">
-                  {like.userUsername}
+            <div className={classes.details}>
+              <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
+              <div className={classes.text}>
+                <Typography component="p" variant="subtitle2">
+                  <strong>{formatter.format(new Date(props.post.date))}</strong>
                 </Typography>
-              ))} arrow>
-                <Typography
-                  className={classes.like}
-                  component="p" variant="overline"
-                  onClick={e => {
-                    e.stopPropagation()
-                    handleLike()
-                  }}>
-                  I like it!({props.post.likes.length})
+                <Typography component="p" variant="subtitle2">
+                  From author <strong>{author}</strong> to owner <strong>{owner}</strong>
                 </Typography>
-              </Tooltip>
+                <Typography className={classes.postText} component="p" variant="h6">
+                  {props.post.text}
+                </Typography>
+              </div>
             </div>
+            {props.post.comments.map(comment => (
+              <Comment key={comment.id} comment={comment} postId={props.post.id}>
+              </Comment>
+            ))}
           </CardContent>
           <div className={classes.buttonGroup}>
             <IconButton
@@ -138,40 +157,36 @@ export default function Post (props) {
                 toggleCommentModal()
               }}
             >
-              <MessageIcon/>
+              <Message/>
             </IconButton>
-            <IconButton
-              className={classes.button}
-              style={{ color: pink[200] }}
-              onClick={e => {
-                e.stopPropagation()
-                handleLike()
-              }}
-            >
-              <LikeIcon/>
-            </IconButton>
-
-            <IconButton
-              className={classes.button}
-              style={{ color: lightBlue.A700 }}
-              onClick={e => {
-                e.stopPropagation()
-                toggleModal()
-              }}
-            >
-              <EditIcon/>
-            </IconButton>
-
-            <IconButton
-              className={classes.button}
-              style={{ color: pink[500] }}
-              onClick={e => {
-                e.stopPropagation()
-                handleClickDelete()
-              }}
-            >
-              <DeleteForeverIcon/>
-            </IconButton>
+            <Tooltip title={props.post.likes.map(like => (
+              <Typography key={like.userUsername} component="p" variant="body2">
+                {like.userUsername}
+              </Typography>
+            ))} arrow>
+              <Badge
+                badgeContent={props.post.likes.length}
+                color="secondary"
+                overlap="circle"
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left'
+                }}
+              >
+                <IconButton
+                  className={classes.button}
+                  style={{ color: pink[200] }}
+                  onClick={e => {
+                    e.stopPropagation()
+                    handleLike()
+                  }}
+                >
+                  {likeIcon}
+                </IconButton>
+              </Badge>
+            </Tooltip>
+            {editButton}
+            {deleteButton}
           </div>
         </div>
       </Card>

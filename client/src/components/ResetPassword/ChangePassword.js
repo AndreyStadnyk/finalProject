@@ -7,8 +7,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import { resetPassword } from '../../actions/profileActions'
-import { useDispatch, useSelector } from 'react-redux'
+import { changePassword } from '../../actions/profileActions'
+import {useDispatch, useSelector} from 'react-redux'
+import {Redirect} from 'react-router-dom'
+import queryString from 'query-string'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 const useStyles = makeStyles(theme => ({
@@ -42,10 +44,12 @@ const useStyles = makeStyles(theme => ({
   }
 }))
 
-export default function ResetPassword () {
-  const [email, setEmail] = useState('')
+export default function ChangePassword (props) {
+  const [pass1, setPass1] = useState('')
+  const [pass2, setPass2] = useState('')
   const classes = useStyles()
   const dispatch = useDispatch()
+  const params = queryString.parse(props.location.search)
 
   const {
     resetPasswordStage
@@ -59,49 +63,17 @@ export default function ResetPassword () {
         <CircularProgress size={100}/>
       </div>
     )
+  } else if (resetPasswordStage === 2) {
+    return (
+      <Redirect to="/sign-in"/>
+    )
   }
 
-  const onResetPassword = event => {
+  const onChangePassword = event => {
     event.preventDefault()
-    dispatch(resetPassword(email))
-  }
-
-  let stageComponent
-  if (resetPasswordStage === 2) {
-    stageComponent = (
-      <Typography component='h1' variant='h5'>
-        Check your email
-      </Typography>
-    )
-  } else {
-    stageComponent = (
-      <form className={classes.form} noValidate>
-        <Typography component='h1' variant='h5'>
-          Reset Password
-        </Typography>
-        <TextField
-          variant='outlined'
-          margin='normal'
-          required
-          fullWidth
-          id='email'
-          label='Email'
-          name='email'
-          onChange={e => setEmail(e.target.value)}
-          autoFocus
-        />
-        <Button
-          type='submit'
-          fullWidth
-          variant='contained'
-          color='primary'
-          onClick={onResetPassword}
-          className={classes.submit}
-        >
-          Reset Password
-        </Button>
-      </form>
-    )
+    if (params && params.token) {
+      dispatch(changePassword(params.username, params.token, pass1, pass2))
+    }
   }
 
   return (
@@ -111,7 +83,45 @@ export default function ResetPassword () {
         <Avatar className={classes.avatar}>
           <LockOutlinedIcon />
         </Avatar>
-        {stageComponent}
+        <form className={classes.form} noValidate>
+          <Typography component='h1' variant='h5'>
+            Change Password
+          </Typography>
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            onChange={e => setPass1(e.target.value)}
+            name='pass1'
+            label='Password'
+            type='password'
+            id='pass1'
+            autoComplete='current-password'
+          />
+          <TextField
+            variant='outlined'
+            margin='normal'
+            required
+            fullWidth
+            onChange={e => setPass2(e.target.value)}
+            name='pass2'
+            label='Confirm Password'
+            type='password'
+            id='pass2'
+            autoComplete='current-password'
+          />
+          <Button
+            type='submit'
+            fullWidth
+            variant='contained'
+            color='primary'
+            onClick={onChangePassword}
+            className={classes.submit}
+          >
+            Change Password
+          </Button>
+        </form>
       </div>
     </Container>
   )

@@ -6,7 +6,7 @@ import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
 import {pink, lightBlue} from '@material-ui/core/colors'
 import {deleteComment} from '../../actions/postActions'
-import {useDispatch} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
 import Card from '@material-ui/core/Card'
@@ -15,6 +15,10 @@ import ModalComment from '../ModalComment/ModalComment'
 export default function Comment (props) {
   const dispatch = useDispatch()
   const [commentModalActive, setCommentActive] = useState(false)
+
+  const {currentUser} = useSelector(state => ({
+    currentUser: state.users.currentUser
+  }))
 
   const handleClickDelete = () => {
     dispatch(deleteComment(props.comment.id, props.postId))
@@ -30,7 +34,7 @@ export default function Comment (props) {
   const useStyles = makeStyles(theme => ({
     root: {
       borderRadius: 15,
-      marginBottom: 5
+      margin: '0 0 5px 20px'
     },
     details: {
       display: 'flex'
@@ -42,21 +46,17 @@ export default function Comment (props) {
       width: 60
     },
     content: {
-      width: 'calc(100% - 170px)',
+      width: 'calc(100% - 120px)',
       wordWrap: 'break-word'
     },
     text: {
       display: 'flex',
       flexDirection: 'column'
     },
-    cover: {
-      width: 151
-    },
-    controls: {
+    buttonGroup: {
       display: 'flex',
-      alignItems: 'center',
-      paddingLeft: theme.spacing(1),
-      paddingBottom: theme.spacing(1)
+      flexDirection: 'column',
+      width: 40
     },
     button: {
       width: 40,
@@ -64,6 +64,31 @@ export default function Comment (props) {
     }
   }))
   const classes = useStyles()
+
+  const editButton = currentUser.username === props.comment.authorUsername
+    ? <IconButton
+      className={classes.button}
+      style={{color: lightBlue.A700}}
+      onClick={e => {
+        e.stopPropagation()
+        toggleCommentModal()
+      }}
+    >
+      <EditIcon/>
+    </IconButton>
+    : null
+
+  const deleteButton = currentUser.username === props.comment.authorUsername
+    ? <IconButton
+      className={classes.button}
+      style={{color: pink[500]}}
+      onClick={e => {
+        e.stopPropagation()
+        handleClickDelete()
+      }}
+    >
+      <DeleteForeverIcon/>
+    </IconButton> : null
 
   return (
     <>
@@ -83,27 +108,10 @@ export default function Comment (props) {
               </Typography>
             </div>
           </CardContent>
-          <IconButton
-            className={classes.button}
-            style={{color: lightBlue.A700}}
-            onClick={e => {
-              e.stopPropagation()
-              toggleCommentModal()
-            }}
-          >
-            <EditIcon/>
-          </IconButton>
-
-          <IconButton
-            className={classes.button}
-            style={{color: pink[500]}}
-            onClick={e => {
-              e.stopPropagation()
-              handleClickDelete()
-            }}
-          >
-            <DeleteForeverIcon/>
-          </IconButton>
+          <div className={classes.buttonGroup}>
+            {editButton}
+            {deleteButton}
+          </div>
         </div>
       </Card>
     </>
