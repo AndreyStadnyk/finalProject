@@ -8,6 +8,7 @@ import {useDispatch} from 'react-redux'
 import Alert from '@material-ui/lab/Alert'
 import {useForm} from 'react-hook-form'
 import CardContent from "./ProfileCard";
+import {changeProfilePhoto} from "../../actions/profileActions";
 
 const useStyles = makeStyles(theme => ({
     selectContainer: {
@@ -34,7 +35,6 @@ export default function ProfileForm(props) {
     const [address, setAddress] = useState(currentUser.address)
     const [birthDate, setBirthDate] = useState(currentUser.birthDate)
     const [gender, setGender] = useState(currentUser.gender)
-    const [photo, setPhoto] = useState(null)
     const dispatch = useDispatch()
     const {register, handleSubmit, errors} = useForm()
     const onSubmit = event => {
@@ -44,12 +44,8 @@ export default function ProfileForm(props) {
         formData.append('password', password)
         dispatch(props.userAction(frmdetails, formData))
     }
-    const photoSelectHandler = (e) => {
-        setPhoto(e.target.files[0])
-    }
-    const pickPhoto = () => {
 
-    }
+
     return (
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
             <Grid container spacing={2}>
@@ -153,8 +149,6 @@ export default function ProfileForm(props) {
                     </div>
 
                 </Grid>
-                <input style={{display: "none"}} onChange={photoSelectHandler} type="file"/>
-                <Button onClick={pickPhoto}>add photo</Button>
             </Grid>
             <Button
                 type="submit"
