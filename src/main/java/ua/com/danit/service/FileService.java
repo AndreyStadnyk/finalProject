@@ -18,6 +18,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class FileService {
@@ -35,7 +37,7 @@ public class FileService {
     this.postService = postService;
   }
 
-  private void uploadFile(MultipartFile file, String filePath) throws IOException {
+  private void storeFile(MultipartFile file, String filePath) throws IOException {
     File convertFile = new File(filePath);
     convertFile.createNewFile();
     FileOutputStream fout = new FileOutputStream(convertFile);
@@ -49,7 +51,7 @@ public class FileService {
   }
 
   @Transactional
-  public GenericResponse uploadUserPic(MultipartFile file) {
+  public GenericResponse storeUserPic(MultipartFile file) {
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
     String fileUploadStatus;
@@ -57,7 +59,12 @@ public class FileService {
     User currentUser = userService.getCurrentUser();
 
     try {
-      this.uploadFile(file, imagePath);
+      if (userPicRepository.existsUserPicByUser(currentUser)) {
+        UserPic currentUserPic = userPicRepository.findByUser(currentUser);
+        this.deleteFile(currentUserPic.getImagePath());
+        userPicRepository.delete(currentUserPic);
+      }
+      this.storeFile(file, imagePath);
       UserPic image = new UserPic();
       image.setUser(currentUser);
       image.setImagePath(imagePath);
@@ -103,7 +110,7 @@ public class FileService {
   }
 
   @Transactional
-  public GenericResponse uploadPostPic(Long postId, MultipartFile file) {
+  public GenericResponse storePostPic(Long postId, MultipartFile file) {
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
     String fileUploadStatus;
@@ -112,7 +119,7 @@ public class FileService {
 
     try {
       postService.checkIsCurrentUserTheAuthorOrOwner(currentPost);
-      this.uploadFile(file, imagePath);
+      this.storeFile(file, imagePath);
       PostPic image = new PostPic();
       image.setPost(currentPost);
       image.setImagePath(imagePath);
@@ -126,10 +133,13 @@ public class FileService {
     }
   }
 
-  public String getFilePathByPostId(Long postId) {
+  public List<String> getFilePathByPostId(Long postId) {
+    List<String> postPicsPathes = new ArrayList<>();
     Post currentPost = postService.getPostById(postId);
-    String filePath = postPicRepository.getByPost(currentPost).getImagePath();
-    return filePath;
+    for (PostPic postPic : postPicRepository.getByPost(currentPost)) {
+      postPicsPathes.add(postPic.getImagePath());
+    }
+    return postPicsPathes;
   }
 
   @Transactional
