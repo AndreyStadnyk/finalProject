@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import InfiniteList from '../InfiniteScroll/InfiniteScroll'
+import Post from '../Post/Post'
 import { fetchWallPostsByAmount } from '../../actions/postActions'
 import { useDispatch, useSelector } from 'react-redux'
 import CircularProgress from '@material-ui/core/CircularProgress'
@@ -48,6 +49,7 @@ export default function Tape () {
   return (
     <InfiniteList
       elements={wallPosts}
+      element={Post}
       fetchHandler={fetchWallPostsByAmount}
     />
   )

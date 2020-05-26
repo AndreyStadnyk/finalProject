@@ -7,6 +7,8 @@ insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'K
 
 insert into `user_friends` (id, user1, user2) values (1, 'VPupkin', 'KPupkin');
 insert into `user_friends` (id, user1, user2) values (2, 'KPupkin', 'VPupkin');
+insert into `user_friends` (id, user1, user2) values (3, 'VPupkin', 'PMatroskin');
+insert into `user_friends` (id, user1, user2) values (4, 'PMatroskin', 'VPupkin');
 
 insert into `posts` (post_id, author, owner, date, text) values (1, 'PMatroskin', 'VPupkin', '2020-1-1', '1Some text from owner and author Matroskin');
 insert into `posts` (post_id, author, owner, date, text) values (2, 'PMatroskin', 'VPupkin', '2020-1-2', '2Some text from owner Pupkin and author Matroskin');

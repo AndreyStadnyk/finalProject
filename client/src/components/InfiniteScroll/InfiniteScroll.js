@@ -1,10 +1,11 @@
 import React from 'react'
 import useInfiniteScroll from './useInfiniteScroll'
-import Post from '../Post/Post'
 import CircularProgress from '@material-ui/core/CircularProgress'
 
 export default function InfiniteList (props) {
   const isFetching = useInfiniteScroll(props.fetchHandler)
+  const Item = props.element
+  console.log(props)
 
   return (
     <div
@@ -14,7 +15,7 @@ export default function InfiniteList (props) {
         }
       }
     >
-      {props.elements && props.elements.map(listItem => <Post key={listItem.id} post={listItem}/>)}
+      {props.elements && props.elements.map(listItem => <Item key={listItem.id} item={listItem}/>)}
       {isFetching && <CircularProgress size={30} thickness={6.2} />
       }
     </div>

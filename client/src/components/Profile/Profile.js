@@ -5,6 +5,7 @@ import ProfileCard from './ProfileCard'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import TopMenu from '../TopMenu/TopMenu'
+import Post from '../Post/Post'
 import { useDispatch, useSelector } from 'react-redux'
 import {fetchAnotherUser, updateUser} from '../../actions/profileActions'
 import ProfileForm from './ProfileForm'
@@ -102,7 +103,8 @@ function Profile () {
         </Button>
         <InfiniteList
           elements={isUserCurrent ? userPosts : anotherUserPosts}
-          fetchHandler={fetchUserPostsByAmount}
+          element={Post}
+          fetchHandler={isUserCurrent ? fetchUserPostsByAmount : fetchAnotherUserPostsByAmount(user.username)}
         />
       </div>
     )

@@ -26,17 +26,17 @@ export default function Post (props) {
   const {currentUser} = useSelector(state => ({
     currentUser: state.users.currentUser
   }))
-  const author = props.post.authorUsername
-  const owner = props.post.ownerUsername
+  const author = props.item.authorUsername
+  const owner = props.item.ownerUsername
   const isCurrentUserAuthor = currentUser.username === author
   const isCurrentUserOwner = currentUser.username === owner
   const handleClickDelete = () => {
-    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.post.id))
-    else { dispatch(deleteCurrentUserPost(props.post.id)) }
+    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.item.id))
+    else { dispatch(deleteCurrentUserPost(props.item.id)) }
   }
 
   const handleLike = () => {
-    dispatch(updateLike(props.post.id))
+    dispatch(updateLike(props.item.id))
   }
 
   const toggleModal = () => {
@@ -48,10 +48,10 @@ export default function Post (props) {
   }
 
   const modal = modalActive
-    ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+    ? <ModalWindow modalActive={modalActive} item={props.item} setActive={setActive}/> : null
   const commentModal = commentModalActive ? <ModalComment
     commentModalActive={commentModalActive}
-    postId={props.post.id}
+    postId={props.item.id}
     setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
@@ -129,18 +129,18 @@ export default function Post (props) {
                   Author: {author}
                 </Typography>
                 <Typography component="p" variant="subtitle2">
-                  {props.post.date.toString()}
+                  {props.item.date.toString()}
                 </Typography>
                 <Typography className={classes.postText} component="p" variant="h6">
-                  {props.post.text}
+                  {props.item.text}
                 </Typography>
               </div>
             </div>
-            {props.post.comments.map(comment => (
-              <Comment comment={comment} postId={props.post.id}>
+            {props.item.comments.map(comment => (
+              <Comment comment={comment} postId={props.item.id}>
               </Comment>
             ))}
-            <Tooltip title={props.post.likes.map(like => (
+            <Tooltip title={props.item.likes.map(like => (
               <Typography component="p" variant="body2">
                 {like.userUsername}
               </Typography>
@@ -152,7 +152,7 @@ export default function Post (props) {
                   e.stopPropagation()
                   handleLike()
                 }}>
-                I like it!({props.post.likes.length})
+                I like it!({props.item.likes.length})
               </Typography>
             </Tooltip>
           </CardContent>
