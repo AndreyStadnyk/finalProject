@@ -1,7 +1,7 @@
 import {actionTypes} from '../actions'
 
 const initialState = {
-  pending: true,
+  pending: false,
   currentUser: null,
   updateUserPage: false,
   resetPasswordStage: 0,

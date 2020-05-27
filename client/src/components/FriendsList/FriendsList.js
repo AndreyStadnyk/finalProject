@@ -35,11 +35,13 @@ export default function FriendsList () {
   const {
     pending,
     anotherUser,
+    currentUser,
     currentUserFriends,
     anotherUserFriends
   } = useSelector(state => ({
-    pending: state.posts.pending,
+    pending: state.users.pending,
     anotherUser: state.users.anotherUser,
+    currentUser: state.users.currentUser,
     currentUserFriends: state.users.currentUserFriends,
     anotherUserFriends: state.users.anotherUserFriends
   }))
@@ -61,7 +63,7 @@ export default function FriendsList () {
       </div>
     )
   }
-
+  console.log(currentUser)
   return (
     <div>
       <TopMenu/>
