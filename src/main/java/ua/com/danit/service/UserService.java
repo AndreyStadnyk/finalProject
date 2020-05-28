@@ -25,7 +25,11 @@ import ua.com.danit.repository.UserRepository;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.beans.FeatureDescriptor;
-import java.util.*;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.UUID;
+import java.util.Locale;
 import java.util.stream.Stream;
 
 @Service

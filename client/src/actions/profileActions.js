@@ -76,7 +76,6 @@ export const fetchAnotherUser = (username) =>
   }
 
 export const fetchAnotherUserAndFriends = (username) => dispatch => {
-  console.log('Hi from fetchAnotherUserAndFriends')
   return Promise.all([dispatch(fetchAnotherUser(username)),
     dispatch(fetchAnotherUserFriends(username))])
 }
@@ -95,7 +94,8 @@ export const fetchCurrentUserFriends = () => dispatch => {
 }
 
 export const fetchAnotherUserFriends = (username) => dispatch => {
-  dispatch({ type: profileTypes.FETCH_ANOTHER_USER_FRIENDS_PENDING})
+  dispatch({ type: profileTypes.FETCH_ANOTHER_USER_FRIENDS_PENDING })
+
   api.get(`/api/users/${username}/friends`)
     .then(res => {
       dispatch({

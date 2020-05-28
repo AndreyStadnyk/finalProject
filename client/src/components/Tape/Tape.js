@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import InfiniteList from '../InfiniteScroll/InfiniteScroll'
+import InfiniteList from '../InfiniteList/InfiniteList'
 import Post from '../Post/Post'
 import { fetchWallPostsByAmount } from '../../actions/postActions'
 import { useDispatch, useSelector } from 'react-redux'

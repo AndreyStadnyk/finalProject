@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import InfiniteList from '../InfiniteScroll/InfiniteScroll'
+import InfiniteList from '../InfiniteList/InfiniteList'
 import { useDispatch, useSelector } from 'react-redux'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import { makeStyles } from '@material-ui/core/styles'
@@ -10,7 +10,7 @@ import {
 } from '../../actions/profileActions'
 import User from '../User/User'
 import TopMenu from '../TopMenu/TopMenu'
-import {useParams} from 'react-router-dom'
+import { useParams } from 'react-router-dom'
 
 const useStyles = makeStyles({
   parent: {
@@ -33,37 +33,35 @@ export default function FriendsList () {
   let isUserCurrent = Object.keys(user).length === 0 && user.constructor === Object
 
   const {
-    pending,
+    friendsPending,
     anotherUser,
-    currentUser,
     currentUserFriends,
     anotherUserFriends
   } = useSelector(state => ({
-    pending: state.users.pending,
+    friendsPending: state.users.friendsPending,
     anotherUser: state.users.anotherUser,
-    currentUser: state.users.currentUser,
     currentUserFriends: state.users.currentUserFriends,
     anotherUserFriends: state.users.anotherUserFriends
   }))
 
   useEffect(() => {
     if (currentUserFriends === null) {
-      if (isUserCurrent && !pending) {
+      if (isUserCurrent && !friendsPending) {
         dispatch(fetchCurrentUserFriends(0))
-      } else if (!pending && anotherUserFriends === null) {
+      } else if (!friendsPending && anotherUserFriends === null) {
         dispatch(fetchAnotherUserAndFriends(user.username))
       }
     }
-  }, [anotherUserFriends, currentUserFriends, dispatch, isUserCurrent, pending, user.username])
+  }, [anotherUserFriends, currentUserFriends, dispatch, isUserCurrent, friendsPending, user.username])
 
-  if (pending && currentUserFriends === null) {
+  if (friendsPending && currentUserFriends === null) {
     return (
       <div className={classes.parent}>
         <CircularProgress size={100}/>
       </div>
     )
   }
-  console.log(currentUser)
+
   return (
     <div>
       <TopMenu/>

@@ -5,7 +5,6 @@ import CircularProgress from '@material-ui/core/CircularProgress'
 export default function InfiniteList (props) {
   const isFetching = useInfiniteScroll(props.fetchHandler)
   const Item = props.element
-  console.log(props)
 
   return (
     <div
