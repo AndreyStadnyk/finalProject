@@ -53,7 +53,7 @@ public class FileService {
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
     String fileUploadStatus;
-    String imagePath = "./storage/images/userPic/" + file.getOriginalFilename();
+    String imagePath = "storage/images/userPic/" + file.getOriginalFilename();
     User currentUser = userService.getCurrentUser();
 
     try {
@@ -81,7 +81,7 @@ public class FileService {
     String fileDeletingSuccessful = "File deleting successful complete!";
     String fileDeletingFailed = "File deleting failed!";
     String fileDeleteStatus;
-    String imageToDeletePath = "./storage/images/userPic/" + imageToDeleteName;
+    String imageToDeletePath = "storage/images/userPic/" + imageToDeleteName;
     String ownerUserPicName = userPicRepository.findByImagePath(imageToDeletePath).getUser().getUsername();
     Boolean doesHavePermissionToDeleteUserPic = userService.isCurrentUser(ownerUserPicName);
 
@@ -107,7 +107,7 @@ public class FileService {
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
     String fileUploadStatus;
-    String imagePath = "./storage/images/postPic/" + file.getOriginalFilename();
+    String imagePath = "storage/images/postPic/" + file.getOriginalFilename();
     Post currentPost = postService.getPostById(postId);
 
     try {
@@ -137,7 +137,7 @@ public class FileService {
     String fileDeletingSuccessful = "File deleting successful complete!";
     String fileDeletingFailed = "File deleting failed!";
     String fileDeleteStatus;
-    String imageToDeletePath = "./storage/images/postPic/" + imageToDeleteName;
+    String imageToDeletePath = "storage/images/postPic/" + imageToDeleteName;
 
     try {
       this.deleteFile(imageToDeletePath);

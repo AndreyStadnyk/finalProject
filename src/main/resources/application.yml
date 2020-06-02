@@ -1,40 +1,28 @@
 spring:
   profiles:
-    active: local
+    active: dev
 
 ---
 
-spring:
-  profiles: qa
-  datasource:
-    url: jdbc://mysql://localhost:3306/qa
-    password: 12345
-  resources:
-    static-locations=classpath:/storage/,classpath:/src/main/resources/public
 
-server:
-  port: 9001
+spring:
+  profiles: dev
+  resources:
+    static-locations=classpath:/storage/**,classpath:/src/main/resources/public
 
 ---
 spring:
   jpa:
     properties:
       hibernate:
-        show_sql: true
+        show_sql: false
         format_sql: true
 
 ---
-
 spring:
   profiles: prod
-  jpa:
-    hibernate:
-      ddl-auto=update
 
   datasource:
-    url=jdbc:mysql://${MYSQL_HOST:localhost}:3306/db_example
-    username=springuser
-    password=ThePassword
-
-server:
-  port: 9002
+    url=jdbc:postgresql://procmain.eu:5432/fsbook
+    username=postgres
+    password=FS9final
