@@ -26,7 +26,8 @@ export default function usersReducer (state = initialState, action) {
       }
     case actionTypes.LOG_OUT_USER:
       return {
-        ...state
+        ...state,
+        currentUser: null
       }
     case actionTypes.PROFILE_PHOTO_CHANGE:
       return {

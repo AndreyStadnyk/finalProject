@@ -50,7 +50,6 @@ export default function ChangePassword (props) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const params = queryString.parse(props.location.search)
-  console.log(params.token)
   const {
     resetPasswordStage
   } = useSelector(state => ({
