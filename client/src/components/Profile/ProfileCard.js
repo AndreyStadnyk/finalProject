@@ -25,7 +25,6 @@ export default function ProfileCard (props) {
 
   const photoSelectHandler = (e) => {
     const file = e.target.files[0]
-    console.log(e.target.files[0])
     const formDataForPhoto = new FormData()
     formDataForPhoto.append('file', file)
     dispatch(changeProfilePhoto(formDataForPhoto))
@@ -33,7 +32,6 @@ export default function ProfileCard (props) {
       dispatch(getUserPhoto(username))
     }
   }
-  console.log(photo)
 
   const {
     currentUser,

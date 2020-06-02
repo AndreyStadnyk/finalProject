@@ -36,7 +36,6 @@ export function findUser (frmDetails) {
   return (dispatch) => {
     api.get('/api/users/search?queryStr=' + frmDetails)
       .then((res) => {
-        console.log(res)
         dispatch({type: profileTypes.SEARCH_OTHER_USERS, payload: res})
       })
   }

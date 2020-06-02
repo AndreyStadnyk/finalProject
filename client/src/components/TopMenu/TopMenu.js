@@ -4,12 +4,13 @@ import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import Link from '@material-ui/core/Link'
-import Button from '@material-ui/core/Button'
 import {findUser, logOutUser} from '../../actions/profileActions'
 import {useDispatch, useSelector} from 'react-redux'
 import TextField from '@material-ui/core/TextField'
 import Autocomplete from '@material-ui/lab/Autocomplete'
 import makeStyles from '@material-ui/core/styles/makeStyles'
+import IconButton from '@material-ui/core/IconButton'
+import {ExitToApp} from '@material-ui/icons'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -72,7 +73,6 @@ export default function TopMenu () {
   }
   const [autocompleteInputValue, setAutocompleteInputValue] = React.useState('')
 
-  console.log(arrayOfUsers)
   return (
     <div className={classes.grow}>
       <AppBar position="static">
@@ -81,15 +81,9 @@ export default function TopMenu () {
                         Awesome messenger!
           </Typography>
           <div className={classes.search}>
-            {/* <IconButton aria-label="delete" onClick={handleClick} disabled color="primary"> */}
-            {/* <SearchIcon /> */}
-            {/* </IconButton> */}
-
             <Autocomplete
-              // inputValue={inputValue}
               onChange={(e, v) => {
                 setAutocompleteInputValue(v?.username || '')
-                // setRoleId(v?.roleId || '');
               }}
               options={arrayOfUsers}
               onOpen={async () => {
@@ -131,9 +125,9 @@ export default function TopMenu () {
                             Profile
             </Link>
           </Typography>
-          <Button onClick={logOut} color="inherit">
-                        Log Out
-          </Button>
+          <IconButton onClick={logOut} color="inherit">
+            <ExitToApp/>
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>
