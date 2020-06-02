@@ -10,7 +10,7 @@ import {fetchAnotherUser, updateUser} from '../../actions/profileActions'
 import ProfileForm from './ProfileForm'
 import Button from '@material-ui/core/Button'
 import PostAddIcon from '@material-ui/icons/PostAdd'
-import InfiniteList from '../InfiniteScroll/InfiniteScroll'
+import InfiniteList from '../InfiniteScroll/InfiniteList'
 import {fetchAnotherUserPostsByAmount, fetchUserPostsByAmount} from '../../actions/postActions'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ModalWindow from '../ModalPost/ModalPost'
@@ -103,6 +103,7 @@ function Profile () {
         <InfiniteList
           elements={isUserCurrent ? userPosts : anotherUserPosts}
           fetchHandler={fetchUserPostsByAmount}
+          isProfile={true}
         />
       </div>
     )
@@ -110,19 +111,21 @@ function Profile () {
 
   return (
     <MuiThemeProvider>
-      {modal}
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TopMenu/>
+      <div>
+        {modal}
+        <div className={classes.root}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TopMenu/>
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <ProfileCard anotherUser ={anotherUser}/>
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              {profileContent}
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <ProfileCard anotherUser ={anotherUser}/>
-          </Grid>
-          <Grid item xs={12} sm={9}>
-            {profileContent}
-          </Grid>
-        </Grid>
+        </div>
       </div>
     </MuiThemeProvider>
   )

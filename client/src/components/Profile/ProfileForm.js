@@ -129,19 +129,17 @@ export default function ProfileForm (props) {
         </Grid>
         <Grid item xs={12}>
           <div className={classes.selectContainer}>
-            <form className={classes.container} noValidate>
-              <TextField
-                id="birthDate"
-                label="Birthday"
-                type="date"
-                defaultValue={currentUser.birthDate}
-                className={classes.textField}
-                onChange={e => setBirthDate(e.target.value)}
-                InputLabelProps={{
-                  shrink: true
-                }}
-              />
-            </form>
+            <TextField
+              id="birthDate"
+              label="Birthday"
+              type="date"
+              defaultValue={currentUser.birthDate}
+              className={classes.textField}
+              onChange={e => setBirthDate(e.target.value)}
+              InputLabelProps={{
+                shrink: true
+              }}
+            />
             <GenderSelect setGender={setGender} gender={currentUser.gender}/>
           </div>
 

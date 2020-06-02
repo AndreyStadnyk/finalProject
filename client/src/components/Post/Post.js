@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import Avatar from 'material-ui/Avatar'
-import DeleteForeverIcon from '@material-ui/icons/DeleteForever'
-import EditIcon from '@material-ui/icons/Edit'
+import {DeleteForever, Edit, Favorite, FavoriteBorder, Message} from '@material-ui/icons'
 import './Post.css'
 import IconButton from '@material-ui/core/IconButton'
 import Typography from '@material-ui/core/Typography'
@@ -11,13 +10,12 @@ import {useDispatch, useSelector} from 'react-redux'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
 import Card from '@material-ui/core/Card'
-import ModalWindow from '../ModalPost/ModalPost'
+import ModalPost from '../ModalPost/ModalPost'
 import Comment from '../Comment/Comment'
 import ModalComment from '../ModalComment/ModalComment'
 import Tooltip from '@material-ui/core/Tooltip'
-import LikeIcon from '@material-ui/icons/Favorite'
-import MessageIcon from '@material-ui/icons/Message'
 import blue from '@material-ui/core/colors/blue'
+import Badge from '@material-ui/core/Badge'
 
 export default function Post (props) {
   const dispatch = useDispatch()
@@ -36,10 +34,10 @@ export default function Post (props) {
   }
 
   const handleLike = () => {
-    dispatch(updateLike(props.post.id))
+    dispatch(updateLike(props.post.id, props.isProfile))
   }
 
-  const toggleModal = () => {
+  const togglePostModal = () => {
     setActive(true)
   }
 
@@ -47,8 +45,8 @@ export default function Post (props) {
     setCommentActive(true)
   }
 
-  const modal = modalActive
-    ? <ModalWindow modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+  const postModal = modalActive
+    ? <ModalPost modalActive={modalActive} post={props.post} setActive={setActive}/> : null
   const commentModal = commentModalActive ? <ModalComment
     commentModalActive={commentModalActive}
     postId={props.post.id}
@@ -97,10 +95,10 @@ export default function Post (props) {
       style={{ color: lightBlue.A700 }}
       onClick={e => {
         e.stopPropagation()
-        toggleModal()
+        togglePostModal()
       }}
     >
-      <EditIcon/>
+      <Edit/>
     </IconButton> : null
 
   const deleteButton = isCurrentUserAuthor || isCurrentUserOwner
@@ -112,12 +110,21 @@ export default function Post (props) {
         handleClickDelete()
       }}
     >
-      <DeleteForeverIcon/>
+      <DeleteForever/>
     </IconButton> : null
+
+  const likeIcon = props.post.likes.some(like => like.userUsername === currentUser.username)
+    ? <Favorite/> : <FavoriteBorder/>
+
+  const formatter = new Intl.DateTimeFormat('ru', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric'
+  })
 
   return (
     <>
-      {modal}
+      {postModal}
       {commentModal}
       <Card variant="outlined" className={classes.root}>
         <div className={classes.details}>
@@ -126,10 +133,10 @@ export default function Post (props) {
               <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
               <div className={classes.text}>
                 <Typography component="p" variant="subtitle2">
-                  Author: {author}
+                  <strong>{formatter.format(new Date(props.post.date))}</strong>
                 </Typography>
                 <Typography component="p" variant="subtitle2">
-                  {props.post.date.toString()}
+                  From author <strong>{author}</strong> to owner <strong>{owner}</strong>
                 </Typography>
                 <Typography className={classes.postText} component="p" variant="h6">
                   {props.post.text}
@@ -137,24 +144,9 @@ export default function Post (props) {
               </div>
             </div>
             {props.post.comments.map(comment => (
-              <Comment comment={comment} postId={props.post.id}>
+              <Comment key={comment.id} comment={comment} postId={props.post.id}>
               </Comment>
             ))}
-            <Tooltip title={props.post.likes.map(like => (
-              <Typography component="p" variant="body2">
-                {like.userUsername}
-              </Typography>
-            ))} arrow>
-              <Typography
-                className={classes.like}
-                component="p" variant="overline"
-                onClick={e => {
-                  e.stopPropagation()
-                  handleLike()
-                }}>
-                I like it!({props.post.likes.length})
-              </Typography>
-            </Tooltip>
           </CardContent>
           <div className={classes.buttonGroup}>
             <IconButton
@@ -165,18 +157,34 @@ export default function Post (props) {
                 toggleCommentModal()
               }}
             >
-              <MessageIcon/>
+              <Message/>
             </IconButton>
-            <IconButton
-              className={classes.button}
-              style={{ color: pink[200] }}
-              onClick={e => {
-                e.stopPropagation()
-                handleLike()
-              }}
-            >
-              <LikeIcon/>
-            </IconButton>
+            <Tooltip title={props.post.likes.map(like => (
+              <Typography key={like.userUsername} component="p" variant="body2">
+                {like.userUsername}
+              </Typography>
+            ))} arrow>
+              <Badge
+                badgeContent={props.post.likes.length}
+                color="secondary"
+                overlap="circle"
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'left'
+                }}
+              >
+                <IconButton
+                  className={classes.button}
+                  style={{ color: pink[200] }}
+                  onClick={e => {
+                    e.stopPropagation()
+                    handleLike()
+                  }}
+                >
+                  {likeIcon}
+                </IconButton>
+              </Badge>
+            </Tooltip>
             {editButton}
             {deleteButton}
           </div>
