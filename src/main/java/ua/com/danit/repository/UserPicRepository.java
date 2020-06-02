@@ -12,4 +12,6 @@ public interface UserPicRepository extends JpaRepository<UserPic, Long> {
   public UserPic findByImagePath(String imagePath);
 
   public void deleteByImagePath(String imageToDeletePath);
+
+  public boolean existsUserPicByUser(User user);
 }

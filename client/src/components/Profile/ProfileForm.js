@@ -2,11 +2,11 @@ import React, {useState} from 'react'
 import Button from '@material-ui/core/Button'
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid'
-import {makeStyles} from '@material-ui/core/styles'
 import GenderSelect from '../GenderSelect/GenderSelect'
 import {useDispatch} from 'react-redux'
 import Alert from '@material-ui/lab/Alert'
-import { useForm } from 'react-hook-form'
+import {useForm} from 'react-hook-form'
+import makeStyles from '@material-ui/core/styles/makeStyles'
 
 const useStyles = makeStyles(theme => ({
   selectContainer: {
@@ -33,16 +33,16 @@ export default function ProfileForm (props) {
   const [address, setAddress] = useState(currentUser.address)
   const [birthDate, setBirthDate] = useState(currentUser.birthDate)
   const [gender, setGender] = useState(currentUser.gender)
-
   const dispatch = useDispatch()
-  const { register, handleSubmit, errors } = useForm()
+  const {register, handleSubmit, errors} = useForm()
   const onSubmit = event => {
-    const frmdetails = { firstName, lastName, email, password, username, address, birthDate, gender }
+    const frmdetails = {firstName, lastName, email, password, username, address, birthDate, gender}
     const formData = new FormData()
     formData.append('username', username)
     formData.append('password', password)
     dispatch(props.userAction(frmdetails, formData))
   }
+
   return (
     <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
       <Grid container spacing={2}>
@@ -80,7 +80,7 @@ export default function ProfileForm (props) {
             name="username"
             label="Username"
             defaultValue={currentUser.username}
-            inputRef={register({ required: true, minLength: 3, pattern: /^[A-Za-z]+$/i })}
+            inputRef={register({required: true, minLength: 3, pattern: /^[A-Za-z]+$/i})}
             variant="outlined"
             required
             fullWidth
@@ -155,9 +155,10 @@ export default function ProfileForm (props) {
         {props.buttonLabel}
       </Button>
       {errors.username &&
-      <Alert variant='outlined' className={classes.alert} severity="error">Username must be min 3 A-z characters please!</Alert>}
+            <Alert variant='outlined' className={classes.alert} severity="error">Username must be min 3 A-z characters
+                please!</Alert>}
       {errors.password &&
-      <Alert variant='outlined' className={classes.alert} severity="error">Password field required!</Alert>}
+            <Alert variant='outlined' className={classes.alert} severity="error">Password field required!</Alert>}
     </form>
   )
 }
