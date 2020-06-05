@@ -11,6 +11,7 @@ import Autocomplete from '@material-ui/lab/Autocomplete'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import IconButton from '@material-ui/core/IconButton'
 import {ExitToApp} from '@material-ui/icons'
+import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -66,7 +67,7 @@ export default function TopMenu () {
   const dispatch = useDispatch()
 
   const arrayOfUsers = useSelector(state => state.users.arrayOfUserSearch)
-
+  const history = useHistory()
   const classes = useStyles()
   const logOut = () => {
     dispatch(logOutUser())
@@ -83,7 +84,9 @@ export default function TopMenu () {
           <div className={classes.search}>
             <Autocomplete
               onChange={(e, v) => {
-                setAutocompleteInputValue(v?.username || '')
+                setAutocompleteInputValue(`${v?.firstName} ${v?.lastName}` || '')
+                history.push(`/profile/${v?.username}`)
+                history.go(0)
               }}
               options={arrayOfUsers}
               onOpen={async () => {
@@ -91,7 +94,7 @@ export default function TopMenu () {
               }}
               id="combo-box-demo"
               getOptionLabel={(option) => {
-                return option.username
+                return `${option.firstName}  ${option.lastName}`
               }}
               classes={{root: 'autocomplete'}}
               style={{width: 300}}
