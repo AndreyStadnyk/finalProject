@@ -7,6 +7,7 @@ import java.util.List;
 
 @Data
 public class PostResponse {
+
   private Long id;
   private String ownerUsername;
   private String authorUsername;
@@ -14,4 +15,5 @@ public class PostResponse {
   private String text;
   private List<CommentResponse> comments;
   private List<LikeResponse> likes;
+
 }
