@@ -17,12 +17,13 @@ public class FriendRequestService {
     this.friendRequestRepository = friendRequestRepository;
   }
 
-  public FriendRequest newFriendRequest(FriendRequest friendRequest, User receiver){
+  public FriendRequest newFriendRequest(FriendRequest friendRequest, String receiver){
     friendRequest.setRequester(userService.getCurrentUser());
-    friendRequest.setReceiver(receiver);
-    friendRequestRepository.save(friendRequest);
-    return friendRequest;
-  };
+    friendRequest.setReceiver(userService.findByUsername(receiver));
+    return friendRequestRepository.save(friendRequest);
+  }
 
-  public void deleteFriendRequest(){};
+  public FriendRequest deleteFriendRequest(String receiver, String requester){
+    return null;
+  };
 }

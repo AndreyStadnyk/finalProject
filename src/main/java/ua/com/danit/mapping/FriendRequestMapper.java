@@ -20,10 +20,15 @@ public class FriendRequestMapper {
     this.modelMapper = modelMapper;
   }
 
-  public FriendRequestResponse create(FriendRequest friendRequestRequest, User receiver) {
+  public FriendRequestResponse create(FriendRequest friendRequestRequest, String receiver) {
     FriendRequest friendRequest = modelMapper.map(friendRequestRequest, FriendRequest.class);
     FriendRequest newFriendRequest = friendRequestService.newFriendRequest(friendRequest, receiver);
     return modelMapper.map(newFriendRequest, FriendRequestResponse.class);
   }
+
+  public FriendRequestResponse delete(String requester, String receiver){
+    FriendRequest deleteFriendRequest = friendRequestService.deleteFriendRequest(requester, receiver);
+    return modelMapper.map(deleteFriendRequest, FriendRequestResponse.class);
+  };
 
 }
