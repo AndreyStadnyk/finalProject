@@ -7,7 +7,7 @@ const initialState = {
   resetPasswordStage: 0,
   anotherUser: null,
   photoChanged: false,
-  returnedPhotoForProfile: '',
+  returnedPhotoForProfile: null,
   arrayOfUserSearch: []
 }
 

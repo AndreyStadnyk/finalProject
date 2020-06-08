@@ -3,30 +3,22 @@ spring:
     active: local
 
 ---
-
 spring:
-  profiles: qa
-  datasource:
-    url: jdbc://mysql://localhost:3306/qa
-    password: 12345
+  profiles: local
   resources:
     static-locations=classpath:/storage/,classpath:/src/main/resources/public
-
-server:
-  port: 9001
 
 ---
 spring:
   jpa:
     properties:
       hibernate:
-        show_sql: true
+        show_sql: false
         format_sql: true
 
 ---
-
 spring:
   profiles: prod
-
-server:
-  port: 9002
+  datasource:
+    url: jdbc://mysql://localhost:3306/qa
+    password: 12345

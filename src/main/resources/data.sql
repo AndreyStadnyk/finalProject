@@ -2,6 +2,10 @@ insert into `users` (username, email, first_name, last_name, address, gender, pa
 insert into `users` (username, email, first_name, last_name, address, gender, password) values ('KPupkin', 'Katya@gmail.com', 'Katya', 'Pupkin', 'New York', 'Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
 insert into `users` (username, email, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya@gmail.com', 'Petya', 'Matroskin', 'Wuhan','Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
 
+insert into `user_pics` (image_id, image_path, username) values (1, 'http://procmain.eu/storage/images/userPic/VPupkin.jpg', 'VPupkin');
+insert into `user_pics` (image_id, image_path, username) values (2, 'http://procmain.eu/storage/images/userPic/KPupkin.jpg', 'KPupkin');
+insert into `user_pics` (image_id, image_path, username) values (3, 'http://procmain.eu/storage/images/userPic/PMatroskin.jpg', 'PMatroskin');
+
 insert into `friend_requests` (id, requester, receiver) values (1, 'VPupkin', 'PMatroskin');
 insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'KPupkin');
 

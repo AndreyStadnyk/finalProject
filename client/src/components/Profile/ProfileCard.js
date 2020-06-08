@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -22,6 +22,12 @@ export default function ProfileCard (props) {
   const isPhotoChanged = useSelector(state => state.users.photoChanged)
   const username = useSelector(state => state.users.currentUser.username)
   const photo = useSelector(state => state.users.returnedPhotoForProfile)
+
+  useEffect(() => {
+    if (photo === null && username) {
+      dispatch(getUserPhoto(username))
+    }
+  })
 
   const photoSelectHandler = (e) => {
     const file = e.target.files[0]

@@ -11,6 +11,7 @@ import ua.com.danit.entity.User;
 import ua.com.danit.repository.PostPicRepository;
 import ua.com.danit.repository.UserPicRepository;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.io.File;
 import java.io.FileOutputStream;
@@ -50,12 +51,19 @@ public class FileService {
     Files.delete(filePath);
   }
 
+  private String getAppUrl(HttpServletRequest request) {
+    String url = request.getRequestURL().toString();
+    int index = url.indexOf("api");
+    url = url.substring(0, index);
+    return url;
+  }
+
   @Transactional
-  public GenericResponse storeUserPic(MultipartFile file) {
+  public GenericResponse storeUserPic(HttpServletRequest request, MultipartFile file) {
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
     String fileUploadStatus;
-    String imagePath = "./storage/images/userPic/" + file.getOriginalFilename();
+    String imagePath = "storage/images/userPic/" + file.getOriginalFilename();
     User currentUser = userService.getCurrentUser();
 
     try {
@@ -64,10 +72,10 @@ public class FileService {
         this.deleteFile(currentUserPic.getImagePath());
         userPicRepository.delete(currentUserPic);
       }
-      this.storeFile(file, imagePath);
+      this.storeFile(file, "./" + imagePath);
       UserPic image = new UserPic();
       image.setUser(currentUser);
-      image.setImagePath(imagePath);
+      image.setImagePath(getAppUrl(request) + imagePath);
       userPicRepository.save(image);
       fileUploadStatus = fileUploadingSuccessful;
       return new GenericResponse(fileUploadStatus);
@@ -79,8 +87,12 @@ public class FileService {
   }
 
   public String getFilePathByUsername(String username) {
-    String filePath = userPicRepository.findByUser(userService.findByUsername(username)).getImagePath();
-    return filePath;
+    UserPic userPic = userPicRepository.findByUser(userService.findByUsername(username));
+    if (userPic == null) {
+      return "";
+    } else {
+      return userPic.getImagePath();
+    }
   }
 
   @Transactional

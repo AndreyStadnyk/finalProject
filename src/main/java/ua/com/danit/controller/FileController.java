@@ -12,6 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ua.com.danit.dto.response.GenericResponse;
 import ua.com.danit.service.FileService;
 
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -25,8 +26,8 @@ public class FileController {
   }
 
   @RequestMapping(value = "/user-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public GenericResponse uploadUserPic(@RequestParam("file") MultipartFile file) {
-    return fileService.storeUserPic(file);
+  public GenericResponse uploadUserPic(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
+    return fileService.storeUserPic(request, file);
   }
 
   @GetMapping("/user-pic")
