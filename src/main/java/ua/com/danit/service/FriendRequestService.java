@@ -17,13 +17,22 @@ public class FriendRequestService {
     this.friendRequestRepository = friendRequestRepository;
   }
 
-  public FriendRequest newFriendRequest(FriendRequest friendRequest, String receiver){
+  public FriendRequest newFriendRequest(String receiver){
+    FriendRequest friendRequest = new FriendRequest();
     friendRequest.setRequester(userService.getCurrentUser());
     friendRequest.setReceiver(userService.findByUsername(receiver));
     return friendRequestRepository.save(friendRequest);
   }
 
+  public FriendRequest getFriendRequestByReceiver(String receiver, String requester){
+    User requestReceiver = userService.findByUsername(receiver);
+    User requestRequester = userService.findByUsername(requester);
+    return friendRequestRepository.findFriendRequestByReceiverAndRequester(requestReceiver, requestRequester);
+  }
+
   public FriendRequest deleteFriendRequest(String receiver, String requester){
-    return null;
+    User requestReceiver = userService.findByUsername(receiver);
+    User requestRequester = userService.findByUsername(requester);
+    return friendRequestRepository.deleteFriendRequestByRequesterAndReceiver(requestReceiver, requestRequester);
   };
 }
