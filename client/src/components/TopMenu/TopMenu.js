@@ -13,6 +13,7 @@ import IconButton from '@material-ui/core/IconButton'
 import {ExitToApp} from '@material-ui/icons'
 import {useHistory} from 'react-router-dom'
 
+
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
@@ -68,6 +69,7 @@ export default function TopMenu () {
 
   const arrayOfUsers = useSelector(state => state.users.arrayOfUserSearch)
   const history = useHistory()
+
   const classes = useStyles()
   const logOut = () => {
     dispatch(logOutUser())
@@ -87,6 +89,7 @@ export default function TopMenu () {
                 setAutocompleteInputValue(`${v?.firstName} ${v?.lastName}` || '')
                 history.push(`/profile/${v?.username}`)
                 history.go(0)
+                setAutocompleteInputValue(v?.username || '')
               }}
               options={arrayOfUsers}
               onOpen={async () => {
@@ -95,6 +98,8 @@ export default function TopMenu () {
               id="combo-box-demo"
               getOptionLabel={(option) => {
                 return `${option.firstName}  ${option.lastName}`
+                return option.username
+
               }}
               classes={{root: 'autocomplete'}}
               style={{width: 300}}
