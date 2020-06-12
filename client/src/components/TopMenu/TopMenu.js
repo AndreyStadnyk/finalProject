@@ -13,7 +13,6 @@ import IconButton from '@material-ui/core/IconButton'
 import {ExitToApp} from '@material-ui/icons'
 import {useHistory} from 'react-router-dom'
 
-
 const useStyles = makeStyles(theme => ({
   grow: {
     flexGrow: 1
@@ -98,8 +97,6 @@ export default function TopMenu () {
               id="combo-box-demo"
               getOptionLabel={(option) => {
                 return `${option.firstName}  ${option.lastName}`
-                return option.username
-
               }}
               classes={{root: 'autocomplete'}}
               style={{width: 300}}
