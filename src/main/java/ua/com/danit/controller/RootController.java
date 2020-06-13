@@ -6,13 +6,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class RootController {
-  @GetMapping("/")
-  public String redirectToAdmin() {
-    return "forward:/index.html";
-  }
-
-  @GetMapping("/{path:^(?:(?!static|.html).)*$}/**")
-  public String redirectToAdmin(@PathVariable String path) {
-    return "forward:/index.html";
-  }
+//  @GetMapping("/")
+//  public String redirectToAdmin() {
+//    return "forward:/index.html";
+//  }
+//
+//  @GetMapping("/{path:^(?:(?!static|.html).)*$}/**")
+//  public String redirectToAdmin(@PathVariable String path) {
+//    return "forward:/index.html";
+//  }
 }

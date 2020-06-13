@@ -26,14 +26,6 @@ public class FileController {
     this.fileService = fileService;
   }
 
-  @RequestMapping(value = "/user-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public GenericResponse uploadUserPic(@RequestParam("file") MultipartFile file) {
-    return fileService.storeUserPic(file);
-  }
-
-
-
-
   @GetMapping("/downloadFile/{fileName:.+}")
   public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
     FileResponse file = fileService.downloadFile(fileName, request);
@@ -44,10 +36,10 @@ public class FileController {
       .body(file.getResource());
   }
 
-
-
-
-
+  @RequestMapping(value = "/user-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+  public GenericResponse uploadUserPic(@RequestParam("file") MultipartFile file) {
+    return fileService.storeUserPic(file);
+  }
 
   @GetMapping("/user-pic")
   public String getUserPicPath(@RequestParam String username) {

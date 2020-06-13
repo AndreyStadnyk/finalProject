@@ -8,15 +8,29 @@ spring:
 spring:
   profiles: dev
   resources:
-    static-locations=classpath:/storage/**,classpath:/src/main/resources/public
+    static-locations=file:/storage,file:/src/main/resources/public
 
 ---
 spring:
+
+  resources:
+      static-locations=file:/storage/**
+
   jpa:
     properties:
       hibernate:
         show_sql: false
         format_sql: true
+
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+file:
+  upload-dir: storage/images
 
 ---
 spring:
