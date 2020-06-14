@@ -206,8 +206,13 @@ public class FileService {
 //      is result of this method working correct?!!!!!!!!!
 
       postService.checkIsCurrentUserTheAuthorOrOwner(currentPost);
-      this.storeFile(file);
 
+      if (postPicRepository.getPostPicByImagePath(imagePath.toString()) != null) {
+        fileUploadStatus = fileUploadFailed;
+        return new GenericResponse(fileUploadFailed, "File with this name already exists!");
+      }
+
+      this.storeFile(file);
       Path oldFile = this.fileStorageLocation.resolve(StringUtils.cleanPath(file.getOriginalFilename()));
       Path newFile = imagePath;
       Files.move(oldFile, newFile, ATOMIC_MOVE);
