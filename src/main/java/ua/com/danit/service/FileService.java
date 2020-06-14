@@ -5,6 +5,7 @@ import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 import ua.com.danit.config.FileStorageProperties;
 import ua.com.danit.dto.response.FileResponse;
@@ -25,11 +26,13 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
+import java.net.URI;
+import java.nio.file.*;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
+
+import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
 
 @Service
 public class FileService {
@@ -56,47 +59,21 @@ public class FileService {
     }
   }
 
-  private void storeFile(MultipartFile file, String filePath) throws IOException {
-    if (file != null && !file.getOriginalFilename().isEmpty()) {
+  private Path storeFile (MultipartFile file) {
+    String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
-      String directoryPath = filePath.substring(0, filePath.indexOf(file.getOriginalFilename()));
-      File uploadDir = new File(directoryPath);
-      if (!uploadDir.exists()) {
-        uploadDir.mkdir();
+    try {
+      if (fileName.contains("..")) {
+        throw new FileStorageExeption("Sorry! Filename contains invalid path sequence " + fileName);
       }
 
-      File convertFile = new File(filePath);
-      convertFile.createNewFile();
-      FileOutputStream fout = new FileOutputStream(convertFile);
-      fout.write(file.getBytes());
-      fout.close();
-
-
-//      ApplicationContext context = new FileSystemXmlApplicationContext();
-//      String path = "file:" + convertFile.getPath();
-//      Resource resource = context.getResource(path);
-//
-//      try {
-//        boolean isExist = resource.getFile().exists();
-//        System.out.println(isExist);
-//      } catch (Exception e) {
-//        System.out.println(e.toString());
-//      }
-//      System.out.println(resource.getFile().getPath());
+      Path targetLocation = this.fileStorageLocation.resolve(fileName);
+      Files.copy(file.getInputStream(), targetLocation, StandardCopyOption.REPLACE_EXISTING);
+      return targetLocation;
+    } catch (IOException ex) {
+      throw new FileStorageExeption("Could not store file " + fileName + ". Please try again!", ex);
     }
   }
-
-//  public MultipartFile getFile (String filePath) throws IOException, ClassNotFoundException {
-//    try{
-//      File file = new File(filePath);
-//      FileInputStream inputStream = new FileInputStream(file);
-//      ObjectInputStream objectInputStream = new ObjectInputStream(inputStream);
-//      MultipartFile returningFile = (MultipartFile) objectInputStream.readObject();
-//      return returningFile;
-//    } catch (IOException e) {
-//    }
-//  }
-
 
   public Resource loadFileAsResource(String fileName) {
     try {
@@ -121,8 +98,6 @@ public class FileService {
     return contentType;
   }
 
-
-
   private void deleteFile(String fileToDeletePath) throws IOException {
     Path filePath = Paths.get(fileToDeletePath);
     Files.delete(filePath);
@@ -134,7 +109,9 @@ public class FileService {
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
     String fileUploadStatus;
-    String imagePath = "storage/images/userPic/" + file.getOriginalFilename();
+
+    String newFileName = "userPic" + currentUser.getUsername() + file.getOriginalFilename();
+    Path imagePath = this.fileStorageLocation.resolve(newFileName);
 
     try {
       if (userPicRepository.existsUserPicByUser(currentUser)) {
@@ -143,10 +120,15 @@ public class FileService {
         userPicRepository.delete(currentUserPic);
       }
 
-      this.storeFile(file, imagePath);
+      this.storeFile(file);
+
+      Path oldFile = this.fileStorageLocation.resolve(StringUtils.cleanPath(file.getOriginalFilename()));
+      Path newFile = imagePath;
+      Files.move(oldFile, newFile, ATOMIC_MOVE);
+
       UserPic image = new UserPic();
       image.setUser(currentUser);
-      image.setImagePath(imagePath);
+      image.setImagePath(imagePath.toString());
       userPicRepository.save(image);
       fileUploadStatus = fileUploadingSuccessful;
       return new GenericResponse(fileUploadStatus);
@@ -158,8 +140,8 @@ public class FileService {
   }
 
   public String getUserPicPathByUsername(String username) {
-    String filePath = userPicRepository.findByUser(userService.findByUsername(username)).getImagePath();
-    return filePath;
+    Path filePath = Paths.get(userPicRepository.findByUser(userService.findByUsername(username)).getImagePath());
+    return filePath.getFileName().toString();
   }
 
   public FileResponse downloadFile(String fileName, HttpServletRequest request){
@@ -183,7 +165,8 @@ public class FileService {
     String fileDeletingSuccessful = "File deleting successful complete!";
     String fileDeletingFailed = "File deleting failed!";
     String fileDeleteStatus;
-    String imageToDeletePath = "storage/images/userPic/" + imageToDeleteName;
+
+    String imageToDeletePath = this.fileStorageLocation.resolve(imageToDeleteName).toString();
     String ownerUserPicName = userPicRepository.findByImagePath(imageToDeletePath).getUser().getUsername();
     Boolean doesHavePermissionToDeleteUserPic = userService.isCurrentUser(ownerUserPicName);
 
@@ -204,58 +187,58 @@ public class FileService {
     }
   }
 
-  @Transactional
-  public GenericResponse storePostPic(Long postId, MultipartFile file) {
-    String fileUploadingSuccessful = "File uploading successful complete!";
-    String fileUploadFailed = "File uploading failed!";
-    String fileUploadStatus;
-    String imagePath = "storage/images/postPic" + file.getOriginalFilename();
-    Post currentPost = postService.getPostById(postId);
-    String postPicName = currentPost.getId().toString() + file.getContentType();
-
-    try {
-      postService.checkIsCurrentUserTheAuthorOrOwner(currentPost);
-      this.storeFile(file, imagePath);
-      PostPic image = new PostPic();
-      image.setPost(currentPost);
-      image.setImagePath(imagePath);
-      postPicRepository.save(image);
-      fileUploadStatus = fileUploadingSuccessful;
-      return new GenericResponse(fileUploadStatus);
-
-    } catch (IOException e) {
-      fileUploadStatus = fileUploadFailed;
-      return new GenericResponse(fileUploadStatus, e.toString());
-    }
-  }
-
-  public List<String> getFilePathByPostId(Long postId) {
-    List<String> postPicsPathes = new ArrayList<>();
-    Post currentPost = postService.getPostById(postId);
-    for (PostPic postPic : postPicRepository.getByPost(currentPost)) {
-      postPicsPathes.add(postPic.getImagePath());
-    }
-    return postPicsPathes;
-  }
-
-  @Transactional
-  public GenericResponse deletePostPic(String imageToDeleteName) {
-    String fileDeletingSuccessful = "File deleting successful complete!";
-    String fileDeletingFailed = "File deleting failed!";
-    String fileDeleteStatus;
-    String imageToDeletePath = "storage/images/postPic/" + imageToDeleteName;
-
-    try {
-      this.deleteFile(imageToDeletePath);
-      postPicRepository.deleteByImagePath(imageToDeletePath);
-      fileDeleteStatus = fileDeletingSuccessful;
-      return new GenericResponse(fileDeleteStatus);
-
-    } catch (IOException e) {
-      fileDeleteStatus = fileDeletingFailed;
-      return new GenericResponse(fileDeleteStatus, e.toString());
-    }
-  }
+//  @Transactional
+//  public GenericResponse storePostPic(Long postId, MultipartFile file) {
+//    String fileUploadingSuccessful = "File uploading successful complete!";
+//    String fileUploadFailed = "File uploading failed!";
+//    String fileUploadStatus;
+//    String imagePath = "storage/images/postPic" + file.getOriginalFilename();
+//    Post currentPost = postService.getPostById(postId);
+//    String postPicName = currentPost.getId().toString() + file.getContentType();
+//
+//    try {
+//      postService.checkIsCurrentUserTheAuthorOrOwner(currentPost);
+//      this.storeFile(file, imagePath);
+//      PostPic image = new PostPic();
+//      image.setPost(currentPost);
+//      image.setImagePath(imagePath);
+//      postPicRepository.save(image);
+//      fileUploadStatus = fileUploadingSuccessful;
+//      return new GenericResponse(fileUploadStatus);
+//
+//    } catch (IOException e) {
+//      fileUploadStatus = fileUploadFailed;
+//      return new GenericResponse(fileUploadStatus, e.toString());
+//    }
+//  }
+//
+//  public List<String> getFilePathByPostId(Long postId) {
+//    List<String> postPicsPathes = new ArrayList<>();
+//    Post currentPost = postService.getPostById(postId);
+//    for (PostPic postPic : postPicRepository.getByPost(currentPost)) {
+//      postPicsPathes.add(postPic.getImagePath());
+//    }
+//    return postPicsPathes;
+//  }
+//
+//  @Transactional
+//  public GenericResponse deletePostPic(String imageToDeleteName) {
+//    String fileDeletingSuccessful = "File deleting successful complete!";
+//    String fileDeletingFailed = "File deleting failed!";
+//    String fileDeleteStatus;
+//    String imageToDeletePath = "storage/images/postPic/" + imageToDeleteName;
+//
+//    try {
+//      this.deleteFile(imageToDeletePath);
+//      postPicRepository.deleteByImagePath(imageToDeletePath);
+//      fileDeleteStatus = fileDeletingSuccessful;
+//      return new GenericResponse(fileDeleteStatus);
+//
+//    } catch (IOException e) {
+//      fileDeleteStatus = fileDeletingFailed;
+//      return new GenericResponse(fileDeleteStatus, e.toString());
+//    }
+//  }
 
 }
 

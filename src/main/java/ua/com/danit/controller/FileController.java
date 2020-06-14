@@ -26,16 +26,6 @@ public class FileController {
     this.fileService = fileService;
   }
 
-  @GetMapping("/downloadFile/{fileName:.+}")
-  public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
-    FileResponse file = fileService.downloadFile(fileName, request);
-
-    return ResponseEntity.ok()
-      .contentType(file.getContentType())
-      .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getResource().getFilename() + "\"")
-      .body(file.getResource());
-  }
-
   @RequestMapping(value = "/user-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
   public GenericResponse uploadUserPic(@RequestParam("file") MultipartFile file) {
     return fileService.storeUserPic(file);
@@ -51,24 +41,34 @@ public class FileController {
     return fileService.deleteUserPic(imageToDeleteName);
   }
 
-  @RequestMapping(value = "/post-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public GenericResponse uploadPostPic(@RequestParam ("postId") Long postId, @RequestParam("file") MultipartFile file) {
-    return fileService.storePostPic(postId, file);
-  }
-
-  @GetMapping("/post-pic")
-  public List<String> getPostPicPath(@RequestParam Long postId) {
-    return fileService.getFilePathByPostId(postId);
-  }
-
-  @DeleteMapping("/post-pic")
-  public GenericResponse deletePostPic(@RequestParam ("imageName") String imageToDeleteName) {
-    return fileService.deletePostPic(imageToDeleteName);
-  }
+//  @RequestMapping(value = "/post-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+//  public GenericResponse uploadPostPic(@RequestParam ("postId") Long postId, @RequestParam("file") MultipartFile file) {
+//    return fileService.storePostPic(postId, file);
+//  }
+//
+//  @GetMapping("/post-pic")
+//  public List<String> getPostPicPath(@RequestParam Long postId) {
+//    return fileService.getFilePathByPostId(postId);
+//  }
+//
+//  @DeleteMapping("/post-pic")
+//  public GenericResponse deletePostPic(@RequestParam ("imageName") String imageToDeleteName) {
+//    return fileService.deletePostPic(imageToDeleteName);
+//  }
 
 //  @GetMapping("/{pathFile}")
 //  public MultipartFile getFile (@PathVariable String pathFile) {
 //    return fileService.getFile (pathFile);
 //  }
 //
+
+  @GetMapping("/downloadFile/{fileName:.+}")
+  public ResponseEntity<Resource> downloadFile(@PathVariable String fileName, HttpServletRequest request) {
+    FileResponse file = fileService.downloadFile(fileName, request);
+
+    return ResponseEntity.ok()
+      .contentType(file.getContentType())
+      .body(file.getResource());
+  }
+
 }
