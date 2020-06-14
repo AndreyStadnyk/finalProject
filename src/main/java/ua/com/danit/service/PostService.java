@@ -102,6 +102,5 @@ public class PostService {
       post.getLikes().add(likeNew);
       return postRepository.save(post);
     }
-
   }
 }

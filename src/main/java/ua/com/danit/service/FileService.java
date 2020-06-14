@@ -18,6 +18,7 @@ import ua.com.danit.exception.EntityExceptionHandler;
 import ua.com.danit.exception.FileStorageExeption;
 import ua.com.danit.exception.MyFileNotFoundException;
 import ua.com.danit.repository.PostPicRepository;
+import ua.com.danit.repository.PostRepository;
 import ua.com.danit.repository.UserPicRepository;
 
 import javax.servlet.http.HttpServletRequest;
@@ -37,6 +38,7 @@ import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
 @Service
 public class FileService {
 
+  private PostRepository postRepository;
   private UserPicRepository userPicRepository;
   private PostPicRepository postPicRepository;
   private UserService userService;
@@ -44,8 +46,10 @@ public class FileService {
   private final Path fileStorageLocation;
 
   @Autowired
-  public FileService(UserPicRepository userPicRepository, PostPicRepository postPicRepository, UserService userService,
+  public FileService(PostRepository postRepository, UserPicRepository userPicRepository,
+                     PostPicRepository postPicRepository, UserService userService,
                      PostService postService, FileStorageProperties fileStorageProperties) {
+    this.postRepository = postRepository;
     this.userPicRepository = userPicRepository;
     this.postPicRepository = postPicRepository;
     this.userService = userService;
@@ -110,7 +114,7 @@ public class FileService {
     String fileUploadFailed = "File uploading failed!";
     String fileUploadStatus;
 
-    String newFileName = "userPic" + currentUser.getUsername() + file.getOriginalFilename();
+    String newFileName = "UserPic" + currentUser.getUsername() + file.getOriginalFilename();
     Path imagePath = this.fileStorageLocation.resolve(newFileName);
 
     try {
@@ -187,59 +191,75 @@ public class FileService {
     }
   }
 
-//  @Transactional
-//  public GenericResponse storePostPic(Long postId, MultipartFile file) {
-//    String fileUploadingSuccessful = "File uploading successful complete!";
-//    String fileUploadFailed = "File uploading failed!";
-//    String fileUploadStatus;
-//    String imagePath = "storage/images/postPic" + file.getOriginalFilename();
-//    Post currentPost = postService.getPostById(postId);
-//    String postPicName = currentPost.getId().toString() + file.getContentType();
-//
-//    try {
-//      postService.checkIsCurrentUserTheAuthorOrOwner(currentPost);
-//      this.storeFile(file, imagePath);
-//      PostPic image = new PostPic();
-//      image.setPost(currentPost);
-//      image.setImagePath(imagePath);
-//      postPicRepository.save(image);
-//      fileUploadStatus = fileUploadingSuccessful;
-//      return new GenericResponse(fileUploadStatus);
-//
-//    } catch (IOException e) {
-//      fileUploadStatus = fileUploadFailed;
-//      return new GenericResponse(fileUploadStatus, e.toString());
-//    }
-//  }
-//
-//  public List<String> getFilePathByPostId(Long postId) {
-//    List<String> postPicsPathes = new ArrayList<>();
-//    Post currentPost = postService.getPostById(postId);
-//    for (PostPic postPic : postPicRepository.getByPost(currentPost)) {
-//      postPicsPathes.add(postPic.getImagePath());
-//    }
-//    return postPicsPathes;
-//  }
-//
-//  @Transactional
-//  public GenericResponse deletePostPic(String imageToDeleteName) {
-//    String fileDeletingSuccessful = "File deleting successful complete!";
-//    String fileDeletingFailed = "File deleting failed!";
-//    String fileDeleteStatus;
-//    String imageToDeletePath = "storage/images/postPic/" + imageToDeleteName;
-//
-//    try {
-//      this.deleteFile(imageToDeletePath);
-//      postPicRepository.deleteByImagePath(imageToDeletePath);
-//      fileDeleteStatus = fileDeletingSuccessful;
-//      return new GenericResponse(fileDeleteStatus);
-//
-//    } catch (IOException e) {
-//      fileDeleteStatus = fileDeletingFailed;
-//      return new GenericResponse(fileDeleteStatus, e.toString());
-//    }
-//  }
+  @Transactional
+  public GenericResponse storePostPic(Long postId, MultipartFile file) {
+    String fileUploadingSuccessful = "File uploading successful complete!";
+    String fileUploadFailed = "File uploading failed!";
+    String fileUploadStatus;
 
+    Post currentPost = postService.getPostById(postId);
+    String newPostPicName = "PostPic" + currentPost.getId().toString() + "_" + file.getOriginalFilename();
+    Path imagePath = this.fileStorageLocation.resolve(newPostPicName);
+
+    try {
+
+//      is result of this method working correct?!!!!!!!!!
+
+      postService.checkIsCurrentUserTheAuthorOrOwner(currentPost);
+      this.storeFile(file);
+
+      Path oldFile = this.fileStorageLocation.resolve(StringUtils.cleanPath(file.getOriginalFilename()));
+      Path newFile = imagePath;
+      Files.move(oldFile, newFile, ATOMIC_MOVE);
+
+      PostPic image = new PostPic();
+      image.setPost(currentPost);
+      image.setImagePath(imagePath.toString());
+      postPicRepository.save(image);
+      fileUploadStatus = fileUploadingSuccessful;
+      return new GenericResponse(fileUploadStatus);
+
+    } catch (IOException e) {
+      fileUploadStatus = fileUploadFailed;
+      return new GenericResponse(fileUploadStatus, e.toString());
+    }
+  }
+
+  public List<String> getFilePathByPostId(Long postId) {
+    List<String> postPicsPathes = new ArrayList<>();
+    Post currentPost = postService.getPostById(postId);
+    for (PostPic postPic : postPicRepository.getByPost(currentPost)) {
+      String postPicFilename = Paths.get(postPic.getImagePath()).getFileName().toString();
+      postPicsPathes.add(postPicFilename);
+    }
+    return postPicsPathes;
+  }
+
+  @Transactional
+  public GenericResponse deletePostPic(String imageToDeleteName) {
+    String fileDeletingSuccessful = "File deleting successful complete!";
+    String fileDeletingFailed = "File deleting failed!";
+    String fileDeleteStatus;
+
+    Path imageToDeletePath = Paths.get(this.fileStorageLocation.toString()).resolve(imageToDeleteName);
+
+    String postAuthorName = postPicRepository.getPostPicByImagePath(imageToDeletePath.toString()).getPost().getAuthor().getUsername();
+    Boolean doesHavePermissionToDeletePostPic = userService.isCurrentUser(postAuthorName);
+    if(!doesHavePermissionToDeletePostPic) {
+      fileDeleteStatus = fileDeletingFailed;
+      return new GenericResponse (fileDeleteStatus, "Post picture can be deleted only by owner");
+    }
+
+    try {
+      Files.delete(imageToDeletePath);
+      postPicRepository.deleteByImagePath(imageToDeletePath.toString());
+      fileDeleteStatus = fileDeletingSuccessful;
+      return new GenericResponse(fileDeleteStatus);
+    } catch (IOException e) {
+      fileDeleteStatus = fileDeletingFailed;
+      return new GenericResponse(fileDeleteStatus, e.toString());
+    }
+  }
 }
 
 
