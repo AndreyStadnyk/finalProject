@@ -130,7 +130,11 @@ export default function Post (props) {
         <div className={classes.details}>
           <CardContent className={classes.content}>
             <div className={classes.details}>
-              <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
+              <Avatar
+                src={'http://procmain.eu/storage/images/userPic/' + author + '.jpg'}
+                size={60}
+                className={classes.avatar}
+              />
               <div className={classes.text}>
                 <Typography component="p" variant="subtitle2">
                   <strong>{formatter.format(new Date(props.post.date))}</strong>

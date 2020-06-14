@@ -29,7 +29,7 @@ export default function ProfileCard (props) {
     }
   })
 
-  const photoSelectHandler = (e) => {
+  /* const photoSelectHandler = (e) => {
     const file = e.target.files[0]
     const formDataForPhoto = new FormData()
     formDataForPhoto.append('file', file)
@@ -37,7 +37,7 @@ export default function ProfileCard (props) {
     if (isPhotoChanged) {
       dispatch(getUserPhoto(username))
     }
-  }
+  } */
 
   const {
     currentUser,
@@ -69,13 +69,14 @@ export default function ProfileCard (props) {
       {buttonLabel}
     </Button> : null
 
+  const username1 = isCurrentUser ? currentUser.username : anotherUser.username
   return (
     <Card variant='outlined' className={classes.root}>
       <CardActionArea>
-        <img src={photo} alt=""/>
+        <img src={'http://procmain.eu/storage/images/userPic/' + username1 + '.jpg'} alt="" className={classes.media}/>
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {isCurrentUser ? currentUser.username : anotherUser.username}
+            {username1}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
                         First name: {isCurrentUser ? currentUser.firstName : anotherUsername.firstName}
@@ -90,7 +91,7 @@ export default function ProfileCard (props) {
                         Address: {isCurrentUser ? currentUser.address : anotherUser.address}
           </Typography>
           {editButton}
-          <input onChange={photoSelectHandler} type="file"/>
+          {/* <input onChange={photoSelectHandler} type="file"/> */}
         </CardContent>
       </CardActionArea>
 
