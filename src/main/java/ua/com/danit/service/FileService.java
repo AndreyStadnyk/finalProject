@@ -14,7 +14,6 @@ import ua.com.danit.entity.Post;
 import ua.com.danit.entity.PostPic;
 import ua.com.danit.entity.User;
 import ua.com.danit.entity.UserPic;
-import ua.com.danit.exception.EntityExceptionHandler;
 import ua.com.danit.exception.FileStorageExeption;
 import ua.com.danit.exception.MyFileNotFoundException;
 import ua.com.danit.repository.PostPicRepository;
@@ -23,14 +22,13 @@ import ua.com.danit.repository.UserPicRepository;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
-import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.MalformedURLException;
-import java.net.URI;
-import java.nio.file.*;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static java.nio.file.StandardCopyOption.ATOMIC_MOVE;
@@ -56,14 +54,14 @@ public class FileService {
     this.postService = postService;
     this.fileStorageLocation = Paths.get(fileStorageProperties.getUploadDir()).toAbsolutePath().normalize();
 
-    try{
+    try {
       Files.createDirectories(this.fileStorageLocation);
     } catch (Exception ex) {
       throw new FileStorageExeption("Could not create the directory where the uploaded files will be stored.", ex);
     }
   }
 
-  private Path storeFile (MultipartFile file) {
+  private Path storeFile(MultipartFile file) {
     String fileName = StringUtils.cleanPath(file.getOriginalFilename());
 
     try {
@@ -83,7 +81,7 @@ public class FileService {
     try {
       Path filePath = this.fileStorageLocation.resolve(fileName).normalize();
       Resource resource = new UrlResource(filePath.toUri());
-      if(resource.exists()) {
+      if (resource.exists()) {
         return resource;
       } else {
         throw new MyFileNotFoundException("File not found " + fileName);
@@ -93,10 +91,10 @@ public class FileService {
     }
   }
 
-  public String detectFileType (HttpServletRequest request, String absoluteFilePath) {
+  public String detectFileType(HttpServletRequest request, String absoluteFilePath) {
     String contentType = null;
     contentType = request.getServletContext().getMimeType(absoluteFilePath);
-    if(contentType == null) {
+    if (contentType == null) {
       contentType = "application/octet-stream";
     }
     return contentType;
@@ -148,7 +146,7 @@ public class FileService {
     return filePath.getFileName().toString();
   }
 
-  public FileResponse downloadFile(String fileName, HttpServletRequest request){
+  public FileResponse downloadFile(String fileName, HttpServletRequest request) {
     String absoluteFilePath = null;
 
     Resource resource = this.loadFileAsResource(fileName);
@@ -203,13 +201,13 @@ public class FileService {
 
     try {
 
-//      is result of this method working correct?!!!!!!!!!
+      //is result of this method working correct?!!!!!!!!!
 
       postService.checkIsCurrentUserTheAuthorOrOwner(currentPost);
 
       if (postPicRepository.getPostPicByImagePath(imagePath.toString()) != null) {
         fileUploadStatus = fileUploadFailed;
-        return new GenericResponse(fileUploadFailed, "File with this name already exists!");
+        return new GenericResponse(fileUploadStatus, "File with this name already exists!");
       }
 
       this.storeFile(file);
@@ -248,11 +246,12 @@ public class FileService {
 
     Path imageToDeletePath = Paths.get(this.fileStorageLocation.toString()).resolve(imageToDeleteName);
 
-    String postAuthorName = postPicRepository.getPostPicByImagePath(imageToDeletePath.toString()).getPost().getAuthor().getUsername();
+    String postAuthorName = postPicRepository.getPostPicByImagePath(imageToDeletePath.toString())
+        .getPost().getAuthor().getUsername();
     Boolean doesHavePermissionToDeletePostPic = userService.isCurrentUser(postAuthorName);
-    if(!doesHavePermissionToDeletePostPic) {
+    if (!doesHavePermissionToDeletePostPic) {
       fileDeleteStatus = fileDeletingFailed;
-      return new GenericResponse (fileDeleteStatus, "Post picture can be deleted only by owner");
+      return new GenericResponse(fileDeleteStatus, "Post picture can be deleted only by owner");
     }
 
     try {

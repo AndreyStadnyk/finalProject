@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface PostPicRepository extends JpaRepository<PostPic, Long> {
 
-  PostPic getPostPicByImagePath (String imagePath);
+  PostPic getPostPicByImagePath(String imagePath);
 
   List<PostPic> getByPost(Post post);
 
