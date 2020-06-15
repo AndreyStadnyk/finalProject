@@ -69,7 +69,6 @@ public class UserController {
   @GetMapping("/{username}/friends")
   public ResponseEntity<List<UserResponse>> findAnotherUserFriends(
       @PathVariable String username, @PageableDefault Pageable pageable) {
-    System.out.println(username);
     List<UserResponse> foundUsers = userMapper.findAnotherUserFriends(username, pageable);
     return ResponseEntity.ok(foundUsers);
   }

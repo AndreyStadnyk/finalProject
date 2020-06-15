@@ -83,7 +83,7 @@ export const fetchCurrentUser = () => dispatch => {
   api.get(`/api/users/current`)
     .then(res => {
       dispatch({
-        type: profileTypes.FETCH_USER_SUCCESS,
+        type: profileTypes.FETCH_CURRENT_USER_SUCCESS,
         payload: res
       })
       return res
