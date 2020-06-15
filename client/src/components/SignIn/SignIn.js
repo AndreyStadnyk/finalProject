@@ -11,10 +11,9 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
 import { makeStyles } from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import {NavLink} from 'react-router-dom'
+import {Redirect, NavLink} from 'react-router-dom'
 import {logUser} from '../../actions/profileActions'
 import {useDispatch, useSelector} from 'react-redux'
-import Redirect from 'react-router-dom/es/Redirect'
 
 const useStyles = makeStyles(theme => ({
   paper: {

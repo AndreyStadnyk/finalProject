@@ -14,7 +14,8 @@ export default function InfiniteList (props) {
         }
       }
     >
-      {props.elements && props.elements.map(listItem => <Item key={listItem.id} item={listItem}/>)}
+      {props.elements && props.elements.map(listItem =>
+        <Item key={listItem.id} item={listItem} isProfile={props.isProfile} isUserCurrent={props.isUserCurrent}/>)}
       {isFetching && <CircularProgress size={30} thickness={6.2} />
       }
     </div>

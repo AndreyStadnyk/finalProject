@@ -75,6 +75,7 @@ export default function ModalPost (props) {
   }
 
   const handleClick = () => {
+    console.log(props)
     if (props.post) {
       post.text = text
       if (anotherUser === null) dispatch(updatePostForCurrentUser(post))

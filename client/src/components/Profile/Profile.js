@@ -12,7 +12,7 @@ import ProfileForm from './ProfileForm'
 import Button from '@material-ui/core/Button'
 import PostAddIcon from '@material-ui/icons/PostAdd'
 import InfiniteList from '../InfiniteList/InfiniteList'
-import {fetchAnotherUserPostsByAmount, fetchUserPostsByAmount} from '../../actions/postActions'
+import {fetchAnotherUserPostsByAmount, fetchCurrentUserPostsByAmount} from '../../actions/postActions'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ModalWindow from '../ModalPost/ModalPost'
 
@@ -40,8 +40,7 @@ function Profile () {
   const [modalActive, setActive] = useState(false)
   const dispatch = useDispatch()
   const user = useParams()
-  let isUserCurrent = Object.keys(user).length === 0 && user.constructor === Object
-  
+  const isUserCurrent = Object.keys(user).length === 0 && user.constructor === Object
   const {
     pending,
     userPosts,
@@ -61,7 +60,7 @@ function Profile () {
   useEffect(() => {
     if (userPosts === null) {
       if (isUserCurrent && !pending) {
-        dispatch(fetchUserPostsByAmount(0))
+        dispatch(fetchCurrentUserPostsByAmount(0))
       } else if (!pending && anotherUserPosts === null) {
         dispatch(fetchAnotherUser(user.username))
         dispatch(fetchAnotherUserPostsByAmount(user.username, 0))
@@ -104,7 +103,8 @@ function Profile () {
         <InfiniteList
           elements={isUserCurrent ? userPosts : anotherUserPosts}
           element={Post}
-          fetchHandler={isUserCurrent ? fetchUserPostsByAmount : fetchAnotherUserPostsByAmount(user.username)}
+          fetchHandler={isUserCurrent ? fetchCurrentUserPostsByAmount : fetchAnotherUserPostsByAmount(user.username)}
+          isProfile={true}
         />
       </div>
     )
@@ -112,19 +112,21 @@ function Profile () {
 
   return (
     <MuiThemeProvider>
-      {modal}
-      <div className={classes.root}>
-        <Grid container spacing={3}>
-          <Grid item xs={12}>
-            <TopMenu/>
+      <div>
+        {modal}
+        <div className={classes.root}>
+          <Grid container spacing={3}>
+            <Grid item xs={12}>
+              <TopMenu/>
+            </Grid>
+            <Grid item xs={12} sm={3}>
+              <ProfileCard anotherUser ={anotherUser}/>
+            </Grid>
+            <Grid item xs={12} sm={9}>
+              {profileContent}
+            </Grid>
           </Grid>
-          <Grid item xs={12} sm={3}>
-            <ProfileCard anotherUser ={anotherUser}/>
-          </Grid>
-          <Grid item xs={12} sm={9}>
-            {profileContent}
-          </Grid>
-        </Grid>
+        </div>
       </div>
     </MuiThemeProvider>
   )

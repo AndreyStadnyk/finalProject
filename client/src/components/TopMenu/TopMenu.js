@@ -1,11 +1,15 @@
 import React from 'react'
-import { fade, makeStyles } from '@material-ui/core/styles'
+import {fade, makeStyles} from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
 import InputBase from '@material-ui/core/InputBase'
 import SearchIcon from '@material-ui/icons/Search'
 import Link from '@material-ui/core/Link'
+import IconButton from '@material-ui/core/IconButton'
+import {findUser, logOutUser} from '../../actions/profileActions'
+import {useDispatch} from 'react-redux'
+import { ExitToApp } from '@material-ui/icons'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -58,26 +62,35 @@ const useStyles = makeStyles(theme => ({
 }))
 
 export default function TopMenu () {
+  const dispatch = useDispatch()
+
   const classes = useStyles()
+  const logOut = () => {
+    dispatch(logOutUser())
+  }
+  const handleSearchChange = (event) => {
+    dispatch(findUser(event.target.value))
+  }
 
   return (
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
           <Typography className={classes.title} variant="h6" noWrap>
-            Awesome messenger!
+                        Awesome messenger!
           </Typography>
           <div className={classes.search}>
             <div className={classes.searchIcon}>
               <SearchIcon/>
             </div>
             <InputBase
+              onChange={handleSearchChange}
               placeholder="Search…"
               classes={{
                 root: classes.inputRoot,
                 input: classes.inputInput
               }}
-              inputProps={{ 'aria-label': 'search' }}
+              inputProps={{'aria-label': 'search'}}
             />
           </div>
           <Typography className={classes.pageLink} variant="h6" noWrap>
@@ -95,6 +108,9 @@ export default function TopMenu () {
               Friends
             </Link>
           </Typography>
+          <IconButton onClick={logOut} color="inherit">
+            <ExitToApp/>
+          </IconButton>
         </Toolbar>
       </AppBar>
     </div>

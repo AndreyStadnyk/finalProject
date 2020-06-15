@@ -1,30 +1,20 @@
-import React from 'react'
+import React, {useState} from 'react'
 import Avatar from 'material-ui/Avatar'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import Typography from '@material-ui/core/Typography'
-
+import IconButton from '@material-ui/core/IconButton'
 import makeStyles from '@material-ui/core/styles/makeStyles'
 import CardContent from '@material-ui/core/CardContent'
 import Card from '@material-ui/core/Card'
+import { pink } from '@material-ui/core/colors'
+import DeleteIcon from '@material-ui/icons/Delete'
+import ModalDeleteFriend from '../ModalDeleteFriend/ModalDeleteFriend'
 
 export default function User (props) {
-  // const {currentUser} = useSelector(state => ({
-  //   currentUser: state.users.currentUser
-  // }))
-  const firstName = props.item.firstName
-  const lastName = props.item.lastName
-
-  // const isCurrentUserAuthor = currentUser.username === author
-  // const isCurrentUserOwner = currentUser.username === owner
-  // const handleClickDelete = () => {
-  //   if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.post.id))
-  //   else { dispatch(deleteCurrentUserPost(props.post.id)) }
-  // }
-
   const useStyles = makeStyles(theme => ({
     root: {
-      width: 'calc(100% - 2px)',
-      marginBottom: 10
+      width: 'calc(100% - 20px)',
+      margin: 10
     },
     details: {
       display: 'flex'
@@ -38,17 +28,11 @@ export default function User (props) {
     },
     text: {
       display: 'flex',
-      flexDirection: 'column'
+      alignItems: 'center',
+      fontSize: 23
     },
     cover: {
       width: 150
-    },
-    postText: {
-      marginBottom: 20
-    },
-    like: {
-      height: 20,
-      width: 100
     },
     buttonGroup: {
       display: 'flex',
@@ -58,38 +42,46 @@ export default function User (props) {
   }))
   const classes = useStyles()
 
-  // const deleteButton = isCurrentUserAuthor || isCurrentUserOwner
-  //   ? <IconButton
-  //     className={classes.button}
-  //     style={{ color: pink[500] }}
-  //     onClick={e => {
-  //       e.stopPropagation()
-  //       handleClickDelete()
-  //     }}
-  //   >
-  //     <DeleteForeverIcon/>
-  //   </IconButton> : null
+  const firstName = props.item.firstName
+  const lastName = props.item.lastName
+  const isUserCurrent = props.isUserCurrent
+
+  const [modalActive, setActive] = useState(false)
+
+  const toggleModal = () => {
+    setActive(true)
+  }
+
+  const modal = modalActive
+    ? <ModalDeleteFriend modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+
+  const deleteButton = isUserCurrent
+    ? <IconButton
+      className={classes.button}
+      style={{ color: pink[500] }}
+      onClick={e => {
+        e.stopPropagation()
+        toggleModal()
+      }}
+    >
+      <DeleteIcon/>
+    </IconButton> : null
 
   return (
     <>
       <MuiThemeProvider>
+        {modal}
         <Card variant="outlined" className={classes.root}>
           <div className={classes.details}>
             <CardContent className={classes.content}>
               <div className={classes.details}>
                 <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
-                <div className={classes.text}>
-                  <Typography component="p" variant="subtitle2">
-                    {firstName} {lastName}
-                  </Typography>
-                </div>
+                <Typography className={classes.text} component="p" variant="subtitle2">
+                  {firstName} {lastName}
+                </Typography>
               </div>
-
             </CardContent>
-            <div className={classes.buttonGroup}>
-
-              {/* {deleteButton} */}
-            </div>
+            {deleteButton}
           </div>
         </Card>
       </MuiThemeProvider>

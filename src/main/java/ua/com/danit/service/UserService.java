@@ -21,7 +21,6 @@ import ua.com.danit.entity.PasswordResetToken;
 import ua.com.danit.entity.User;
 import ua.com.danit.repository.PasswordTokenRepository;
 import ua.com.danit.repository.UserRepository;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
 import java.beans.FeatureDescriptor;
@@ -55,7 +54,7 @@ public class UserService implements UserDetailsService {
   }
 
   public User updateUser(User user) {
-    User currentUser = this.getCurrentUser();
+    User currentUser = findByUsername(user.getUsername());
     BeanUtils.copyProperties(user, currentUser, getNullPropertyNames(user));
     currentUser.setPassword(passwordEncoder.encode(user.getPassword()));
     return userRepository.save(currentUser);

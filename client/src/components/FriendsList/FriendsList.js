@@ -30,7 +30,7 @@ export default function FriendsList () {
   const classes = useStyles()
   const dispatch = useDispatch()
   const user = useParams()
-  let isUserCurrent = Object.keys(user).length === 0 && user.constructor === Object
+  const isUserCurrent = Object.keys(user).length === 0 && user.constructor === Object
 
   const {
     friendsPending,
@@ -69,6 +69,7 @@ export default function FriendsList () {
         elements={isUserCurrent ? currentUserFriends : anotherUserFriends}
         element={User}
         fetchHandler={isUserCurrent ? fetchCurrentUserFriends : fetchAnotherUserFriends(anotherUser)}
+        isUserCurrent={isUserCurrent}
       />
     </div>
 
