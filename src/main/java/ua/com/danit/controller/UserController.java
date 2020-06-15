@@ -53,7 +53,6 @@ public class UserController {
 
   @GetMapping("/search")
   public ResponseEntity<List<UserResponse>> searchForUsersListByName(@RequestParam String queryStr) {
-
     List<UserResponse> foundUsers = userMapper.searchForUsersListByName(queryStr);
     return ResponseEntity.ok(foundUsers);
   }

@@ -7,11 +7,11 @@ import ua.com.danit.entity.User;
 
 @Repository
 public interface UserPicRepository extends JpaRepository<UserPic, Long> {
-  public UserPic findByUser(User user);
+  UserPic findByUser(User user);
 
-  public UserPic findByImagePath(String imagePath);
+  UserPic findByImagePath(String imagePath);
 
-  public void deleteByImagePath(String imageToDeletePath);
+  void deleteByImagePath(String imageToDeletePath);
 
-  public boolean existsUserPicByUser(User user);
+  boolean existsUserPicByUser(User user);
 }
