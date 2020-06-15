@@ -10,6 +10,8 @@ export const profileTypes = {
   RESET_PASSWORD_SUCCESS: 'RESET_PASSWORD_SUCCESS',
   FETCH_ANOTHER_USER: 'FETCH_ANOTHER_USER',
   SEARCH_OTHER_USERS: 'SEARCH_OTHER_USERS',
+  PROFILE_PHOTO_CHANGE: 'PROFILE_PHOTO_CHANGE',
+  GET_PROFILE_PHOTO: 'GET_PROFILE_PHOTO',
   FETCH_ANOTHER_USER_PENDING: 'FETCH_ANOTHER_USER_PENDING',
   FETCH_ANOTHER_USER_SUCCESS: 'FETCH_ANOTHER_USER_SUCCESS',
   FETCH_CURRENT_USER_FRIENDS_PENDING: 'FETCH_CURRENT_USER_FRIENDS_PENDING',
@@ -32,26 +34,47 @@ export const logUser = frmDetails => dispatch => {
 }
 
 export const logOutUser = () => dispatch => {
-  dispatch({ type: profileTypes.LOG_OUT_USER })
+  dispatch({type: profileTypes.LOG_OUT_USER})
   api.post('/logout')
 }
 
-export const findUser = (frmDetails) => dispatch => {
-  dispatch({ type: profileTypes.SEARCH_OTHER_USERS })
-  api.post('/api/users/search', frmDetails)
+export function findUser (frmDetails) {
+  return (dispatch) => {
+    api.get('/api/users/search?queryStr=' + frmDetails)
+      .then((res) => {
+        dispatch({type: profileTypes.SEARCH_OTHER_USERS, payload: res})
+      })
+  }
+}
+
+export const changeProfilePhoto = (frmDetails) => dispatch => {
+  dispatch({type: profileTypes.PROFILE_PHOTO_CHANGE})
+  api.post('/api/file/user-pic', frmDetails)
+}
+
+export const getUserPhoto = (frmDetails) => dispatch => {
+  dispatch({type: profileTypes.GET_PROFILE_PHOTO})
+  api.get('/api/file/user-pic?username=' + frmDetails)
+    .then(res => {
+      dispatch({
+        type: profileTypes.GET_PROFILE_PHOTO,
+        payload: res
+      })
+      return res
+    })
 }
 
 export const resetPassword = email => dispatch => {
-  dispatch({ type: profileTypes.RESET_PASSWORD_PENDING })
-  api.post('/api/users/resetPassword', { email })
-    .then(() => dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS }))
+  dispatch({type: profileTypes.RESET_PASSWORD_PENDING})
+  api.post('/api/users/resetPassword', {email})
+    .then(() => dispatch({type: profileTypes.RESET_PASSWORD_SUCCESS}))
 }
 
 export const changePassword = (username, token, pass1, pass2) => dispatch => {
-  dispatch({ type: profileTypes.RESET_PASSWORD_PENDING })
+  dispatch({type: profileTypes.RESET_PASSWORD_PENDING})
   api.get('/api/users/changePassword?username=' +
-    username + '&token=' + token + '&pass1=' + pass1 + '&pass2=' + pass2)
-    .then(() => dispatch({ type: profileTypes.RESET_PASSWORD_SUCCESS }))
+        username + '&token=' + token + '&pass1=' + pass1 + '&pass2=' + pass2)
+    .then(() => dispatch({type: profileTypes.RESET_PASSWORD_SUCCESS}))
 }
 
 export const fetchCurrentUser = () => dispatch => {
@@ -60,7 +83,7 @@ export const fetchCurrentUser = () => dispatch => {
   api.get(`/api/users/current`)
     .then(res => {
       dispatch({
-        type: profileTypes.FETCH_CURRENT_USER_SUCCESS,
+        type: profileTypes.FETCH_USER_SUCCESS,
         payload: res
       })
       return res

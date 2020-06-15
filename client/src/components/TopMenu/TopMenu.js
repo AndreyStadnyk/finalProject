@@ -1,15 +1,17 @@
 import React from 'react'
-import {fade, makeStyles} from '@material-ui/core/styles'
+import {fade} from '@material-ui/core/styles'
 import AppBar from '@material-ui/core/AppBar'
 import Toolbar from '@material-ui/core/Toolbar'
 import Typography from '@material-ui/core/Typography'
-import InputBase from '@material-ui/core/InputBase'
-import SearchIcon from '@material-ui/icons/Search'
 import Link from '@material-ui/core/Link'
-import IconButton from '@material-ui/core/IconButton'
 import {findUser, logOutUser} from '../../actions/profileActions'
-import {useDispatch} from 'react-redux'
-import { ExitToApp } from '@material-ui/icons'
+import {useDispatch, useSelector} from 'react-redux'
+import TextField from '@material-ui/core/TextField'
+import Autocomplete from '@material-ui/lab/Autocomplete'
+import makeStyles from '@material-ui/core/styles/makeStyles'
+import IconButton from '@material-ui/core/IconButton'
+import {ExitToApp} from '@material-ui/icons'
+import {useHistory} from 'react-router-dom'
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -64,13 +66,14 @@ const useStyles = makeStyles(theme => ({
 export default function TopMenu () {
   const dispatch = useDispatch()
 
+  const arrayOfUsers = useSelector(state => state.users.arrayOfUserSearch)
+  const history = useHistory()
+
   const classes = useStyles()
   const logOut = () => {
     dispatch(logOutUser())
   }
-  const handleSearchChange = (event) => {
-    dispatch(findUser(event.target.value))
-  }
+  const [autocompleteInputValue, setAutocompleteInputValue] = React.useState('')
 
   return (
     <div className={classes.grow}>
@@ -80,27 +83,51 @@ export default function TopMenu () {
                         Awesome messenger!
           </Typography>
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon/>
-            </div>
-            <InputBase
-              onChange={handleSearchChange}
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
+            <Autocomplete
+              onChange={(e, v) => {
+                setAutocompleteInputValue(`${v?.firstName} ${v?.lastName}` || '')
+                history.push(`/profile/${v?.username}`)
+                history.go(0)
+                setAutocompleteInputValue(v?.username || '')
               }}
-              inputProps={{'aria-label': 'search'}}
+              options={arrayOfUsers}
+              onOpen={async () => {
+
+              }}
+              id="combo-box-demo"
+              getOptionLabel={(option) => {
+                return `${option.firstName}  ${option.lastName}`
+              }}
+              classes={{root: 'autocomplete'}}
+              style={{width: 300}}
+              renderInput={(params) => {
+                return (
+                  <TextField {...params}
+                    inputProps={{
+                      ...params.inputProps,
+                      onChange: async (e) => {
+                        setAutocompleteInputValue(e.target.value)
+                        dispatch(findUser(e.target.value))
+                      },
+                      value: autocompleteInputValue
+                    }
+                    }
+                    variant="outlined"
+                  />
+                )
+              }
+
+              }
             />
           </div>
           <Typography className={classes.pageLink} variant="h6" noWrap>
             <Link href="/tape" color="inherit">
-              Tape
+                            Tape
             </Link>
           </Typography>
           <Typography className={classes.pageLink} variant="h6" noWrap>
             <Link href="/profile" color="inherit">
-              Profile
+                            Profile
             </Link>
           </Typography>
           <Typography className={classes.pageLink} variant="h6" noWrap>

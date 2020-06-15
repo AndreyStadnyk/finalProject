@@ -8,7 +8,10 @@ const initialState = {
   resetPasswordStage: 0,
   anotherUser: null,
   currentUserFriends: null,
-  anotherUserFriends: null
+  anotherUserFriends: null,
+  photoChanged: false,
+  returnedPhotoForProfile: '',
+  arrayOfUserSearch: []
 }
 
 export default function usersReducer (state = initialState, action) {
@@ -18,10 +21,21 @@ export default function usersReducer (state = initialState, action) {
         ...state,
         pending: true
       }
+    case actionTypes.GET_PROFILE_PHOTO:
+      return {
+        ...state,
+        returnedPhotoForProfile: action.payload
+
+      }
     case actionTypes.LOG_OUT_USER:
       return {
         ...state,
         currentUser: null
+      }
+    case actionTypes.PROFILE_PHOTO_CHANGE:
+      return {
+        ...state,
+        photoChanged: true
       }
     case actionTypes.FETCH_CURRENT_USER_SUCCESS:
       return {
@@ -63,7 +77,8 @@ export default function usersReducer (state = initialState, action) {
 
     case actionTypes.SEARCH_OTHER_USERS:
       return {
-        ...state
+        ...state,
+        arrayOfUserSearch: action.payload
       }
 
     case actionTypes.RESET_PASSWORD_SUCCESS:
