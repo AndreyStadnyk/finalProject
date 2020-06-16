@@ -1,24 +1,42 @@
 spring:
   profiles:
-    active: local
+    active: dev
 
 ---
+
+
 spring:
-  profiles: local
+  profiles: dev
   resources:
-    static-locations=classpath:/storage/,classpath:/src/main/resources/public
+    static-locations=file:/storage,file:/src/main/resources/public
 
 ---
 spring:
+
+  resources:
+      static-locations=file:/storage/**
+
   jpa:
     properties:
       hibernate:
         show_sql: false
         format_sql: true
 
+  servlet:
+    multipart:
+      enabled: true
+      file-size-threshold: 2KB
+      max-file-size: 5MB
+      max-request-size: 10MB
+
+file:
+  upload-dir: storage/images
+
 ---
 spring:
   profiles: prod
+
   datasource:
-    url: jdbc://mysql://localhost:3306/qa
-    password: 12345
+    url=jdbc:postgresql://procmain.eu:5432/fsbook
+    username=postgres
+    password=FS9final

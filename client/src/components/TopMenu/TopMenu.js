@@ -130,6 +130,11 @@ export default function TopMenu () {
                             Profile
             </Link>
           </Typography>
+          <Typography className={classes.pageLink} variant="h6" noWrap>
+            <Link href="/friends" color="inherit">
+              Friends
+            </Link>
+          </Typography>
           <IconButton onClick={logOut} color="inherit">
             <ExitToApp/>
           </IconButton>
