@@ -42,6 +42,7 @@ export default function User (props) {
   }))
   const classes = useStyles()
 
+  const username = props.item.username
   const firstName = props.item.firstName
   const lastName = props.item.lastName
   const isUserCurrent = props.isUserCurrent
@@ -75,7 +76,9 @@ export default function User (props) {
           <div className={classes.details}>
             <CardContent className={classes.content}>
               <div className={classes.details}>
-                <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
+                <Avatar
+                  src={'http://procmain.eu/storage/images/UserPic' + username + '.jpg'}
+                  size={60} className={classes.avatar}/>
                 <Typography className={classes.text} component="p" variant="subtitle2">
                   {firstName} {lastName}
                 </Typography>

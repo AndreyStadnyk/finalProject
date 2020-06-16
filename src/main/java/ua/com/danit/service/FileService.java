@@ -101,7 +101,7 @@ public class FileService {
   }
 
   private void deleteFile(String fileToDeletePath) throws IOException {
-    Path filePath = Paths.get(fileToDeletePath);
+    Path filePath = Paths.get(this.fileStorageLocation.resolve(fileToDeletePath).toString());
     Files.delete(filePath);
   }
 
@@ -113,7 +113,7 @@ public class FileService {
   }
 
   @Transactional
-  public GenericResponse storeUserPic(MultipartFile file) {
+  public GenericResponse storeUserPic(HttpServletRequest request, MultipartFile file) {
     User currentUser = userService.getCurrentUser();
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
@@ -137,7 +137,7 @@ public class FileService {
 
       UserPic image = new UserPic();
       image.setUser(currentUser);
-      image.setImagePath(imagePath.toString());
+      image.setImagePath(imagePath.getFileName().toString());
       userPicRepository.save(image);
       fileUploadStatus = fileUploadingSuccessful;
       return new GenericResponse(fileUploadStatus);
@@ -149,8 +149,12 @@ public class FileService {
   }
 
   public String getUserPicPathByUsername(String username) {
-    Path filePath = Paths.get(userPicRepository.findByUser(userService.findByUsername(username)).getImagePath());
-    return filePath.getFileName().toString();
+    UserPic userPic = userPicRepository.findByUser(userService.findByUsername(username));
+    if (userPic == null) {
+      return "";
+    } else {
+      return userPic.getImagePath();
+    }
   }
 
   public FileResponse downloadFile(String fileName, HttpServletRequest request) {

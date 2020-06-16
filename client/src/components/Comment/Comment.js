@@ -96,7 +96,7 @@ export default function Comment (props) {
       <Card variant="outlined" className={classes.root}>
         <div className={classes.details}>
           <div className={classes.avatar}>
-            <Avatar src={'http://procmain.eu/storage/images/userPic/' + props.comment.authorUsername + '.jpg'}/>
+            <Avatar src={'http://procmain.eu/storage/images/UserPic' + props.comment.authorUsername + '.jpg'}/>
           </div>
           <CardContent className={classes.content}>
             <div className={classes.text}>

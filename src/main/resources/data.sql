@@ -2,12 +2,12 @@ insert into `users` (username, email, first_name, last_name, address, gender, pa
 insert into `users` (username, email, first_name, last_name, address, gender, password) values ('KPupkin', 'Katya@gmail.com', 'Katya', 'Pupkin', 'New York', 'Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
 insert into `users` (username, email, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya@gmail.com', 'Petya', 'Matroskin', 'Wuhan','Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
 
-insert into `user_pics` (image_id, image_path, username) values (1, 'http://procmain.eu/storage/images/userPic/VPupkin.jpg', 'VPupkin');
-insert into `user_pics` (image_id, image_path, username) values (2, 'http://procmain.eu/storage/images/userPic/KPupkin.jpg', 'KPupkin');
-insert into `user_pics` (image_id, image_path, username) values (3, 'http://procmain.eu/storage/images/userPic/PMatroskin.jpg', 'PMatroskin');
+insert into `user_pics` (image_id, image_path, username) values (1, 'UserPicVPupkin.jpg', 'VPupkin');
+insert into `user_pics` (image_id, image_path, username) values (2, 'UserPicKPupkin.jpg', 'KPupkin');
+insert into `user_pics` (image_id, image_path, username) values (3, 'UserPicPMatroskin.jpg', 'PMatroskin');
 
 insert into `friend_requests` (id, requester, receiver) values (1, 'VPupkin', 'PMatroskin');
-insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'KPupkin');
+insert into `friend_requests` (id, requester, receiver) values (2, 'KPupkin', 'PMatroskin');
 
 insert into `user_friends` (id, user1, user2) values (1, 'VPupkin', 'KPupkin');
 insert into `user_friends` (id, user1, user2) values (2, 'KPupkin', 'VPupkin');
@@ -81,5 +81,6 @@ insert into `comments` (id, text, post_id, username) values (31, 'We need these 
 insert into `comments` (id, text, post_id, username) values (32, 'Yummy looks delicious', 34, 'PMatroskin');
 insert into `comments` (id, text, post_id, username) values (33, 'Lime chicken yum', 34, 'KPupkin');
 
-insert into `likes` (id, username, post_id) values (1, 'VPupkin', 1);
-insert into `likes` (id, username, post_id) values (2, 'KPupkin', 1);
+insert into `likes` (id, username, post_id) values (1, 'VPupkin', 31);
+insert into `likes` (id, username, post_id) values (2, 'KPupkin', 31);
+insert into `likes` (id, username, post_id) values (3, 'KPupkin', 30);

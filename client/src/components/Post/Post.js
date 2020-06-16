@@ -131,7 +131,7 @@ export default function Post (props) {
           <CardContent className={classes.content}>
             <div className={classes.details}>
               <Avatar
-                src={'http://procmain.eu/storage/images/userPic/' + author + '.jpg'}
+                src={'http://procmain.eu/storage/images/UserPic' + author + '.jpg'}
                 size={60}
                 className={classes.avatar}
               />

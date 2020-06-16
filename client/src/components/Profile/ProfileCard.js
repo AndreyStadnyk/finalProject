@@ -29,7 +29,7 @@ export default function ProfileCard (props) {
     }
   })
 
-  /* const photoSelectHandler = (e) => {
+  const photoSelectHandler = (e) => {
     const file = e.target.files[0]
     const formDataForPhoto = new FormData()
     formDataForPhoto.append('file', file)
@@ -37,7 +37,7 @@ export default function ProfileCard (props) {
     if (isPhotoChanged) {
       dispatch(getUserPhoto(username))
     }
-  } */
+  }
 
   const {
     currentUser,
@@ -91,7 +91,7 @@ export default function ProfileCard (props) {
                         Address: {isCurrentUser ? currentUser.address : anotherUser.address}
           </Typography>
           {editButton}
-          {/* <input onChange={photoSelectHandler} type="file"/> */}
+          {<input onChange={photoSelectHandler} type="file"/>}
         </CardContent>
       </CardActionArea>
 
