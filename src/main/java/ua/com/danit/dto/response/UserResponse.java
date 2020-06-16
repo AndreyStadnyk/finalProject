@@ -19,6 +19,6 @@ public class UserResponse {
   private String address;
   private String gender;
   private List<FriendRequestResponse> friendRequests;
-  private List<UserFriendResponse> userFriends;
+  private List<FriendRequestResponse> userFriends;
 
 }

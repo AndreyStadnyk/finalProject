@@ -6,6 +6,6 @@ import ua.com.danit.entity.User;
 @Data
 public class FriendRequestResponse {
   public Long id;
-  public User requester;
   public User receiver;
+  public User requester;
 }

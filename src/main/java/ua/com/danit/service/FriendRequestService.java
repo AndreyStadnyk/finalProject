@@ -13,26 +13,26 @@ public class FriendRequestService {
   private UserService userService;
 
   @Autowired
-  public FriendRequestService(FriendRequestRepository friendRequestRepository){
+  public FriendRequestService(FriendRequestRepository friendRequestRepository) {
     this.friendRequestRepository = friendRequestRepository;
   }
 
-  public FriendRequest newFriendRequest(String receiver){
+  public FriendRequest newFriendRequest(String receiver) {
     FriendRequest friendRequest = new FriendRequest();
     friendRequest.setRequester(userService.getCurrentUser());
     friendRequest.setReceiver(userService.findByUsername(receiver));
     return friendRequestRepository.save(friendRequest);
   }
 
-  public FriendRequest getFriendRequestByReceiver(String receiver, String requester){
+  public FriendRequest getFriendRequestByReceiver(String receiver) {
     User requestReceiver = userService.findByUsername(receiver);
-    User requestRequester = userService.findByUsername(requester);
+    User requestRequester = userService.getCurrentUser();
     return friendRequestRepository.findFriendRequestByReceiverAndRequester(requestReceiver, requestRequester);
   }
 
-  public FriendRequest deleteFriendRequest(String receiver, String requester){
+  public FriendRequest deleteFriendRequest(String receiver, String requester) {
     User requestReceiver = userService.findByUsername(receiver);
     User requestRequester = userService.findByUsername(requester);
     return friendRequestRepository.deleteFriendRequestByRequesterAndReceiver(requestReceiver, requestRequester);
-  };
+  }
 }

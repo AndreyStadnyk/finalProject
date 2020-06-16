@@ -2,7 +2,13 @@ package ua.com.danit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import ua.com.danit.dto.response.FriendRequestResponse;
 import ua.com.danit.entity.FriendRequest;
 import ua.com.danit.mapping.FriendRequestMapper;
@@ -22,20 +28,18 @@ public class FriendRequestController {
   }
 
   @PostMapping("/new/{receiver}")
-  public ResponseEntity<FriendRequestResponse> create(@PathVariable String receiver){
+  public ResponseEntity<FriendRequestResponse> create(@PathVariable String receiver) {
     return ResponseEntity.ok(friendRequestMapper.create(receiver));
   }
 
   @GetMapping("/get/{receiver}")
-  public ResponseEntity<FriendRequestResponse> getFriendRequest(@PathVariable String receiver){
-    return ResponseEntity.ok(friendRequestMapper.create(receiver));
+  public ResponseEntity<FriendRequestResponse> getFriendRequest(@PathVariable String receiver) {
+    return ResponseEntity.ok(friendRequestMapper.get(receiver));
   }
 
   @DeleteMapping("/delete/{receiver}/{requester}")
-  public ResponseEntity<FriendRequestResponse> delete(@PathVariable Map<String, String> vals){
+  public ResponseEntity<FriendRequestResponse> delete(@PathVariable Map<String, String> vals) {
     return ResponseEntity.ok(friendRequestMapper.delete(vals.get("requester"), vals.get("requester")));
   }
-
-
 }
 
