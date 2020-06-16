@@ -3,6 +3,7 @@ package ua.com.danit.mapping;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
 import ua.com.danit.dto.request.UserRequest;
 import ua.com.danit.dto.response.GenericResponse;
@@ -53,6 +54,16 @@ public class UserMapper {
 
   public List<UserResponse> searchForUsersListByName(String queryStr) {
     List<User> foundUsers = userService.searchForUsersListByName(queryStr);
+    return modelMapper.map(foundUsers, new TypeToken<List<UserResponse>>(){}.getType());
+  }
+
+  public List<UserResponse> findUserFriends(Pageable pageable) {
+    List<User> foundUsers = userService.findUserFriends(pageable);
+    return modelMapper.map(foundUsers, new TypeToken<List<UserResponse>>(){}.getType());
+  }
+
+  public List<UserResponse> findAnotherUserFriends(String username, Pageable pageable) {
+    List<User> foundUsers = userService.findAnotherUserFriends(username, pageable);
     return modelMapper.map(foundUsers, new TypeToken<List<UserResponse>>(){}.getType());
   }
 

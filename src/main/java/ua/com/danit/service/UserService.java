@@ -5,14 +5,15 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeanWrapper;
 import org.springframework.beans.BeanWrapperImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import ua.com.danit.dto.response.GenericResponse;
@@ -20,9 +21,9 @@ import ua.com.danit.entity.PasswordResetToken;
 import ua.com.danit.entity.User;
 import ua.com.danit.repository.PasswordTokenRepository;
 import ua.com.danit.repository.UserRepository;
-import java.beans.FeatureDescriptor;
 import javax.servlet.http.HttpServletRequest;
 import javax.transaction.Transactional;
+import java.beans.FeatureDescriptor;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -75,6 +76,18 @@ public class UserService implements UserDetailsService {
   public List<User> searchForUsersListByName(String queryStr) {
 
     return userRepository.findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCase(queryStr, queryStr);
+
+  }
+
+  public List<User> findUserFriends(Pageable pageable) {
+
+    return userRepository.findUserFriends(getCurrentUser().getUsername(), pageable);
+
+  }
+
+  public List<User> findAnotherUserFriends(String username, Pageable pageable) {
+
+    return userRepository.findUserFriends(username, pageable);
 
   }
 
@@ -141,7 +154,7 @@ public class UserService implements UserDetailsService {
         + token;
     String message = "Hello," + user.getUsername() + "! "
         + "We have received the password change request for your Facebook. "
-        + "Please, follow this link for password reset: ";
+        + "Please, follow this link for password reset:";
     return constructEmail("Reset Password", message + url, user);
   }
 

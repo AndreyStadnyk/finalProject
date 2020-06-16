@@ -9,9 +9,10 @@ import ua.com.danit.entity.Post;
 import ua.com.danit.entity.User;
 import ua.com.danit.repository.PostRepository;
 
-import java.util.Date;
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.Optional;
+
 
 @Service
 public class PostService {
