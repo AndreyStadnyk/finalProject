@@ -12,7 +12,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 const useStyles = makeStyles({
   root: {},
   media: {
-    height: 300
+    height: 280
   }
 })
 export default function ProfileCard (props) {
@@ -69,14 +69,17 @@ export default function ProfileCard (props) {
       {buttonLabel}
     </Button> : null
 
-  const username1 = isCurrentUser ? currentUser.username : anotherUser.username
   return (
     <Card variant='outlined' className={classes.root}>
       <CardActionArea>
-        <img src={'http://procmain.eu/storage/images/userPic/' + username1 + '.jpg'} alt="" className={classes.media}/>
+        <img
+          src={photo ? 'http://procmain.eu/storage/images/' + photo : './profile.png'}
+          alt=""
+          className={classes.media}
+        />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
-            {username1}
+            {isCurrentUser ? currentUser.username : anotherUser.username}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
                         First name: {isCurrentUser ? currentUser.firstName : anotherUsername.firstName}
@@ -91,7 +94,7 @@ export default function ProfileCard (props) {
                         Address: {isCurrentUser ? currentUser.address : anotherUser.address}
           </Typography>
           {editButton}
-          {<input onChange={photoSelectHandler} type="file"/>}
+          <input onChange={photoSelectHandler} type="file"/>
         </CardContent>
       </CardActionArea>
 

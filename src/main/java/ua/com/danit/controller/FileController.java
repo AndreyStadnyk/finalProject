@@ -30,8 +30,8 @@ public class FileController {
   }
 
   @RequestMapping(value = "/user-pic", method = RequestMethod.POST, consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-  public GenericResponse uploadUserPic(HttpServletRequest request, @RequestParam("file") MultipartFile file) {
-    return fileService.storeUserPic(request, file);
+  public GenericResponse uploadUserPic(@RequestParam("file") MultipartFile file) {
+    return fileService.storeUserPic(file);
   }
 
   @GetMapping("/user-pic")

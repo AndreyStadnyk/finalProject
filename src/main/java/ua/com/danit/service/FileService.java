@@ -105,15 +105,8 @@ public class FileService {
     Files.delete(filePath);
   }
 
-  private String getAppUrl(HttpServletRequest request) {
-    String url = request.getRequestURL().toString();
-    int index = url.indexOf("api");
-    url = url.substring(0, index);
-    return url;
-  }
-
   @Transactional
-  public GenericResponse storeUserPic(HttpServletRequest request, MultipartFile file) {
+  public GenericResponse storeUserPic(MultipartFile file) {
     User currentUser = userService.getCurrentUser();
     String fileUploadingSuccessful = "File uploading successful complete!";
     String fileUploadFailed = "File uploading failed!";
