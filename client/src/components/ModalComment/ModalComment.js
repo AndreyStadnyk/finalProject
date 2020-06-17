@@ -62,10 +62,10 @@ export default function ModalComment (props) {
   const handleClick = () => {
     comment.text = text
     if (props.comment) {
-      dispatch(updateComment(comment))
+      dispatch(updateComment(comment, props.isProfile))
     } else {
       comment.postId = props.postId
-      dispatch(addComment(comment))
+      dispatch(addComment(comment, props.isProfile))
     }
     handleClose()
   }

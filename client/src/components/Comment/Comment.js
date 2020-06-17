@@ -21,7 +21,7 @@ export default function Comment (props) {
   }))
 
   const handleClickDelete = () => {
-    dispatch(deleteComment(props.comment.id, props.postId))
+    dispatch(deleteComment(props.comment.id, props.postId, props.isProfile))
   }
 
   const toggleCommentModal = () => {
@@ -29,7 +29,7 @@ export default function Comment (props) {
   }
 
   const commentModal = commentModalActive ? <ModalComment commentModalActive={commentModalActive}
-    comment={props.comment} setCommentActive={setCommentActive}/> : null
+    comment={props.comment} setCommentActive={setCommentActive} isProfile={props.isProfile}/> : null
 
   const useStyles = makeStyles(theme => ({
     root: {

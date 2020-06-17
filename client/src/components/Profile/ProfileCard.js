@@ -71,7 +71,7 @@ export default function ProfileCard (props) {
 
   return (
     <Card variant='outlined' className={classes.root}>
-      <CardActionArea>
+      <CardActionArea onClick={() => document.getElementById('upload-photo').click()}>
         <img
           src={photo ? 'http://procmain.eu/storage/images/' + photo : './profile.png'}
           alt=""
@@ -93,12 +93,18 @@ export default function ProfileCard (props) {
           <Typography variant="body2" color="textSecondary" component="p">
                         Address: {isCurrentUser ? currentUser.address : anotherUser.address}
           </Typography>
-          {editButton}
-          <input onChange={photoSelectHandler} type="file"/>
+          <input
+            style={{ display: 'none' }}
+            id="upload-photo"
+            name="upload-photo"
+            type="file"
+            onChange={photoSelectHandler}
+          />
         </CardContent>
       </CardActionArea>
 
       <CardActions>
+        {editButton}
       </CardActions>
 
     </Card>

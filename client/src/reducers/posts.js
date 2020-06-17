@@ -106,7 +106,7 @@ export default function postsReducer (state = initialState, action) {
         anotherUserPosts: state.anotherUserPosts.map(post => post.id === currentPost.id ? currentPost : post)
       }
 
-    case actionTypes.UPDATE_COMMENT:
+    case actionTypes.UPDATE_COMMENT_PROFILE:
       currentComment = {...action.payload}
       return {
         userPosts: state.userPosts.map(post => {
@@ -120,7 +120,21 @@ export default function postsReducer (state = initialState, action) {
         })
       }
 
-    case actionTypes.COMMENT_CREATED:
+    case actionTypes.UPDATE_COMMENT_WALL:
+      currentComment = {...action.payload}
+      return {
+        wallPosts: state.wallPosts.map(post => {
+          if (post.id === currentComment.postId) {
+            currentPost = post
+            currentPost.comments = currentPost.comments.map(c => c.id === currentComment.id ? currentComment : c)
+            return currentPost
+          } else {
+            return post
+          }
+        })
+      }
+
+    case actionTypes.COMMENT_CREATED_PROFILE:
       currentComment = action.payload
       return {
         ...state,
@@ -135,10 +149,39 @@ export default function postsReducer (state = initialState, action) {
         })
       }
 
-    case actionTypes.COMMENT_DELETED:
+    case actionTypes.COMMENT_CREATED_WALL:
+      currentComment = action.payload
+      return {
+        ...state,
+        wallPosts: state.wallPosts = state.wallPosts.map(post => {
+          if (post.id === currentComment.postId) {
+            currentPost = post
+            currentPost.comments = currentPost.comments.concat(action.payload)
+            return currentPost
+          } else {
+            return post
+          }
+        })
+      }
+
+    case actionTypes.COMMENT_DELETED_PROFILE:
       return {
         ...state,
         userPosts: state.userPosts = state.userPosts.map(post => {
+          if (post.id === action.payload) {
+            currentPost = post
+            currentPost.comments = currentPost.comments.filter(comment => comment.id !== action.commentId)
+            return currentPost
+          } else {
+            return post
+          }
+        })
+      }
+
+    case actionTypes.COMMENT_DELETED_WALL:
+      return {
+        ...state,
+        wallPosts: state.userPosts = state.wallPosts.map(post => {
           if (post.id === action.payload) {
             currentPost = post
             currentPost.comments = currentPost.comments.filter(comment => comment.id !== action.commentId)

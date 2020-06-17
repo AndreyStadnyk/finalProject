@@ -50,6 +50,7 @@ export default function Post (props) {
   const commentModal = commentModalActive ? <ModalComment
     commentModalActive={commentModalActive}
     postId={props.item.id}
+    isProfile={props.isProfile}
     setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
@@ -148,7 +149,7 @@ export default function Post (props) {
               </div>
             </div>
             {props.item.comments.map(comment => (
-              <Comment key={comment.id} comment={comment} postId={props.item.id}>
+              <Comment key={comment.id} comment={comment} postId={props.item.id} isProfile={props.isProfile}>
               </Comment>
             ))}
           </CardContent>

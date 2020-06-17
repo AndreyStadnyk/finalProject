@@ -13,9 +13,12 @@ export const postTypes = {
   POST_FOR_ANOTHER_USER_DELETED: 'POST_FOR_ANOTHER_USER_DELETED',
   POST_FOR_CURRENT_USER_CREATED: 'POST_FOR_CURRENT_USER_CREATED',
   POST_FOR_ANOTHER_USER_CREATED: 'POST_FOR_ANOTHER_USER_CREATED',
-  UPDATE_COMMENT: 'UPDATE_COMMENT',
-  COMMENT_DELETED: 'COMMENT_DELETED',
-  COMMENT_CREATED: 'COMMENT_CREATED',
+  UPDATE_COMMENT_PROFILE: 'UPDATE_COMMENT_PROFILE',
+  UPDATE_COMMENT_WALL: 'UPDATE_COMMENT_WALL',
+  COMMENT_DELETED_PROFILE: 'COMMENT_DELETED_PROFILE',
+  COMMENT_DELETED_WALL: 'COMMENT_DELETED_WALL',
+  COMMENT_CREATED_PROFILE: 'COMMENT_CREATED_PROFILE',
+  COMMENT_CREATED_WALL: 'COMMENT_CREATED_WALL',
   SWITCH_LIKE_PROFILE: 'SWITCH_LIKE_PROFILE',
   SWITCH_LIKE_WALL: 'SWITCH_LIKE_WALL'
 }
@@ -156,50 +159,50 @@ export const updatePostForAnotherUser = (post) => {
     }))
 }
 
-export const commentCreated = (comment) => {
+export const commentCreated = (comment, isProfile) => {
   return dispatch => {
     dispatch({
-      type: postTypes.COMMENT_CREATED,
+      type: isProfile ? postTypes.COMMENT_CREATED_PROFILE : postTypes.COMMENT_CREATED_WALL,
       payload: comment
     })
   }
 }
 
-export const commentDeleted = (commentId, postId) => {
+export const commentDeleted = (commentId, postId, isProfile) => {
   return dispatch => {
     dispatch({
-      type: postTypes.COMMENT_DELETED,
+      type: isProfile ? postTypes.COMMENT_DELETED_PROFILE : postTypes.COMMENT_DELETED_WALL,
       payload: postId,
       commentId: commentId
     })
   }
 }
 
-export const addComment = (comment) => {
+export const addComment = (comment, isProfile) => {
   const data = {
     text: comment.text
   }
 
   return dispatch => api.post(`/api/comments/${comment.postId}`, data)
     .then(results => {
-      dispatch(commentCreated(results))
+      dispatch(commentCreated(results, isProfile))
     })
 }
 
-export const deleteComment = (commentId, postId) => {
+export const deleteComment = (commentId, postId, isProfile) => {
   return dispatch => api.deleteApi(`/api/comments/${commentId}`)
     .then(results => {
-      dispatch(commentDeleted(commentId, postId))
+      dispatch(commentDeleted(commentId, postId, isProfile))
     })
 }
 
-export const updateComment = (comment) => {
+export const updateComment = (comment, isProfile) => {
   const data = {
     text: comment.text
   }
   return dispatch => api.put(`/api/comments/${comment.id}`, data)
     .then(dispatch({
-      type: postTypes.UPDATE_COMMENT,
+      type: isProfile ? postTypes.UPDATE_COMMENT_PROFILE : postTypes.UPDATE_COMMENT_WALL,
       payload: comment
     }))
 }
