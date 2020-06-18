@@ -17,7 +17,8 @@ public class FriendRequestService {
     this.friendRequestRepository = friendRequestRepository;
   }
 
-  public FriendRequest newFriendRequest(FriendRequest friendRequest, String receiver) {
+  public FriendRequest newFriendRequest(String receiver) {
+    FriendRequest friendRequest = new FriendRequest();
     friendRequest.setRequester(userService.getCurrentUser());
     friendRequest.setReceiver(userService.findByUsername(receiver));
     return friendRequestRepository.save(friendRequest);

@@ -30,9 +30,8 @@ public class FriendRequestController {
   }
 
   @PostMapping("/new/{receiver}")
-  public ResponseEntity<FriendRequestResponse> create(@PathVariable String receiver,
-                                                      @RequestBody FriendRequestRequest friendRequestRequest) {
-    return ResponseEntity.ok(friendRequestMapper.create(friendRequestRequest, receiver));
+  public ResponseEntity<FriendRequestResponse> create(@PathVariable String receiver) {
+    return ResponseEntity.ok(friendRequestMapper.create(receiver));
   }
 
 //  @GetMapping("/get/{receiver}")

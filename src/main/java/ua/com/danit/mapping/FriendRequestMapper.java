@@ -21,9 +21,8 @@ public class FriendRequestMapper {
     this.modelMapper = modelMapper;
   }
 
-  public FriendRequestResponse create(FriendRequestRequest friendRequestRequest, String receiver) {
-    FriendRequest friendRequest = modelMapper.map(friendRequestRequest, FriendRequest.class);
-    FriendRequest newFriendRequest = friendRequestService.newFriendRequest(friendRequest, receiver);
+  public FriendRequestResponse create(String receiver) {
+    FriendRequest newFriendRequest = friendRequestService.newFriendRequest(receiver);
     return modelMapper.map(newFriendRequest, FriendRequestResponse.class);
   }
 
