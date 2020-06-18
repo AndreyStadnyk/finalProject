@@ -17,22 +17,21 @@ public class FriendRequestService {
     this.friendRequestRepository = friendRequestRepository;
   }
 
-  public FriendRequest newFriendRequest(String receiver) {
-    FriendRequest friendRequest = new FriendRequest();
+  public FriendRequest newFriendRequest(FriendRequest friendRequest, String receiver) {
     friendRequest.setRequester(userService.getCurrentUser());
     friendRequest.setReceiver(userService.findByUsername(receiver));
     return friendRequestRepository.save(friendRequest);
   }
 
-  public FriendRequest getFriendRequestByReceiver(String receiver) {
-    User requestReceiver = userService.findByUsername(receiver);
-    User requestRequester = userService.getCurrentUser();
-    return friendRequestRepository.findFriendRequestByReceiverAndRequester(requestReceiver, requestRequester);
-  }
+//  public FriendRequest getFriendRequestByReceiver(String receiver) {
+//    User requestReceiver = userService.findByUsername(receiver);
+//    User requestRequester = userService.getCurrentUser();
+//    return friendRequestRepository.findFriendRequestByReceiverAndRequester(requestReceiver, requestRequester);
+//  }
 
-  public FriendRequest deleteFriendRequest(String receiver, String requester) {
-    User requestReceiver = userService.findByUsername(receiver);
-    User requestRequester = userService.findByUsername(requester);
-    return friendRequestRepository.deleteFriendRequestByRequesterAndReceiver(requestReceiver, requestRequester);
-  }
+//  public FriendRequest deleteFriendRequest(String receiver, String requester) {
+//    User requestReceiver = userService.findByUsername(receiver);
+//    User requestRequester = userService.findByUsername(requester);
+//    return friendRequestRepository.deleteFriendRequestByRequesterAndReceiver(requestReceiver, requestRequester);
+//  }
 }
