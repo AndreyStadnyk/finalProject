@@ -25,7 +25,7 @@ export default function ProfileCard (props) {
 
   useEffect(() => {
     if (photo === null && username) {
-      dispatch(getUserPhoto(username))
+      dispatch(getUserPhoto(props.username || username))
     }
   })
 
