@@ -82,16 +82,16 @@ export default function ProfileCard (props) {
             {isCurrentUser ? currentUser.username : anotherUser.username}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-                        First name: {isCurrentUser ? currentUser.firstName : anotherUsername.firstName}
+            First name: <strong>{isCurrentUser ? currentUser.firstName : anotherUsername.firstName}</strong>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-                        Last name: {isCurrentUser ? currentUser.lastName : anotherUser.lastName}
+            Last name: <strong>{isCurrentUser ? currentUser.lastName : anotherUser.lastName}</strong>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-                        Email: {isCurrentUser ? currentUser.email : anotherUser.email}
+            Email: <strong>{isCurrentUser ? currentUser.email : anotherUser.email}</strong>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-                        Address: {isCurrentUser ? currentUser.address : anotherUser.address}
+            Address: <strong>{isCurrentUser ? currentUser.address : anotherUser.address}</strong>
           </Typography>
           <input
             style={{ display: 'none' }}
@@ -102,11 +102,9 @@ export default function ProfileCard (props) {
           />
         </CardContent>
       </CardActionArea>
-
       <CardActions>
         {editButton}
       </CardActions>
-
     </Card>
   )
 }
