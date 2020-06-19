@@ -13,7 +13,7 @@ export default function postsReducer (state = initialState, action) {
   let currentComment
 
   switch (action.type) {
-    case actionTypes.FETCH_CURRENT_USER_POSTS_PENDING:
+    case actionTypes.FETCH_POSTS_PENDING:
       return {
         ...state,
         pending: true
@@ -35,12 +35,6 @@ export default function postsReducer (state = initialState, action) {
         anotherUserPosts: state.anotherUserPosts === null ? action.payload : state.anotherUserPosts.concat(action.payload),
         pageNumber: action.pageNumber,
         totalPages: action.totalPages
-      }
-
-    case actionTypes.FETCH_WALL_POSTS_PENDING:
-      return {
-        ...state,
-        pending: true
       }
 
     case actionTypes.FETCH_WALL_POSTS_SUCCESS:

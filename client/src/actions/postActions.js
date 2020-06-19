@@ -1,11 +1,9 @@
 import api from '../helpers/FetchData'
 
 export const postTypes = {
-  FETCH_CURRENT_USER_POSTS_PENDING: 'FETCH_CURRENT_USER_POSTS_PENDING',
+  FETCH_POSTS_PENDING: 'FETCH_POSTS_PENDING',
   FETCH_CURRENT_USER_POSTS_SUCCESS: 'FETCH_CURRENT_USER_POSTS_SUCCESS',
-  FETCH_WALL_POSTS_PENDING: 'FETCH_WALL_POSTS_PENDING',
   FETCH_WALL_POSTS_SUCCESS: 'FETCH_WALL_POSTS_SUCCESS',
-  FETCH_ANOTHER_USER_POSTS_PENDING: 'FETCH_ANOTHER_USER_POSTS_PENDING',
   FETCH_ANOTHER_USER_POSTS_SUCCESS: 'FETCH_ANOTHER_USER_POSTS_SUCCESS',
   UPDATE_POST_FOR_CURRENT_USER: 'UPDATE_POST_FOR_CURRENT_USER',
   UPDATE_POST_FOR_ANOTHER_USER: 'UPDATE_POST_FOR_ANOTHER_USER',
@@ -25,7 +23,7 @@ export const postTypes = {
 
 export const fetchCurrentUserPostsByAmount = (page) => dispatch => {
   dispatch({
-    type: postTypes.FETCH_CURRENT_USER_POSTS_PENDING
+    type: postTypes.FETCH_POSTS_PENDING
   })
 
   api.get(`/api/posts?page=${page}&sort=date,desc`)
@@ -41,7 +39,7 @@ export const fetchCurrentUserPostsByAmount = (page) => dispatch => {
 
 export const fetchAnotherUserPostsByAmount = (username, page) => dispatch => {
   dispatch({
-    type: postTypes.FETCH_ANOTHER_USER_POSTS_PENDING
+    type: postTypes.FETCH_POSTS_PENDING
   })
 
   api.get(`/api/posts/${username}?page=${page}&sort=date,desc`)
@@ -57,7 +55,7 @@ export const fetchAnotherUserPostsByAmount = (username, page) => dispatch => {
 
 export const fetchWallPostsByAmount = (page) => dispatch => {
   dispatch({
-    type: postTypes.FETCH_WALL_POSTS_PENDING
+    type: postTypes.FETCH_POSTS_PENDING
   })
 
   api.get(`/api/posts/tape?page=${page}&sort=date,desc`)

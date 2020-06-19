@@ -71,7 +71,7 @@ export default function ProfileCard (props) {
 
   return (
     <Card variant='outlined' className={classes.root}>
-      <CardActionArea onClick={() => document.getElementById('upload-photo').click()}>
+      <CardActionArea onClick={() => isCurrentUser && document.getElementById('upload-photo').click()}>
         <img
           src={photo ? 'http://procmain.eu/storage/images/' + photo : './profile.png'}
           alt=""
