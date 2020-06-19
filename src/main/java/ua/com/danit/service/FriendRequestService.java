@@ -13,8 +13,9 @@ public class FriendRequestService {
   private UserService userService;
 
   @Autowired
-  public FriendRequestService(FriendRequestRepository friendRequestRepository) {
+  public FriendRequestService(FriendRequestRepository friendRequestRepository, UserService userService) {
     this.friendRequestRepository = friendRequestRepository;
+    this.userService = userService;
   }
 
   public FriendRequest newFriendRequest(String receiver) {

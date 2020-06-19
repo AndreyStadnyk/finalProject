@@ -11,7 +11,6 @@ import ua.com.danit.service.FriendRequestService;
 
 @Component
 public class FriendRequestMapper {
-
   private FriendRequestService friendRequestService;
   private ModelMapper modelMapper;
 
