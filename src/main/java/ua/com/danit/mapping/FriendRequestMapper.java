@@ -25,15 +25,15 @@ public class FriendRequestMapper {
     return modelMapper.map(newFriendRequest, FriendRequestResponse.class);
   }
 
-//  public FriendRequestResponse delete(String requester, String receiver) {
-//    FriendRequest deleteFriendRequest = friendRequestService.deleteFriendRequest(requester, receiver);
-//    return modelMapper.map(deleteFriendRequest, FriendRequestResponse.class);
-//  }
+  public FriendRequestResponse get(String receiver) {
+    FriendRequest getFriendRequest = friendRequestService.getFriendRequestByReceiverAndRequester(receiver);
+    return modelMapper.map(getFriendRequest, FriendRequestResponse.class);
+  }
 
-//  public FriendRequestResponse get(String receiver) {
-//    FriendRequest getFriendRequest = friendRequestService.getFriendRequestByReceiver(receiver);
-//    return modelMapper.map(getFriendRequest, FriendRequestResponse.class);
-//  }
+  public FriendRequestResponse delete(String requester, String receiver) {
+    FriendRequest deleteFriendRequest = friendRequestService.deleteFriendRequest(requester, receiver);
+    return modelMapper.map(deleteFriendRequest, FriendRequestResponse.class);
+  }
 
 
 }

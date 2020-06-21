@@ -4,6 +4,7 @@ insert into `users` (username, email, first_name, last_name, address, gender, pa
 
 insert into `friend_requests` (id, requester, receiver) values (1, 'VPupkin', 'PMatroskin');
 insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'KPupkin');
+insert into `friend_requests` (id, requester, receiver) values (3, 'VPupkin', 'VPupkin');
 
 insert into `user_friends` (id, user1, user2) values (1, 'VPupkin', 'KPupkin');
 insert into `user_friends` (id, user1, user2) values (2, 'KPupkin', 'VPupkin');

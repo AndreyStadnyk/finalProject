@@ -34,14 +34,14 @@ public class FriendRequestController {
     return ResponseEntity.ok(friendRequestMapper.create(receiver));
   }
 
-//  @GetMapping("/get/{receiver}")
-//  public ResponseEntity<FriendRequestResponse> getFriendRequest(@PathVariable String receiver) {
-//    return ResponseEntity.ok(friendRequestMapper.get(receiver));
-//  }
+  @GetMapping("/get/{receiver}")
+  public ResponseEntity<FriendRequestResponse> getFriendRequest(@PathVariable String receiver) {
+    return ResponseEntity.ok(friendRequestMapper.get(receiver));
+  }
 
-//  @DeleteMapping("/delete/{receiver}/{requester}")
-//  public ResponseEntity<FriendRequestResponse> delete(@PathVariable Map<String, String> vals) {
-//    return ResponseEntity.ok(friendRequestMapper.delete(vals.get("requester"), vals.get("requester")));
-//  }
+  @DeleteMapping("/delete/{receiver}/{requester}")
+  public ResponseEntity<FriendRequestResponse> delete(@PathVariable Map<String, String> vals) {
+    return ResponseEntity.ok(friendRequestMapper.delete(vals.get("receiver"), vals.get("requester")));
+  }
 }
 

@@ -25,15 +25,15 @@ public class FriendRequestService {
     return friendRequestRepository.save(friendRequest);
   }
 
-//  public FriendRequest getFriendRequestByReceiver(String receiver) {
-//    User requestReceiver = userService.findByUsername(receiver);
-//    User requestRequester = userService.getCurrentUser();
-//    return friendRequestRepository.findFriendRequestByReceiverAndRequester(requestReceiver, requestRequester);
-//  }
+  public FriendRequest getFriendRequestByReceiverAndRequester(String receiver) {
+    User requestReceiver = userService.findByUsername(receiver);
+    User requestRequester = userService.getCurrentUser();
+    return friendRequestRepository.findFriendRequestByReceiverAndRequester(requestReceiver, requestRequester);
+  }
 
-//  public FriendRequest deleteFriendRequest(String receiver, String requester) {
-//    User requestReceiver = userService.findByUsername(receiver);
-//    User requestRequester = userService.findByUsername(requester);
-//    return friendRequestRepository.deleteFriendRequestByRequesterAndReceiver(requestReceiver, requestRequester);
-//  }
+  public FriendRequest deleteFriendRequest(String receiver, String requester) {
+    User requestReceiver = userService.findByUsername(receiver);
+    User requestRequester = userService.findByUsername(requester);
+    return friendRequestRepository.deleteFriendRequestByRequesterAndReceiver(requestReceiver, requestRequester);
+  }
 }
