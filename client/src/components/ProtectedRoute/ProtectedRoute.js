@@ -8,6 +8,7 @@ import NotFound from '../NotFound/NotFound'
 import {useDispatch, useSelector} from 'react-redux'
 import {fetchCurrentUser} from '../../actions/profileActions'
 import ChatPage from '../ChatPage/ChatPage'
+import FriendsList from '../FriendsList/FriendsList'
 
 const useStyles = makeStyles(theme => ({
   parent: {
@@ -53,6 +54,8 @@ export default function ProtectedRouter () {
         <Route exact path='/chat' component={ChatPage}/>
         <Route exact path='/profile/:username' component={Profile}/>
         <Route exact path='/profile' component={Profile}/>
+        <Route exact path='/friends' component={FriendsList}/>
+        <Route exact path='/friends/:username' component={FriendsList}/>
         <Route exact path='/tape' component={Wall}/>
         <Route exact path='/*' component={NotFound}/>
       </Switch>

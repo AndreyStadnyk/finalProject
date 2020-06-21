@@ -1,6 +1,8 @@
 package ua.com.danit.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -53,8 +55,21 @@ public class UserController {
 
   @GetMapping("/search")
   public ResponseEntity<List<UserResponse>> searchForUsersListByName(@RequestParam String queryStr) {
-
     List<UserResponse> foundUsers = userMapper.searchForUsersListByName(queryStr);
+    return ResponseEntity.ok(foundUsers);
+  }
+
+  @GetMapping("/current/friends")
+  public ResponseEntity<List<UserResponse>> findUserFriends(@PageableDefault Pageable pageable) {
+
+    List<UserResponse> foundUsers = userMapper.findUserFriends(pageable);
+    return ResponseEntity.ok(foundUsers);
+  }
+
+  @GetMapping("/{username}/friends")
+  public ResponseEntity<List<UserResponse>> findAnotherUserFriends(
+      @PathVariable String username, @PageableDefault Pageable pageable) {
+    List<UserResponse> foundUsers = userMapper.findAnotherUserFriends(username, pageable);
     return ResponseEntity.ok(foundUsers);
   }
 

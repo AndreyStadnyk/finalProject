@@ -52,7 +52,7 @@ export default function SignIn () {
   }
   if (currentUser) {
     return (
-      <Redirect to="/profile"/>
+      <Redirect to="/profile" />
     )
   }
   return (

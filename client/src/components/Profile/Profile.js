@@ -5,13 +5,14 @@ import ProfileCard from './ProfileCard'
 import { makeStyles } from '@material-ui/core/styles'
 import Grid from '@material-ui/core/Grid'
 import TopMenu from '../TopMenu/TopMenu'
+import Post from '../Post/Post'
 import { useDispatch, useSelector } from 'react-redux'
 import {fetchAnotherUser, updateUser} from '../../actions/profileActions'
 import ProfileForm from './ProfileForm'
 import Button from '@material-ui/core/Button'
 import PostAddIcon from '@material-ui/icons/PostAdd'
-import InfiniteList from '../InfiniteScroll/InfiniteList'
-import {fetchAnotherUserPostsByAmount, fetchUserPostsByAmount} from '../../actions/postActions'
+import InfiniteList from '../InfiniteList/InfiniteList'
+import {fetchAnotherUserPostsByAmount, fetchCurrentUserPostsByAmount} from '../../actions/postActions'
 import CircularProgress from '@material-ui/core/CircularProgress'
 import ModalWindow from '../ModalPost/ModalPost'
 
@@ -39,8 +40,7 @@ function Profile () {
   const [modalActive, setActive] = useState(false)
   const dispatch = useDispatch()
   const user = useParams()
-  let isUserCurrent = Object.keys(user).length === 0 && user.constructor === Object
-  
+  const isUserCurrent = Object.keys(user).length === 0 && user.constructor === Object
   const {
     pending,
     userPosts,
@@ -60,7 +60,7 @@ function Profile () {
   useEffect(() => {
     if (userPosts === null) {
       if (isUserCurrent && !pending) {
-        dispatch(fetchUserPostsByAmount(0))
+        dispatch(fetchCurrentUserPostsByAmount(0))
       } else if (!pending && anotherUserPosts === null) {
         dispatch(fetchAnotherUser(user.username))
         dispatch(fetchAnotherUserPostsByAmount(user.username, 0))
@@ -102,7 +102,8 @@ function Profile () {
         </Button>
         <InfiniteList
           elements={isUserCurrent ? userPosts : anotherUserPosts}
-          fetchHandler={fetchUserPostsByAmount}
+          element={Post}
+          fetchHandler={isUserCurrent ? fetchCurrentUserPostsByAmount : fetchAnotherUserPostsByAmount(user.username)}
           isProfile={true}
         />
       </div>

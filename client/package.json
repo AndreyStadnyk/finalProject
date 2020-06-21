@@ -70,7 +70,8 @@
     "eslint": "^6.1.0",
     "react-moment": "^0.9.7",
     "react-router-dom": "^5.1.2",
-    "standard": "^10.0.3"
+    "standard": "^10.0.3",
+    "universal-cookie": "^4.0.3"
   },
   "proxy": "http://localhost:8080"
 }

@@ -5,9 +5,9 @@ import CssBaseline from '@material-ui/core/CssBaseline'
 import TextField from '@material-ui/core/TextField'
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined'
 import Typography from '@material-ui/core/Typography'
-import { makeStyles } from '@material-ui/core/styles'
+import {makeStyles} from '@material-ui/core/styles'
 import Container from '@material-ui/core/Container'
-import { changePassword } from '../../actions/profileActions'
+import {changePassword} from '../../actions/profileActions'
 import {useDispatch, useSelector} from 'react-redux'
 import {Redirect} from 'react-router-dom'
 import queryString from 'query-string'
@@ -50,7 +50,6 @@ export default function ChangePassword (props) {
   const classes = useStyles()
   const dispatch = useDispatch()
   const params = queryString.parse(props.location.search)
-
   const {
     resetPasswordStage
   } = useSelector(state => ({
@@ -78,14 +77,14 @@ export default function ChangePassword (props) {
 
   return (
     <Container component='main' maxWidth='xs'>
-      <CssBaseline />
+      <CssBaseline/>
       <div className={classes.paper}>
         <Avatar className={classes.avatar}>
-          <LockOutlinedIcon />
+          <LockOutlinedIcon/>
         </Avatar>
         <form className={classes.form} noValidate>
           <Typography component='h1' variant='h5'>
-            Change Password
+                        Change Password
           </Typography>
           <TextField
             variant='outlined'
@@ -119,7 +118,7 @@ export default function ChangePassword (props) {
             onClick={onChangePassword}
             className={classes.submit}
           >
-            Change Password
+                        Change Password
           </Button>
         </form>
       </div>
