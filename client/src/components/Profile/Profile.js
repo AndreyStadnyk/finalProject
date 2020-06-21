@@ -104,7 +104,7 @@ function Profile (props) {
           elements={isUserCurrent ? userPosts : anotherUserPosts}
           element={Post}
           fetchHandler={isUserCurrent ? fetchCurrentUserPostsByAmount : fetchAnotherUserPostsByAmount(user.username)}
-          isProfile={true}
+          pageCode={isUserCurrent ? 0 : 1}
         />
       </div>
     )

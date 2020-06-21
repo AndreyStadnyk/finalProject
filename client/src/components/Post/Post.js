@@ -29,12 +29,12 @@ export default function Post (props) {
   const isCurrentUserAuthor = currentUser.username === author
   const isCurrentUserOwner = currentUser.username === owner
   const handleClickDelete = () => {
-    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.item.id))
-    else { dispatch(deleteCurrentUserPost(props.item.id)) }
+    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.item.id, props.pageCode))
+    else { dispatch(deleteCurrentUserPost(props.item.id, props.pageCode)) }
   }
 
   const handleLike = () => {
-    dispatch(updateLike(props.item.id, props.isProfile))
+    dispatch(updateLike(props.item.id, props.pageCode))
   }
 
   const togglePostModal = () => {
@@ -45,12 +45,15 @@ export default function Post (props) {
     setCommentActive(true)
   }
 
-  const postModal = modalActive
-    ? <ModalPost modalActive={modalActive} post={props.item} setActive={setActive}/> : null
+  const postModal = modalActive ? <ModalPost
+    modalActive={modalActive}
+    post={props.item}
+    pageCode={props.pageCode}
+    setActive={setActive}/> : null
   const commentModal = commentModalActive ? <ModalComment
     commentModalActive={commentModalActive}
     postId={props.item.id}
-    isProfile={props.isProfile}
+    pageCode={props.pageCode}
     setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
@@ -149,7 +152,7 @@ export default function Post (props) {
               </div>
             </div>
             {props.item.comments.map(comment => (
-              <Comment key={comment.id} comment={comment} postId={props.item.id} isProfile={props.isProfile}>
+              <Comment key={comment.id} comment={comment} postId={props.item.id} pageCode={props.pageCode}>
               </Comment>
             ))}
           </CardContent>
