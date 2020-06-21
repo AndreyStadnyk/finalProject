@@ -6,7 +6,7 @@ import ua.com.danit.entity.User;
 
 public interface FriendRequestRepository extends JpaRepository<FriendRequest, String> {
 
-  public FriendRequest findFriendRequestByReceiverAndRequester(User receiver, User requester);
+  public FriendRequest findFriendRequestByReceiverAndRequester(String receiver, String requester);
 
-  public FriendRequest deleteFriendRequestByRequesterAndReceiver(User receiver, User requester);
+  public FriendRequest deleteFriendRequestByRequesterAndReceiver(String receiver, String requester);
 }
