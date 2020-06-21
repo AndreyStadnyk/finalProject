@@ -1,11 +1,12 @@
 import api from '../helpers/FetchData'
 
 export const postTypes = {
-  FETCH_POSTS_PENDING: 'FETCH_POSTS_PENDING',
-  FETCH_USER_POSTS_BY_AMOUNT: 'FETCH_USER_POSTS_BY_AMOUNT',
-  FETCH_WALL_POSTS_BY_AMOUNT: 'FETCH_WALL_POSTS_BY_AMOUNT',
+  FETCH_CURRENT_USER_POSTS_PENDING: 'FETCH_CURRENT_USER_POSTS_PENDING',
+  FETCH_CURRENT_USER_POSTS_SUCCESS: 'FETCH_CURRENT_USER_POSTS_SUCCESS',
+  FETCH_WALL_POSTS_PENDING: 'FETCH_WALL_POSTS_PENDING',
   FETCH_WALL_POSTS_SUCCESS: 'FETCH_WALL_POSTS_SUCCESS',
-  FETCH_ANOTHER_USER_POSTS_BY_AMOUNT: 'FETCH_ANOTHER_USER_POSTS_BY_AMOUNT',
+  FETCH_ANOTHER_USER_POSTS_PENDING: 'FETCH_ANOTHER_USER_POSTS_PENDING',
+  FETCH_ANOTHER_USER_POSTS_SUCCESS: 'FETCH_ANOTHER_USER_POSTS_SUCCESS',
   UPDATE_POST_FOR_CURRENT_USER: 'UPDATE_POST_FOR_CURRENT_USER',
   UPDATE_POST_FOR_ANOTHER_USER: 'UPDATE_POST_FOR_ANOTHER_USER',
   POST_FOR_CURRENT_USER_DELETED: 'POST_FOR_CURRENT_USER_DELETED',
@@ -19,15 +20,15 @@ export const postTypes = {
   SWITCH_LIKE_WALL: 'SWITCH_LIKE_WALL'
 }
 
-export const fetchUserPostsByAmount = (page) => dispatch => {
+export const fetchCurrentUserPostsByAmount = (page) => dispatch => {
   dispatch({
-    type: postTypes.FETCH_POSTS_PENDING
+    type: postTypes.FETCH_CURRENT_USER_POSTS_PENDING
   })
 
   api.get(`/api/posts?page=${page}&sort=date,desc`)
     .then(res => {
       dispatch({
-        type: postTypes.FETCH_USER_POSTS_BY_AMOUNT,
+        type: postTypes.FETCH_CURRENT_USER_POSTS_SUCCESS,
         payload: res.content,
         pageNumber: res.pageable.pageNumber,
         totalPages: res.totalPages
@@ -37,13 +38,13 @@ export const fetchUserPostsByAmount = (page) => dispatch => {
 
 export const fetchAnotherUserPostsByAmount = (username, page) => dispatch => {
   dispatch({
-    type: postTypes.FETCH_POSTS_PENDING
+    type: postTypes.FETCH_ANOTHER_USER_POSTS_PENDING
   })
 
   api.get(`/api/posts/${username}?page=${page}&sort=date,desc`)
     .then(res => {
       dispatch({
-        type: postTypes.FETCH_ANOTHER_USER_POSTS_BY_AMOUNT,
+        type: postTypes.FETCH_ANOTHER_USER_POSTS_SUCCESS,
         payload: res.content,
         pageNumber: res.pageable.pageNumber,
         totalPages: res.totalPages
@@ -53,13 +54,13 @@ export const fetchAnotherUserPostsByAmount = (username, page) => dispatch => {
 
 export const fetchWallPostsByAmount = (page) => dispatch => {
   dispatch({
-    type: postTypes.FETCH_POSTS_PENDING
+    type: postTypes.FETCH_WALL_POSTS_PENDING
   })
 
   api.get(`/api/posts/tape?page=${page}&sort=date,desc`)
     .then(res => {
       dispatch({
-        type: postTypes.FETCH_WALL_POSTS_BY_AMOUNT,
+        type: postTypes.FETCH_WALL_POSTS_SUCCESS,
         payload: res.content,
         pageNumber: res.pageable.pageNumber,
         totalPages: res.totalPages

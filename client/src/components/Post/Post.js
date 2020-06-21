@@ -24,17 +24,17 @@ export default function Post (props) {
   const {currentUser} = useSelector(state => ({
     currentUser: state.users.currentUser
   }))
-  const author = props.post.authorUsername
-  const owner = props.post.ownerUsername
+  const author = props.item.authorUsername
+  const owner = props.item.ownerUsername
   const isCurrentUserAuthor = currentUser.username === author
   const isCurrentUserOwner = currentUser.username === owner
   const handleClickDelete = () => {
-    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.post.id))
-    else { dispatch(deleteCurrentUserPost(props.post.id)) }
+    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.item.id))
+    else { dispatch(deleteCurrentUserPost(props.item.id)) }
   }
 
   const handleLike = () => {
-    dispatch(updateLike(props.post.id, props.isProfile))
+    dispatch(updateLike(props.item.id, props.isProfile))
   }
 
   const togglePostModal = () => {
@@ -46,10 +46,10 @@ export default function Post (props) {
   }
 
   const postModal = modalActive
-    ? <ModalPost modalActive={modalActive} post={props.post} setActive={setActive}/> : null
+    ? <ModalPost modalActive={modalActive} post={props.item} setActive={setActive}/> : null
   const commentModal = commentModalActive ? <ModalComment
     commentModalActive={commentModalActive}
-    postId={props.post.id}
+    postId={props.item.id}
     setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
@@ -113,7 +113,7 @@ export default function Post (props) {
       <DeleteForever/>
     </IconButton> : null
 
-  const likeIcon = props.post.likes.some(like => like.userUsername === currentUser.username)
+  const likeIcon = props.item.likes.some(like => like.userUsername === currentUser.username)
     ? <Favorite/> : <FavoriteBorder/>
 
   const formatter = new Intl.DateTimeFormat('ru', {
@@ -133,18 +133,18 @@ export default function Post (props) {
               <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
               <div className={classes.text}>
                 <Typography component="p" variant="subtitle2">
-                  <strong>{formatter.format(new Date(props.post.date))}</strong>
+                  <strong>{formatter.format(new Date(props.item.date))}</strong>
                 </Typography>
                 <Typography component="p" variant="subtitle2">
                   From author <strong>{author}</strong> to owner <strong>{owner}</strong>
                 </Typography>
                 <Typography className={classes.postText} component="p" variant="h6">
-                  {props.post.text}
+                  {props.item.text}
                 </Typography>
               </div>
             </div>
-            {props.post.comments.map(comment => (
-              <Comment key={comment.id} comment={comment} postId={props.post.id}>
+            {props.item.comments.map(comment => (
+              <Comment key={comment.id} comment={comment} postId={props.item.id}>
               </Comment>
             ))}
           </CardContent>
@@ -159,13 +159,13 @@ export default function Post (props) {
             >
               <Message/>
             </IconButton>
-            <Tooltip title={props.post.likes.map(like => (
+            <Tooltip title={props.item.likes.map(like => (
               <Typography key={like.userUsername} component="p" variant="body2">
                 {like.userUsername}
               </Typography>
             ))} arrow>
               <Badge
-                badgeContent={props.post.likes.length}
+                badgeContent={props.item.likes.length}
                 color="secondary"
                 overlap="circle"
                 anchorOrigin={{

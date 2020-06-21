@@ -24,4 +24,5 @@ public interface PostRepository extends JpaRepository<Post, Long> {
       + ")")
   Page<Post> findPostsByOwnerAndUsernamesFriends(
       String owner, Pageable pageable);
+
 }
