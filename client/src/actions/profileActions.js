@@ -4,6 +4,7 @@ export const profileTypes = {
   FETCH_USER_PENDING: 'FETCH_USER_PENDING',
   FETCH_CURRENT_USER_SUCCESS: 'FETCH_CURRENT_USER_SUCCESS',
   FETCH_ANOTHER_USER_SUCCESS: 'FETCH_ANOTHER_USER_SUCCESS',
+  FETCH_USER_FRIENDS_PENDING: 'FETCH_USER_FRIENDS_PENDING',
   FETCH_CURRENT_USER_FRIENDS_SUCCESS: 'FETCH_CURRENT_USER_FRIENDS_SUCCESS',
   FETCH_ANOTHER_USER_FRIENDS_SUCCESS: 'FETCH_ANOTHER_USER_FRIENDS_SUCCESS',
   UPDATE_USER_PAGE: 'UPDATE_USER_PAGE',
@@ -113,7 +114,7 @@ export const fetchAnotherUserAndFriends = (username) => dispatch => {
 }
 
 export const fetchCurrentUserFriends = () => dispatch => {
-  dispatch({ type: profileTypes.FETCH_USER_PENDING })
+  dispatch({ type: profileTypes.FETCH_USER_FRIENDS_PENDING })
 
   api.get(`/api/users/current/friends`)
     .then(res => {
@@ -126,7 +127,7 @@ export const fetchCurrentUserFriends = () => dispatch => {
 }
 
 export const fetchAnotherUserFriends = (username) => dispatch => {
-  dispatch({ type: profileTypes.FETCH_USER_PENDING })
+  dispatch({ type: profileTypes.FETCH_USER_FRIENDS_PENDING })
 
   api.get(`/api/users/${username}/friends`)
     .then(res => {

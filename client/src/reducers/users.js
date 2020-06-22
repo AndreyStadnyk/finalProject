@@ -2,6 +2,7 @@ import {actionTypes} from '../actions'
 
 const initialState = {
   pending: true,
+  friendsPending: false,
   updateUserPage: false,
   resetPasswordStage: 0,
   currentUser: null,
@@ -75,10 +76,15 @@ export default function usersReducer (state = initialState, action) {
         ...state,
         resetPasswordStage: 2
       }
+    case actionTypes.FETCH_USER_FRIENDS_PENDING:
+      return {
+        ...state,
+        friendsPending: true
+      }
     case actionTypes.FETCH_CURRENT_USER_FRIENDS_SUCCESS:
       return {
         ...state,
-        pending: false,
+        friendsPending: false,
         currentUserFriends: state.currentUserFriends === null ? action.payload : state.currentUserFriends.concat(action.payload),
         pageNumber: action.pageNumber,
         totalPages: action.totalPages
@@ -86,7 +92,7 @@ export default function usersReducer (state = initialState, action) {
     case actionTypes.FETCH_ANOTHER_USER_FRIENDS_SUCCESS:
       return {
         ...state,
-        pending: false,
+        friendsPending: false,
         anotherUserFriends: state.anotherUserFriends === null ? action.payload : state.anotherUserFriends.concat(action.payload),
         pageNumber: action.pageNumber,
         totalPages: action.totalPages

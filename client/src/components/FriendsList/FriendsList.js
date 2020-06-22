@@ -33,12 +33,12 @@ export default function FriendsList () {
   const isUserCurrent = Object.keys(user).length === 0 && user.constructor === Object
 
   const {
-    pending,
+    friendsPending,
     anotherUser,
     currentUserFriends,
     anotherUserFriends
   } = useSelector(state => ({
-    pending: state.users.pending,
+    friendsPending: state.users.friendsPending,
     anotherUser: state.users.anotherUser,
     currentUserFriends: state.users.currentUserFriends,
     anotherUserFriends: state.users.anotherUserFriends
@@ -46,15 +46,15 @@ export default function FriendsList () {
 
   useEffect(() => {
     if (currentUserFriends === null) {
-      if (isUserCurrent && !pending) {
+      if (isUserCurrent && !friendsPending) {
         dispatch(fetchCurrentUserFriends(0))
-      } else if (!pending && anotherUserFriends === null) {
+      } else if (!friendsPending && anotherUserFriends === null) {
         dispatch(fetchAnotherUserAndFriends(user.username))
       }
     }
-  }, [anotherUserFriends, currentUserFriends, dispatch, isUserCurrent, pending, user.username])
+  }, [anotherUserFriends, currentUserFriends, dispatch, isUserCurrent, friendsPending, user.username])
 
-  if (pending && currentUserFriends === null) {
+  if (friendsPending && currentUserFriends === null) {
     return (
       <div className={classes.parent}>
         <CircularProgress size={100}/>
