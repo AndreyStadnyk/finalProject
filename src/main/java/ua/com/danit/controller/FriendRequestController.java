@@ -16,6 +16,7 @@ import ua.com.danit.entity.FriendRequest;
 import ua.com.danit.mapping.FriendRequestMapper;
 import ua.com.danit.service.FriendRequestService;
 
+import java.util.List;
 import java.util.Map;
 
 
@@ -35,8 +36,9 @@ public class FriendRequestController {
   }
 
   @GetMapping("/get/{receiver}")
-  public ResponseEntity<FriendRequestResponse> getFriendRequest(@PathVariable String receiver) {
-    return ResponseEntity.ok(friendRequestMapper.getAllFriendRequestByReceiver(receiver));
+  public ResponseEntity<List<FriendRequestResponse>> getFriendRequest(@PathVariable String receiver) {
+    List<FriendRequestResponse> foundFriendRequests = friendRequestMapper.getAllFriendRequestByReceiver(receiver);
+    return ResponseEntity.ok(foundFriendRequests);
   }
 
   @DeleteMapping("/delete/{receiver}/{requester}")

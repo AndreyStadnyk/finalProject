@@ -3,7 +3,7 @@ insert into `users` (username, email, first_name, last_name, address, gender, pa
 insert into `users` (username, email, first_name, last_name, address, gender, password) values ('PMatroskin', 'Petya@gmail.com', 'Petya', 'Matroskin', 'Wuhan','Male', '$2a$10$LMIeRo24aGv/s.pIuqD8BuaskzA1PPpycjxpn.xihwZIT2L1wwK96');
 
 insert into `friend_requests` (id, requester, receiver) values (1, 'VPupkin', 'PMatroskin');
-insert into `friend_requests` (id, requester, receiver) values (2, 'VPupkin', 'KPupkin');
+insert into `friend_requests` (id, requester, receiver) values (2, 'KPupkin', 'VPupkin');
 insert into `friend_requests` (id, requester, receiver) values (3, 'VPupkin', 'VPupkin');
 
 insert into `user_friends` (id, user1, user2) values (1, 'VPupkin', 'KPupkin');

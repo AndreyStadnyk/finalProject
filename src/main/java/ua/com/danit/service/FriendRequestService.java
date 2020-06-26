@@ -21,13 +21,13 @@ public class FriendRequestService {
 
   public FriendRequest newFriendRequest(String receiver) {
     FriendRequest friendRequest = new FriendRequest();
-    friendRequest.setRequester(userService.getCurrentUser().getUsername());
-    friendRequest.setReceiver(receiver);
+    friendRequest.setRequester(userService.getCurrentUser());
+    friendRequest.setReceiver(userService.findByUsername(receiver));
     return friendRequestRepository.save(friendRequest);
   }
 
   public List<FriendRequest> getAllFriendRequestByReceiver(String receiver) {
-    return friendRequestRepository.findAllByReceiver(receiver);
+    return friendRequestRepository.findAllByReceiver(userService.findByUsername(receiver));
   }
 
   public FriendRequest deleteFriendRequest(String receiver, String requester) {

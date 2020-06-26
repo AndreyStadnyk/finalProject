@@ -29,7 +29,7 @@ public class FriendRequestMapper {
     return modelMapper.map(newFriendRequest, FriendRequestResponse.class);
   }
 
-  public FriendRequestResponse getAllFriendRequestByReceiver(String receiver) {
+  public List<FriendRequestResponse> getAllFriendRequestByReceiver(String receiver) {
     List<FriendRequest> getFriendRequest = friendRequestService.getAllFriendRequestByReceiver(receiver);
     return modelMapper.map(getFriendRequest, new TypeToken<List<FriendRequestResponse>>(){}.getType());
 
