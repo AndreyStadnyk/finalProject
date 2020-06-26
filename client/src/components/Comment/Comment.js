@@ -21,7 +21,7 @@ export default function Comment (props) {
   }))
 
   const handleClickDelete = () => {
-    dispatch(deleteComment(props.comment.id, props.postId))
+    dispatch(deleteComment(props.comment.id, props.postId, props.pageCode))
   }
 
   const toggleCommentModal = () => {
@@ -29,7 +29,7 @@ export default function Comment (props) {
   }
 
   const commentModal = commentModalActive ? <ModalComment commentModalActive={commentModalActive}
-    comment={props.comment} setCommentActive={setCommentActive}/> : null
+    comment={props.comment} setCommentActive={setCommentActive} pageCode={props.pageCode}/> : null
 
   const useStyles = makeStyles(theme => ({
     root: {
@@ -96,7 +96,7 @@ export default function Comment (props) {
       <Card variant="outlined" className={classes.root}>
         <div className={classes.details}>
           <div className={classes.avatar}>
-            <Avatar src="https://i.pravatar.cc/300"/>
+            <Avatar src={'http://procmain.eu/storage/images/UserPic' + props.comment.authorUsername + '.jpg'}/>
           </div>
           <CardContent className={classes.content}>
             <div className={classes.text}>

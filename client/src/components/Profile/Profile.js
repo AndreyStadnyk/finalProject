@@ -35,7 +35,7 @@ const useStyles = makeStyles({
   }
 })
 
-function Profile () {
+function Profile (props) {
   const classes = useStyles()
   const [modalActive, setActive] = useState(false)
   const dispatch = useDispatch()
@@ -104,7 +104,7 @@ function Profile () {
           elements={isUserCurrent ? userPosts : anotherUserPosts}
           element={Post}
           fetchHandler={isUserCurrent ? fetchCurrentUserPostsByAmount : fetchAnotherUserPostsByAmount(user.username)}
-          isProfile={true}
+          pageCode={isUserCurrent ? 0 : 1}
         />
       </div>
     )
@@ -120,7 +120,7 @@ function Profile () {
               <TopMenu/>
             </Grid>
             <Grid item xs={12} sm={3}>
-              <ProfileCard anotherUser ={anotherUser}/>
+              <ProfileCard anotherUser ={anotherUser} username={props.match.params.username}/>
             </Grid>
             <Grid item xs={12} sm={9}>
               {profileContent}

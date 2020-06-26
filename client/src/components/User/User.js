@@ -9,6 +9,7 @@ import Card from '@material-ui/core/Card'
 import { pink } from '@material-ui/core/colors'
 import DeleteIcon from '@material-ui/icons/Delete'
 import ModalDeleteFriend from '../ModalDeleteFriend/ModalDeleteFriend'
+import Link from '@material-ui/core/Link'
 
 export default function User (props) {
   const useStyles = makeStyles(theme => ({
@@ -42,6 +43,7 @@ export default function User (props) {
   }))
   const classes = useStyles()
 
+  const username = props.item.username
   const firstName = props.item.firstName
   const lastName = props.item.lastName
   const isUserCurrent = props.isUserCurrent
@@ -75,10 +77,15 @@ export default function User (props) {
           <div className={classes.details}>
             <CardContent className={classes.content}>
               <div className={classes.details}>
-                <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
-                <Typography className={classes.text} component="p" variant="subtitle2">
-                  {firstName} {lastName}
-                </Typography>
+                <Avatar
+                  src={'http://procmain.eu/storage/images/UserPic' + username + '.jpg'}
+                  size={60} className={classes.avatar}
+                />
+                <Link className={classes.text} href={'/profile/' + username} color="inherit">
+                  <Typography className={classes.text} component="p" variant="subtitle2">
+                    {firstName} {lastName}
+                  </Typography>
+                </Link>
               </div>
             </CardContent>
             {deleteButton}

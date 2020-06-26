@@ -29,12 +29,12 @@ export default function Post (props) {
   const isCurrentUserAuthor = currentUser.username === author
   const isCurrentUserOwner = currentUser.username === owner
   const handleClickDelete = () => {
-    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.item.id))
-    else { dispatch(deleteCurrentUserPost(props.item.id)) }
+    if (isCurrentUserAuthor && !isCurrentUserOwner) dispatch(deleteAnotherUserPost(props.item.id, props.pageCode))
+    else { dispatch(deleteCurrentUserPost(props.item.id, props.pageCode)) }
   }
 
   const handleLike = () => {
-    dispatch(updateLike(props.item.id, props.isProfile))
+    dispatch(updateLike(props.item.id, props.pageCode))
   }
 
   const togglePostModal = () => {
@@ -45,11 +45,15 @@ export default function Post (props) {
     setCommentActive(true)
   }
 
-  const postModal = modalActive
-    ? <ModalPost modalActive={modalActive} post={props.item} setActive={setActive}/> : null
+  const postModal = modalActive ? <ModalPost
+    modalActive={modalActive}
+    post={props.item}
+    pageCode={props.pageCode}
+    setActive={setActive}/> : null
   const commentModal = commentModalActive ? <ModalComment
     commentModalActive={commentModalActive}
     postId={props.item.id}
+    pageCode={props.pageCode}
     setCommentActive={setCommentActive}/> : null
 
   const useStyles = makeStyles(theme => ({
@@ -130,7 +134,11 @@ export default function Post (props) {
         <div className={classes.details}>
           <CardContent className={classes.content}>
             <div className={classes.details}>
-              <Avatar src="https://i.pravatar.cc/300" size={60} className={classes.avatar}/>
+              <Avatar
+                src={'http://procmain.eu/storage/images/UserPic' + author + '.jpg'}
+                size={60}
+                className={classes.avatar}
+              />
               <div className={classes.text}>
                 <Typography component="p" variant="subtitle2">
                   <strong>{formatter.format(new Date(props.item.date))}</strong>
@@ -144,7 +152,7 @@ export default function Post (props) {
               </div>
             </div>
             {props.item.comments.map(comment => (
-              <Comment key={comment.id} comment={comment} postId={props.item.id}>
+              <Comment key={comment.id} comment={comment} postId={props.item.id} pageCode={props.pageCode}>
               </Comment>
             ))}
           </CardContent>
