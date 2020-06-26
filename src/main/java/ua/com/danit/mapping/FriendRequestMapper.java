@@ -11,7 +11,6 @@ import ua.com.danit.entity.User;
 import ua.com.danit.service.FriendRequestService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class FriendRequestMapper {
@@ -30,8 +29,8 @@ public class FriendRequestMapper {
   }
 
   public FriendRequestResponse getAllFriendRequestByReceiver(String receiver) {
-    List<FriendRequest> getFriendRequest = friendRequestService.getAllFriendRequestByReceiver(receiver);
-    return modelMapper.map(getFriendRequest, new TypeToken<List<FriendRequestResponse>>(){}.getType());
+    List<FriendRequest> foundFriendRequest = friendRequestService.getAllFriendRequestByReceiver(receiver);
+    return modelMapper.map(foundFriendRequest, new TypeToken<List<FriendRequestResponse>>(){}.getType());
 
   }
 
