@@ -11,7 +11,6 @@ import ua.com.danit.entity.User;
 import ua.com.danit.service.FriendRequestService;
 
 import java.util.List;
-import java.util.Optional;
 
 @Component
 public class FriendRequestMapper {
