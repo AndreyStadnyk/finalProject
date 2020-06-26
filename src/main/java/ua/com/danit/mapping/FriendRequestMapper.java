@@ -1,6 +1,7 @@
 package ua.com.danit.mapping;
 
 import org.modelmapper.ModelMapper;
+import org.modelmapper.TypeToken;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import ua.com.danit.dto.request.FriendRequestRequest;
@@ -8,6 +9,9 @@ import ua.com.danit.dto.response.FriendRequestResponse;
 import ua.com.danit.entity.FriendRequest;
 import ua.com.danit.entity.User;
 import ua.com.danit.service.FriendRequestService;
+
+import java.util.List;
+import java.util.Optional;
 
 @Component
 public class FriendRequestMapper {
@@ -25,9 +29,10 @@ public class FriendRequestMapper {
     return modelMapper.map(newFriendRequest, FriendRequestResponse.class);
   }
 
-  public FriendRequestResponse get(String receiver) {
-    FriendRequest getFriendRequest = friendRequestService.getFriendRequestByReceiverAndRequester(receiver);
-    return modelMapper.map(getFriendRequest, FriendRequestResponse.class);
+  public FriendRequestResponse getAllFriendRequestByReceiver(String receiver) {
+    List<FriendRequest> getFriendRequest = friendRequestService.getAllFriendRequestByReceiver(receiver);
+    return modelMapper.map(getFriendRequest, new TypeToken<List<FriendRequestResponse>>(){}.getType());
+
   }
 
   public FriendRequestResponse delete(String requester, String receiver) {

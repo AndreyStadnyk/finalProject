@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ua.com.danit.entity.FriendRequest;
 import ua.com.danit.repository.FriendRequestRepository;
 
+import java.util.List;
+
 @Service
 public class FriendRequestService {
   private FriendRequestRepository friendRequestRepository;
@@ -24,9 +26,8 @@ public class FriendRequestService {
     return friendRequestRepository.save(friendRequest);
   }
 
-  public FriendRequest getFriendRequestByReceiverAndRequester(String receiver) {
-    String requestRequester = userService.getCurrentUser().getUsername();
-    return friendRequestRepository.findFriendRequestByReceiverAndRequester(receiver, requestRequester);
+  public List<FriendRequest> getAllFriendRequestByReceiver(String receiver) {
+    return friendRequestRepository.findAllByReceiver(receiver);
   }
 
   public FriendRequest deleteFriendRequest(String receiver, String requester) {

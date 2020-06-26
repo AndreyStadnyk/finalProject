@@ -20,11 +20,11 @@ import javax.persistence.GenerationType;
 public class FriendRequest {
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  private long id;
+  public long id;
 
-  @Column(name = "requester", nullable = true)
-  private String requester;
+  @Column(name = "requester", nullable = false)
+  public String requester;
 
-  @Column(name = "receiver", nullable = true)
-  private String receiver;
+  @Column(name = "receiver", nullable = false)
+  public String receiver;
 }

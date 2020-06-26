@@ -36,7 +36,7 @@ public class FriendRequestController {
 
   @GetMapping("/get/{receiver}")
   public ResponseEntity<FriendRequestResponse> getFriendRequest(@PathVariable String receiver) {
-    return ResponseEntity.ok(friendRequestMapper.get(receiver));
+    return ResponseEntity.ok(friendRequestMapper.getAllFriendRequestByReceiver(receiver));
   }
 
   @DeleteMapping("/delete/{receiver}/{requester}")

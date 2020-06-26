@@ -7,5 +7,5 @@ import ua.com.danit.entity.User;
 @Data
 public class FriendRequestRequest {
   public String receiver;
-  public String requester;
+
 }
