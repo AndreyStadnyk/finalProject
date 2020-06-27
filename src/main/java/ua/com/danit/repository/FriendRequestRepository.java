@@ -8,9 +8,7 @@ import java.util.List;
 
 public interface FriendRequestRepository extends JpaRepository<FriendRequest, Long> {
 
-  public FriendRequest findFriendRequestByReceiverAndRequester(String receiver, String requester);
-
-  public FriendRequest deleteFriendRequestByRequesterAndReceiver(String receiver, String requester);
+  public void deleteById(long id);
 
   List<FriendRequest> findAllByReceiver(User receiver);
 }

@@ -41,9 +41,9 @@ public class FriendRequestController {
     return ResponseEntity.ok(foundFriendRequests);
   }
 
-  @DeleteMapping("/delete/{receiver}/{requester}")
-  public ResponseEntity<FriendRequestResponse> delete(@PathVariable Map<String, String> vals) {
-    return ResponseEntity.ok(friendRequestMapper.delete(vals.get("receiver"), vals.get("requester")));
+  @DeleteMapping("/delete/{id}")
+  public ResponseEntity<FriendRequestResponse> delete(@PathVariable long id) {
+    return ResponseEntity.ok(friendRequestMapper.deleteById(id));
   }
 }
 

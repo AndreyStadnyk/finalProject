@@ -31,13 +31,11 @@ public class FriendRequestMapper {
   public List<FriendRequestResponse> getAllFriendRequestByReceiver(String receiver) {
     List<FriendRequest> getFriendRequest = friendRequestService.getAllFriendRequestByReceiver(receiver);
     return modelMapper.map(getFriendRequest, new TypeToken<List<FriendRequestResponse>>(){}.getType());
-
   }
 
-  public FriendRequestResponse delete(String requester, String receiver) {
-    FriendRequest deleteFriendRequest = friendRequestService.deleteFriendRequest(requester, receiver);
-    return modelMapper.map(deleteFriendRequest, FriendRequestResponse.class);
+  public FriendRequestResponse deleteById(long id) {
+    FriendRequest deletedFriendRequest = friendRequestService.deleteFriendRequestById(id);
+    return modelMapper.map(deletedFriendRequest, FriendRequestResponse.class);
   }
-
 
 }
