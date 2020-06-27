@@ -154,7 +154,7 @@ public class UserService implements UserDetailsService {
         + token;
     String message = "Hello," + user.getUsername() + "! "
         + "We have received the password change request for your Facebook. "
-        + "Please, follow this link for password reset:";
+        + "Please, follow this link for password reset: ";
     return constructEmail("Reset Password", message + url, user);
   }
 

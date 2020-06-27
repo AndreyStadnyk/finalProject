@@ -51,7 +51,7 @@ export default function Tape () {
       elements={wallPosts}
       element={Post}
       fetchHandler={fetchWallPostsByAmount}
-      isProfile={false}
+      pageCode={2}
     />
   )
 }

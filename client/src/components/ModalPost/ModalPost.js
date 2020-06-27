@@ -8,6 +8,7 @@ import Button from '@material-ui/core/Button'
 import {
   addPostForAnotherUser,
   addPostForCurrentUser,
+  updateWallPost,
   updatePostForAnotherUser,
   updatePostForCurrentUser
 } from '../../actions/postActions'
@@ -77,8 +78,9 @@ export default function ModalPost (props) {
   const handleClick = () => {
     if (props.post) {
       post.text = text
-      if (anotherUser === null) dispatch(updatePostForCurrentUser(post))
-      else dispatch(updatePostForAnotherUser(post))
+      if (props.pageCode === 0) dispatch(updatePostForCurrentUser(post))
+      else if (props.pageCode === 1) dispatch(updatePostForAnotherUser(post))
+      else dispatch(updateWallPost(post))
     } else if (text && !props.post) {
       if (anotherUser !== null) {
         dispatch(addPostForAnotherUser({

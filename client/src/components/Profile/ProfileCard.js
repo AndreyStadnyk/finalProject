@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import Card from '@material-ui/core/Card'
 import CardActionArea from '@material-ui/core/CardActionArea'
 import CardActions from '@material-ui/core/CardActions'
@@ -12,7 +12,7 @@ import makeStyles from '@material-ui/core/styles/makeStyles'
 const useStyles = makeStyles({
   root: {},
   media: {
-    height: 300
+    height: 280
   }
 })
 export default function ProfileCard (props) {
@@ -22,6 +22,12 @@ export default function ProfileCard (props) {
   const isPhotoChanged = useSelector(state => state.users.photoChanged)
   const username = useSelector(state => state.users.currentUser.username)
   const photo = useSelector(state => state.users.returnedPhotoForProfile)
+
+  useEffect(() => {
+    if (photo === null && username) {
+      dispatch(getUserPhoto(props.username || username))
+    }
+  })
 
   const photoSelectHandler = (e) => {
     const file = e.target.files[0]
@@ -65,32 +71,40 @@ export default function ProfileCard (props) {
 
   return (
     <Card variant='outlined' className={classes.root}>
-      <CardActionArea>
-        <img src={photo} alt=""/>
+      <CardActionArea onClick={() => isCurrentUser && document.getElementById('upload-photo').click()}>
+        <img
+          src={photo ? 'http://procmain.eu/storage/images/' + photo : './profile.png'}
+          alt=""
+          className={classes.media}
+        />
         <CardContent>
           <Typography gutterBottom variant="h5" component="h2">
             {isCurrentUser ? currentUser.username : anotherUser.username}
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-                        First name: {isCurrentUser ? currentUser.firstName : anotherUsername.firstName}
+            First name: <strong>{isCurrentUser ? currentUser.firstName : anotherUsername.firstName}</strong>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-                        Last name: {isCurrentUser ? currentUser.lastName : anotherUser.lastName}
+            Last name: <strong>{isCurrentUser ? currentUser.lastName : anotherUser.lastName}</strong>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-                        Email: {isCurrentUser ? currentUser.email : anotherUser.email}
+            Email: <strong>{isCurrentUser ? currentUser.email : anotherUser.email}</strong>
           </Typography>
           <Typography variant="body2" color="textSecondary" component="p">
-                        Address: {isCurrentUser ? currentUser.address : anotherUser.address}
+            Address: <strong>{isCurrentUser ? currentUser.address : anotherUser.address}</strong>
           </Typography>
-          {editButton}
-          <input onChange={photoSelectHandler} type="file"/>
+          <input
+            style={{ display: 'none' }}
+            id="upload-photo"
+            name="upload-photo"
+            type="file"
+            onChange={photoSelectHandler}
+          />
         </CardContent>
       </CardActionArea>
-
       <CardActions>
+        {editButton}
       </CardActions>
-
     </Card>
   )
 }
